@@ -1,0 +1,322 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"en",
+				"entarch\tentity architecture"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "AndNand.vhd",
+			"settings":
+			{
+				"buffer_size": 861,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "qlibrary ieee;\nuse ieee.std_logic_1164.all;\nentity BitWiseOP is\n\tport (\n\t\tA : in std_logic_vector(15 downto  0);\n\t\tB : in std_logic_vector(15 downto  0);\n\t\tSel : in std_logic_vector(3 downto 0);\n\t\tF : out std_logic_vector(15 downto 0)\n\t);\nend entity BitWiseOP;\n\narchitecture BitWiseOP_arc of BitWiseOP is\n\n\nbegin\n\twith Sel select\n\t\tF <=  A and B when \"0100\",\n\t\t\t  A or B when \"0101\",\n\t\t\t  A xor B when \"0110\",\n\t\t\t  Not A when \"0111\",\n\t\t\t\"0000000000000000\" when others;\n\n\nend BitWiseOP_arc;\n",
+			"file": "BitWiseOP.vhd",
+			"file_size": 513,
+			"file_write_time": 131680843970762675,
+			"settings":
+			{
+				"buffer_size": 490,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 283.0,
+		"last_filter": "install",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"theme",
+				"Material Theme: Activate theme"
+			],
+			[
+				"git",
+				"Package Control: Install Package"
+			],
+			[
+				"git ",
+				"Package Control: Install Package"
+			],
+			[
+				"mater",
+				"Material Theme: Extras"
+			],
+			[
+				"color",
+				"UI: Select Color Scheme"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 673.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project"
+	],
+	"file_history":
+	[
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AndNand.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/BitWiseOP.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.sublime-project",
+		"/C/Users/hadye/Google Drive/CUFE/term6/APT/Labs/Lab - Network Programming/requirement/server.java",
+		"/C/Program Files/Apache Software Foundation/Tomcat 9.0/webapps/examples/WEB-INF/classes/http2/SimpleImagePush.java",
+		"/C/Program Files/Apache Software Foundation/Tomcat 9.0/conf/tomcat-users.xml",
+		"/C/Users/hadye/Desktop/Lab Servlet 7/Code/deploy.sh",
+		"/C/Users/hadye/Google Drive/CUFE/term6/APT/Req/Tuesday Requirement_threading/requirement_student.java",
+		"/C/Users/hadye/PycharmProjects/Saladicious/back_end/SaladiciousAPI/models.py",
+		"/E/vagrant/kali/Vagrantfile",
+		"/C/cmder/config/user-aliases.cmd",
+		"/C/cmder/config/user-profile.cmd",
+		"/C/cmder/config/settings",
+		"/C/Users/hadye/Downloads/sample.war",
+		"/C/Program Files/MongoDB/Server/3.6/mongod.cfg",
+		"/C/Program1",
+		"/C/Program Files/Microsoft Office/Office16/SLERROR.XML",
+		"/C/Users/hadye/.ssh/known_hosts",
+		"/C/Users/hadye/Downloads/start",
+		"/C/cmder/README.md",
+		"/C/Users/hadye/Desktop/reg.py",
+		"/C/Users/hadye/PycharmProjects/Saladicious/back_end/manage.py",
+		"/C/Users/hadye/PycharmProjects/Saladicious/back_end/back_end/settings.py",
+		"/C/Users/hadye/PycharmProjects/Saladicious/back_end/SaladiciousAPI/views.py",
+		"/C/Users/hadye/Desktop/temp.vhdl",
+		"/C/Users/hadye/Downloads/Compressed/cmder/bin/alias.bat",
+		"/E/Programs/rarreg.key"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "AndNand.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 861,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": false,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "BitWiseOP.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 490,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								430,
+								430
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": false,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "MicroProcessor.sublime-project",
+	"replace":
+	{
+		"height": 63.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 625.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Arch\\Project\\MicroProcessor.sublime-project"
+			]
+		],
+		"width": 475.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 247.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

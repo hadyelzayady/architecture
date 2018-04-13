@@ -1,0 +1,21 @@
+{
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"*.vhd.bak",
+				"MicroProcessor.sublime-project",
+				"*.cr.mti",
+				"*.mpf",
+				"*.wlf",
+				".gitignore"
+			],
+			"folder_exclude_patterns":
+			[
+				"work"
+			],
+			"path": "."
+		}
+	]
+}
