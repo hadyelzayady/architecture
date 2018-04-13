@@ -5,37 +5,16 @@ entity ALU is
 	port (
 		A : in std_logic_vector(15 downto  0);
 		B : in std_logic_vector(15 downto  0);
-                Sel : in std_logic_vector(3 downto 0);
-                SelPart: in std_logic_vector (1 downto 0);
-		Cin: in std_logic;
+       	Op : in std_logic_vector(3 downto 0);
+       	Cin: in std_logic;
+       	Clk: in std_logic;
 		Cout: out std_logic;
 		F : out std_logic_vector(15 downto 0)
 	);
 end entity ALU;
 
 architecture ALSU_arc of ALU is
-
-component PartA IS
-PORT    (
-		A : in std_logic_vector(15 downto  0);
-		B : in std_logic_vector(15 downto  0);
-		Sel : in std_logic_vector(3 downto 0);
-		Cin: in std_logic;
-		Cout: out std_logic;
-		F : out std_logic_vector(15 downto 0)
-	);
-END component PartA;
-component PartB IS
-PORT    (
-		A : in std_logic_vector(15 downto  0);
-		B : in std_logic_vector(15 downto  0);
-		Sel : in std_logic_vector(3 downto 0);
-		--Cin: in std_logic;
-		--Cout: out std_logic;
-		F : out std_logic_vector(15 downto 0)
-	);
-END component PartB;
-component PartC IS
+component Add IS
 PORT  (
 		A : in std_logic_vector(15 downto  0);
 		--B : in std_logic_vector(15 downto  0);
@@ -44,31 +23,18 @@ PORT  (
 		Cout: out std_logic;
 		F : out std_logic_vector(15 downto 0)
 	);
-END component PartC;
-component PartD IS
-PORT  (
-		A : in std_logic_vector(15 downto  0);
-		--B : in std_logic_vector(15 downto  0);
-		Sel : in std_logic_vector(3 downto 0);
-		Cin: in std_logic;
-		Cout: out std_logic;
-		F : out std_logic_vector(15 downto 0)
-	);
-END component PartD;
+END component Add;
 signal tempA : std_logic_vector(15 downto 0);
-signal tempB : std_logic_vector(15 downto 0);
-signal tempC : std_logic_vector(15 downto 0);
-signal tempD : std_logic_vector(15 downto 0);
-signal CA : std_logic;
-signal CC : std_logic;
 signal CD : std_logic;
 begin
 				
-     LabelA:PartA port map(A,B,Sel,Cin,CA,tempA);		
-     LabelB:PartB port map(A,B,Sel,tempB);	
-     LabelC:PartC port map(A,Sel,Cin,CC,tempC);	
-     LabelD:PartD port map(A,Sel,Cin,CD,tempD);	
-              
+     AddL:Add port map(A,Sel,Cin,CD,tempD);	
+  
+
+ process(Clk) IS
+ 	
+
+ end process             
 with SelPart select 
          
 F<= tempA when "00",

@@ -12,21 +12,32 @@
 	"buffers":
 	[
 		{
-			"file": "AndNand.vhd",
+			"file": "BitWiseOP.vhd",
 			"settings":
 			{
-				"buffer_size": 861,
+				"buffer_size": 490,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "qlibrary ieee;\nuse ieee.std_logic_1164.all;\nentity BitWiseOP is\n\tport (\n\t\tA : in std_logic_vector(15 downto  0);\n\t\tB : in std_logic_vector(15 downto  0);\n\t\tSel : in std_logic_vector(3 downto 0);\n\t\tF : out std_logic_vector(15 downto 0)\n\t);\nend entity BitWiseOP;\n\narchitecture BitWiseOP_arc of BitWiseOP is\n\n\nbegin\n\twith Sel select\n\t\tF <=  A and B when \"0100\",\n\t\t\t  A or B when \"0101\",\n\t\t\t  A xor B when \"0110\",\n\t\t\t  Not A when \"0111\",\n\t\t\t\"0000000000000000\" when others;\n\n\nend BitWiseOP_arc;\n",
-			"file": "BitWiseOP.vhd",
-			"file_size": 513,
-			"file_write_time": 131680843970762675,
+			"contents": "library ieee;\nuse ieee.std_logic_1164.all;\nentity PartC is\n\tport (\n\t\tA : in std_logic_vector(15 downto  0);\n\t\t--B : in std_logic_vector(15 downto  0);\n\t\tSel : in std_logic_vector(3 downto 0);\n\t\tCin: in std_logic;\n\t\tCout: out std_logic;\n\t\tF : out std_logic_vector(15 downto 0)\n\t);\nend entity PartC;\n\narchitecture ALUC_arc of PartC is\n\n\nbegin\n\t\tF(14 downto 0) <= A(15 downto 1) ;\n\t\t\t\t\t\t   \n                Cout <= A(0);\n\t\twith Sel select\n\t\tF(15) <= '0' when \"1000\" ,\n\t\t\t\tA(0) when \"1001\",\n\t\t\t\tcin when \"1010\",\n\t\t\t\tA(15) when \"1011\",\n\t\t\t\t'0' when others;\nend ALUC_arc;\n",
+			"file": "RotShiftRight.vhd",
+			"file_size": 2,
+			"file_write_time": 131680868547123551,
 			"settings":
 			{
-				"buffer_size": 490,
+				"buffer_size": 566,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "\nlibrary ieee;\nuse ieee.std_logic_1164.all;\nentity PartD is\n\tport (\n\t\tA : in std_logic_vector(15 downto  0);\n\t\t--B : in std_logic_vector(15 downto  0);\n\t\tSel : in std_logic_vector(3 downto 0);\n\t\tCin: in std_logic;\n\t\tCout: out std_logic;\n\t\tF : out std_logic_vector(15 downto 0)\n\t);\nend entity PartD;\n\narchitecture ALUD_arc of PartD is\n\nbegin\n\t\tF(15 downto 1) <= A(14 downto 0) ;\n\t\t\tCout <=  A(15);\t\t\t   \n\t\t\n\t\twith Sel select\n\t\tF(0) <=  '0' when \"1100\" ,\n\t\t\t\tA(15) when \"1101\",\n\t\t\t\tcin when \"1110\",\n\t\t\t\t'0' when others;\n\t\t\nend ALUD_arc;\n\n",
+			"file": "RotShiftLeft.vhd",
+			"file_size": 2,
+			"file_write_time": 131680868538998682,
+			"settings":
+			{
+				"buffer_size": 536,
 				"line_ending": "Windows"
 			}
 		}
@@ -38,10 +49,42 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 283.0,
-		"last_filter": "install",
+		"height": 115.0,
+		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add All"
+			],
+			[
+				"ignore",
+				"Gitignore: New gitignore"
+			],
+			[
+				"git ignore",
+				"Gitignore: New gitignore"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"git",
+				"Git: Init"
+			],
 			[
 				"install",
 				"Package Control: Install Package"
@@ -49,10 +92,6 @@
 			[
 				"theme",
 				"Material Theme: Activate theme"
-			],
-			[
-				"git",
-				"Package Control: Install Package"
 			],
 			[
 				"git ",
@@ -68,10 +107,6 @@
 			],
 			[
 				"inst",
-				"Package Control: Install Package"
-			],
-			[
-				"instal",
 				"Package Control: Install Package"
 			],
 			[
@@ -107,8 +142,19 @@
 	],
 	"file_history":
 	[
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RotateOP.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab6/DMA.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUC.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AndNand.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/BitWiseOP.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUD.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/AU.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/Adder.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALSU .vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUA.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUB.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/.gitignore",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.sublime-project",
 		"/C/Users/hadye/Google Drive/CUFE/term6/APT/Labs/Lab - Network Programming/requirement/server.java",
 		"/C/Program Files/Apache Software Foundation/Tomcat 9.0/webapps/examples/WEB-INF/classes/http2/SimpleImagePush.java",
@@ -151,6 +197,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"vsim",
+			"Microprocessor",
+			"MicroProcessor",
+			"vsim",
+			"Microprocessor",
+			"MicroProcessor"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -173,35 +225,6 @@
 			[
 				{
 					"buffer": 0,
-					"file": "AndNand.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 861,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": false,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "BitWiseOP.vhd",
 					"semi_transient": false,
 					"settings":
@@ -213,13 +236,13 @@
 						"selection":
 						[
 							[
-								430,
-								430
+								408,
+								408
 							]
 						],
 						"settings":
 						{
-							"git_gutter_is_enabled": false,
+							"git_gutter_is_enabled": true,
 							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
@@ -227,7 +250,65 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "RotShiftRight.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 566,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								566,
+								566
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "RotShiftLeft.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 536,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								536,
+								536
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -239,7 +320,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 82.0
 	},
 	"layout":
 	{
@@ -267,6 +348,10 @@
 	"output.find_results":
 	{
 		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 170.0
 	},
 	"pinned_build_system": "",
 	"project": "MicroProcessor.sublime-project",
