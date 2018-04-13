@@ -5,7 +5,7 @@ entity AdderSub16Bit is
 	port (
 		A : in std_logic_vector(15 downto  0);
 		B : in std_logic_vector(15 downto  0);
-		Sel : in std_logic_vector(3 downto 0);
+		Sel : in std_logic;
 		Cout: out std_logic;
 		F : out std_logic_vector(15 downto 0)
 	);
@@ -25,11 +25,13 @@ signal tempSum:std_logic_vector(15 downto 0);
 begin
 	AddSubL:Adder16Bit port map(A,tempB,F,tempCarry);
 	with Sel select 
-		Cout <= tempCarry when "0000",
-				not tempCarry when others;
+		Cout <= tempCarry when '0',
+				not tempCarry when '1',
+			'0' when others;
 	with Sel select
-		tempB <=  B when "0000",
-				  std_logic_vector(unsigned(not B) + 1) when others;--2's complement
+		tempB <=  B when '0',
+				  std_logic_vector(unsigned(not B) + 1) when '1',--2's complement
+				  B when others;
 				  
 --overflow bit= ( (A[15] xor B[15]) and sumop) and (F[15] xnor A[15] )
 end AdderSub16Bit_arc;
