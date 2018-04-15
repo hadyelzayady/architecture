@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"std",
+				"std_logic"
+			],
+			[
+				"pr",
+				"pro\tprocess"
+			],
+			[
+				"shif",
+				"shift_right"
+			],
+			[
+				"port",
+				"portmap\tvhdl-port-map"
+			],
+			[
+				"comp",
+				"Component"
+			],
+			[
+				"arc",
+				"architecture\tvhdl-architecture"
+			],
+			[
+				"temp",
+				"tempCarry"
+			],
+			[
+				"se",
+				"Sel"
+			],
+			[
 				"en",
 				"entarch\tentity architecture"
 			]
@@ -11,48 +43,122 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "BitWiseOP.vhd",
-			"settings":
-			{
-				"buffer_size": 490,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "library ieee;\nuse ieee.std_logic_1164.all;\nentity PartC is\n\tport (\n\t\tA : in std_logic_vector(15 downto  0);\n\t\t--B : in std_logic_vector(15 downto  0);\n\t\tSel : in std_logic_vector(3 downto 0);\n\t\tCin: in std_logic;\n\t\tCout: out std_logic;\n\t\tF : out std_logic_vector(15 downto 0)\n\t);\nend entity PartC;\n\narchitecture ALUC_arc of PartC is\n\n\nbegin\n\t\tF(14 downto 0) <= A(15 downto 1) ;\n\t\t\t\t\t\t   \n                Cout <= A(0);\n\t\twith Sel select\n\t\tF(15) <= '0' when \"1000\" ,\n\t\t\t\tA(0) when \"1001\",\n\t\t\t\tcin when \"1010\",\n\t\t\t\tA(15) when \"1011\",\n\t\t\t\t'0' when others;\nend ALUC_arc;\n",
-			"file": "RotShiftRight.vhd",
-			"file_size": 2,
-			"file_write_time": 131680868547123551,
-			"settings":
-			{
-				"buffer_size": 566,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "\nlibrary ieee;\nuse ieee.std_logic_1164.all;\nentity PartD is\n\tport (\n\t\tA : in std_logic_vector(15 downto  0);\n\t\t--B : in std_logic_vector(15 downto  0);\n\t\tSel : in std_logic_vector(3 downto 0);\n\t\tCin: in std_logic;\n\t\tCout: out std_logic;\n\t\tF : out std_logic_vector(15 downto 0)\n\t);\nend entity PartD;\n\narchitecture ALUD_arc of PartD is\n\nbegin\n\t\tF(15 downto 1) <= A(14 downto 0) ;\n\t\t\tCout <=  A(15);\t\t\t   \n\t\t\n\t\twith Sel select\n\t\tF(0) <=  '0' when \"1100\" ,\n\t\t\t\tA(15) when \"1101\",\n\t\t\t\tcin when \"1110\",\n\t\t\t\t'0' when others;\n\t\t\nend ALUD_arc;\n\n",
-			"file": "RotShiftLeft.vhd",
-			"file_size": 2,
-			"file_write_time": 131680868538998682,
-			"settings":
-			{
-				"buffer_size": 536,
-				"line_ending": "Windows"
-			}
-		}
 	],
-	"build_system": "",
+	"build_system": "Packages/User/mhvhdl.sublime-build",
 	"build_system_choices":
 	[
+		[
+			[
+				[
+					"Packages/Default/Syntax Tests.sublime-build",
+					""
+				],
+				[
+					"Packages/Default/Syntax Tests.sublime-build",
+					"All Syntaxes"
+				],
+				[
+					"Packages/Default/Syntax Tests.sublime-build",
+					"Performance"
+				],
+				[
+					"Packages/Default/Syntax Tests.sublime-build",
+					"Regex Compatibility"
+				]
+			],
+			[
+				"Packages/Default/Syntax Tests.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/VHDL/VHDL.sublime-build",
+					""
+				],
+				[
+					"Packages/User/mhvhdl.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/mhvhdl.sublime-build",
+				""
+			]
+		]
 	],
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 115.0,
+		"height": 438.0,
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"comm",
+				"Git: Commit"
+			],
+			[
+				"add\t",
+				"Git: Add All"
+			],
+			[
+				"com\t",
+				"Git: Commit"
+			],
+			[
+				"add",
+				"Git: Add All"
+			],
+			[
+				"git amm",
+				"Git: Amend Commit"
+			],
+			[
+				"git comm",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add All"
+			],
+			[
+				"todo",
+				"TodoReview: Open Files"
+			],
+			[
+				"instl",
+				"Package Control: Install Local Dependency"
+			],
+			[
+				"syn vhdl ",
+				"Set Syntax: VHDL"
+			],
+			[
+				"syntax: ",
+				"Set Syntax: VHDL"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
 			[
 				"git push",
 				"Git: Push"
@@ -66,10 +172,6 @@
 				"Git: Commit"
 			],
 			[
-				"git add",
-				"Git: Add All"
-			],
-			[
 				"ignore",
 				"Gitignore: New gitignore"
 			],
@@ -78,16 +180,8 @@
 				"Gitignore: New gitignore"
 			],
 			[
-				"instal",
-				"Package Control: Install Package"
-			],
-			[
 				"git",
 				"Git: Init"
-			],
-			[
-				"install",
-				"Package Control: Install Package"
 			],
 			[
 				"theme",
@@ -112,13 +206,9 @@
 			[
 				"in",
 				"Package Control: Install Package"
-			],
-			[
-				"insta",
-				"Package Control: Install Package"
 			]
 		],
-		"width": 673.0
+		"width": 1047.0
 	},
 	"console":
 	{
@@ -142,20 +232,48 @@
 	],
 	"file_history":
 	[
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RotateOP.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab6/DMA.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUC.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AndNand.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/BitWiseOP.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUD.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/AU.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/Adder.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALSU .vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUA.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUB.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/.gitignore",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/work-obj93.cf",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/transcript",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.sublime-project",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Adder16Bit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AdderSub16Bit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Op2Reg.vhd",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ShiftOperation.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab6/DMA.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUD.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/main.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/testbench.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/register.vhd",
+		"/C/Users/hadye/Desktop/temp.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/log",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/CustomPATH.sublime-settings",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/CustomPATH/CustomPATH.sublime-settings",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/HalfAdder.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AddSub16_dofile.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AdderSub16Bit.vhdl",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/FullAdder.vhdl",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Adder16Bit.vhdl",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/BitWiseOP.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RotShiftRight.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUA.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUC.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUB.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/AU.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Op2Reg.vhdl",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALSU .vhd",
+		"/C/Users/hadye/Desktop/ten.html",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RotShiftLeft.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/Adder.vhd",
+		"/C/Users/hadye/Desktop/temp.py",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Op2Reg",
+		"/C/cmder/config/user-aliases.cmd",
+		"/C/cmder/bin/alias.bat",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RotateOP.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AndNand.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/.gitignore",
 		"/C/Users/hadye/Google Drive/CUFE/term6/APT/Labs/Lab - Network Programming/requirement/server.java",
 		"/C/Program Files/Apache Software Foundation/Tomcat 9.0/webapps/examples/WEB-INF/classes/http2/SimpleImagePush.java",
 		"/C/Program Files/Apache Software Foundation/Tomcat 9.0/conf/tomcat-users.xml",
@@ -163,7 +281,6 @@
 		"/C/Users/hadye/Google Drive/CUFE/term6/APT/Req/Tuesday Requirement_threading/requirement_student.java",
 		"/C/Users/hadye/PycharmProjects/Saladicious/back_end/SaladiciousAPI/models.py",
 		"/E/vagrant/kali/Vagrantfile",
-		"/C/cmder/config/user-aliases.cmd",
 		"/C/cmder/config/user-profile.cmd",
 		"/C/cmder/config/settings",
 		"/C/Users/hadye/Downloads/sample.war",
@@ -187,7 +304,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 198.0,
 		"where_history":
 		[
 		]
@@ -197,6 +314,33 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"PATH",
+			"0000000000000000",
+			"shift_left",
+			"downto",
+			");\n",
+			"do",
+			"000000000000000",
+			"cin",
+			"FullAdder",
+			"tempSum",
+			"tempCarry",
+			"0000000000000001",
+			"00000000000000001",
+			"000000000000000001",
+			"ALUC_arc",
+			"Op2Reg",
+			"my_adder",
+			"a_Adder16Bit",
+			"my_nadder",
+			"16BitAdder",
+			"my_nadder",
+			"a_FullAdder",
+			"my_adder",
+			"PartC",
+			"PartD",
+			"SelPart",
+			"make",
 			"vsim",
 			"Microprocessor",
 			"MicroProcessor",
@@ -220,97 +364,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "BitWiseOP.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 490,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								408,
-								408
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "RotShiftRight.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 566,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								566,
-								566
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "RotShiftLeft.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 536,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								536,
-								536
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -345,6 +400,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 320.0
+	},
 	"output.find_results":
 	{
 		"height": 0.0
@@ -352,6 +411,10 @@
 	"output.git":
 	{
 		"height": 170.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
 	},
 	"pinned_build_system": "",
 	"project": "MicroProcessor.sublime-project",
@@ -366,6 +429,26 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"",
+				"ALU.vhd"
+			],
+			[
+				"alu",
+				"ALU.vhd"
+			],
+			[
+				"log",
+				"log"
+			],
+			[
+				"left",
+				"LeftOperation.vhd"
+			],
+			[
+				"ha",
+				"HalfAdder.vhd"
+			]
 		],
 		"width": 0.0
 	},
@@ -384,22 +467,22 @@
 	},
 	"select_symbol":
 	{
-		"height": 0.0,
+		"height": 443.0,
 		"last_filter": "",
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 468.0
 	},
 	"selected_group": 0,
 	"settings":
 	{
 	},
-	"show_minimap": true,
+	"show_minimap": false,
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 247.0,
+	"side_bar_width": 274.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

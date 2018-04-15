@@ -31,7 +31,7 @@ begin
 	with Sel select
 		tempB <=  B when '0',
 				  std_logic_vector(unsigned(not B) + 1) when '1',--2's complement
-				  B when others;
+				  (others => '0') when others;
 				  
 --overflow bit= ( (A[15] xor B[15]) and sumop) and (F[15] xnor A[15] )
 end AdderSub16Bit_arc;

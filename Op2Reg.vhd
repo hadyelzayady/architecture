@@ -30,6 +30,7 @@ signal sum:std_logic_vector(15 downto 0);
 signal carry: std_logic;
 begin
 	addersubLabel: AdderSub16Bit port map (A,B,Sel(0),carry,sum);
+	
 	F <= sum when Sel(2 downto 1) = "01" else
 		 B when Sel(2 downto 1) ="00" else
 		 A and B when Sel(0) ='0' else
