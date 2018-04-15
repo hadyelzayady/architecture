@@ -23,3 +23,6 @@ cov*/
 transcript*
 sc_dpiheader.h
 vsim.dbg
+adder8bit.vhd
+Labexam.vhd
+testbench.vhd

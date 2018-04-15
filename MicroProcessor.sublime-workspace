@@ -4,8 +4,44 @@
 		"selected_items":
 		[
 			[
+				"s1",
+				"s1adderfinal"
+			],
+			[
 				"std",
 				"std_logic"
+			],
+			[
+				"te",
+				"tempcarry"
+			],
+			[
+				"sh",
+				"shifted2d1"
+			],
+			[
+				"add",
+				"Adder8Bit"
+			],
+			[
+				"temp",
+				"tempd0"
+			],
+			[
+				"comp",
+				"component\tvhdl-component-declaration"
+			],
+			[
+				"if",
+				"if\tvhdl-if-then"
+			],
+			[
+				"pro",
+				"pro\tprocess"
+			],
+			[
+				"ent",
+				"entarch\tentity architecture"
 			],
 			[
 				"pr",
@@ -20,16 +56,8 @@
 				"portmap\tvhdl-port-map"
 			],
 			[
-				"comp",
-				"Component"
-			],
-			[
 				"arc",
 				"architecture\tvhdl-architecture"
-			],
-			[
-				"temp",
-				"tempCarry"
 			],
 			[
 				"se",
@@ -43,6 +71,24 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "memory.vhd",
+			"settings":
+			{
+				"buffer_size": 732,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Labexam.vhd",
+			"settings":
+			{
+				"buffer_size": 3068,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "Packages/User/mhvhdl.sublime-build",
 	"build_system_choices":
@@ -91,20 +137,48 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 438.0,
-		"last_filter": "",
+		"height": 443.0,
+		"last_filter": "insta",
 		"selected_items":
 		[
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"git ame",
+				"Git: Amend Commit"
+			],
+			[
+				"git a",
+				"Git: Add All"
+			],
+			[
+				"git stat",
+				"Git: Status"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			],
+			[
+				"git ad",
+				"Git: Add All"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
 			[
 				"remove",
 				"Package Control: Remove Package"
 			],
 			[
 				"ins",
-				"Package Control: Install Package"
-			],
-			[
-				"insta",
 				"Package Control: Install Package"
 			],
 			[
@@ -162,14 +236,6 @@
 			[
 				"git push",
 				"Git: Push"
-			],
-			[
-				"git status",
-				"Git: Status"
-			],
-			[
-				"git commit",
-				"Git: Commit"
 			],
 			[
 				"ignore",
@@ -232,23 +298,33 @@
 	],
 	"file_history":
 	[
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/testbench.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/testbench.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/Encrypt.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/adder8bit.vhd",
+		"/C/Users/hadye/Desktop/LABEXAM/Encrypt.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nregister.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/vsim -gui work.labexam",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/testbench.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ShiftOperation.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab6/DMA.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Adder16Bit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/FullAdder.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/main.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab4/register.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/register.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab6/Memory.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Op2Reg.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/log",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/work-obj93.cf",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/transcript",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.sublime-project",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Adder16Bit.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AdderSub16Bit.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Op2Reg.vhd",
-		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ShiftOperation.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab6/DMA.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUD.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/main.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/testbench.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/register.vhd",
 		"/C/Users/hadye/Desktop/temp.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/log",
 		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/CustomPATH.sublime-settings",
 		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/CustomPATH/CustomPATH.sublime-settings",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/HalfAdder.vhd",
@@ -307,6 +383,7 @@
 		"height": 198.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -314,6 +391,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"d1output",
+			"DataIn",
+			"en",
+			"to_integer",
+			"Clk",
+			");\n",
+			"write_value",
+			"rst",
 			"PATH",
 			"0000000000000000",
 			"shift_left",
@@ -358,14 +443,73 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "memory.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 732,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								68,
+								14
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Labexam.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3068,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2723,
+								2723
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -430,11 +574,43 @@
 		"selected_items":
 		[
 			[
-				"",
-				"ALU.vhd"
+				"regis",
+				"nregister.vhd"
+			],
+			[
+				"lab",
+				"Labexam.vhd"
+			],
+			[
+				"tes",
+				"testbench.vhd"
+			],
+			[
+				"nreg",
+				"nregister.vhd"
+			],
+			[
+				"adder",
+				"Adder16Bit.vhd"
 			],
 			[
 				"alu",
+				"ALU.vhd"
+			],
+			[
+				"shi",
+				"ShiftOperation.vhd"
+			],
+			[
+				"shif",
+				"ShiftOperation.vhd"
+			],
+			[
+				"mem",
+				"memory.vhd"
+			],
+			[
+				"",
 				"ALU.vhd"
 			],
 			[

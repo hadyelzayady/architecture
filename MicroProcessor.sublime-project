@@ -4,12 +4,22 @@
 		{
 			"file_exclude_patterns":
 			[
-				"*.vhd.bak",
-				"MicroProcessor.sublime-project",
-				"*.cr.mti",
-				"*.mpf",
-				"*.wlf",
-				".gitignore"
+				"Microprocessor.cr.mti",
+				"ShiftOperation.vhd.bak",
+				"AdderSub16Bit.vhd.bak",
+				"transcript",
+				"Labexam.vhd",
+				"adder8bit.vhd",
+				"testbench.vhd",
+				"vsim.wlf",
+				"Labexam.vhd.bak",
+				"Op2Reg.vhd.bak",
+				"ALU.vhd.bak",
+				"HalfAdder.vhd.bak",
+				"testbench.vhd.bak",
+				"Adder16Bit.vhd.bak",
+				"adder8bit.vhd.bak",
+				"AndNand.vhd.bak"
 			],
 			"folder_exclude_patterns":
 			[
