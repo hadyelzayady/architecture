@@ -48,6 +48,8 @@ signal sum:std_logic_vector(15 downto 0);
 signal shiftleft:std_logic_vector(15 downto 0);
 signal shiftright:std_logic_vector(15 downto 0);
 signal Overflow:std_logic;
+signal rr:std_logic_vector(15 downto 0);
+signal rl:std_logic_vector(15 downto 0);
 begin
 	addersubLabel: AdderSub16Bit port map (A,AdderSecOperand,Op(0),carry,Overflow,sum);
     with Op select 
@@ -58,6 +60,10 @@ begin
     AorB <= A or B;
     shiftleft <=  to_stdlogicvector(to_bitvector(A) sll to_integer(unsigned(B)));
     shiftright <= to_stdlogicvector(to_bitvector(A) srl to_integer(unsigned(B)));
+    rl(15 downto 1) <= A(14 downto 0) ;
+    rl(0) <= Cin;
+    rr(14 downto 0) <= A(15 downto 1) ;
+    rr(15) <= Cin;
 
     alu_process : process( clk )
     begin
@@ -126,13 +132,41 @@ begin
                     end if;
                     Flags(V)<= Overflow;
                 when RLC => --rotate left
-                    F(15 downto 1) <= A(14 downto 0) ;
+                    F <= rl ;
                     Flags(C) <=  A(15);
-                    F(0) <= Cin; 
+                    if (rl = x"0000") then
+                        Flags(Z) <= '1';
+                    else
+                        Flags(Z) <= '0';
+                    end if;
+                    if (rl(15) = '1') then
+                        Flags(N) <='1';
+                    else
+                        Flags(N) <='0';  
+                    end if;
+                    if (A(15) /= rl(15) ) then -- as always we insert zero -> if msb is 1 then it will be zero
+                         Flags(V)<='1';
+                    else
+                        Flags(V)<='0';
+                    end if;
                 when RRC => --rotate right
-                    F(14 downto 0) <= A(15 downto 1) ;
+                    F <= rr ;
                     Flags(C) <=  A(0);
-                    F(15) <= Cin;
+                    if (rr = x"0000") then
+                        Flags(Z) <= '1';
+                    else
+                        Flags(Z) <= '0';
+                    end if;
+                    if (rr(15) = '1') then
+                        Flags(N) <='1';
+                    else
+                        Flags(N) <='0';  
+                    end if;
+                    if (A(15) /= rr(15) ) then -- as always we insert zero -> if msb is 1 then it will be zero
+                         Flags(V)<='1';
+                    else
+                        Flags(V)<='0';
+                    end if;
                 when myAND => --and
                     F <=AandB;
                     if (AandB= x"0000") then
