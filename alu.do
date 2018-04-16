@@ -38,6 +38,9 @@ add wave -position end  sim:/alu/F
 add wave -position end  sim:/alu/carry
 add wave -position end  sim:/alu/AdderSecOperand
 add wave -position end  sim:/alu/sum
+add wave -position 6  sim:/alu/Flags
+add wave -position end  sim:/alu/overflow2op
+add wave -position end  sim:/alu/overflow1op
 force -freeze sim:/alu/A 16'h9 0
 force -freeze sim:/alu/Clk 1 0, 0 {50 ns} -r 100
 force -freeze sim:/alu/Cin 0 0
@@ -75,4 +78,9 @@ run
 force -freeze sim:/alu/Op 5'h08 0
 run
 force -freeze sim:/alu/Op 5'h09 0
+run
+force -freeze sim:/alu/B 16'h0 0
+force -freeze sim:/alu/Op 5'h0 0
+run
+force -freeze sim:/alu/B 16'hffff 0
 run
