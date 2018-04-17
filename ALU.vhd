@@ -38,6 +38,8 @@ CONSTANT  SETC  :  std_logic_vector(4 downto 0)  := "01010";
 CONSTANT  CLC  :  std_logic_vector(4 downto 0)  := "01011";
 CONSTANT  myNOT  :  std_logic_vector(4 downto 0)  := "01100";
 CONSTANT  NEG  :  std_logic_vector(4 downto 0)  := "01101";
+CONSTANT  STD  :  std_logic_vector(4 downto 0)  := "01110";
+CONSTANT  MOV  :  std_logic_vector(4 downto 0)  := "01111";
 CONSTANT  Z  :  integer  := 0;
 CONSTANT  N  :  integer  := 1;
 CONSTANT  C  :  integer  := 2;
@@ -225,6 +227,8 @@ begin
                     else
                         Flags(N) <='0';  
                     end if;
+                when STD | MOV=>
+                    F <=A;
     			when others =>
     				null;
     		end case;	
