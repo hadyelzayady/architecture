@@ -36,6 +36,8 @@ CONSTANT  INC  :  std_logic_vector(4 downto 0)  := "01000";
 CONSTANT  DEC  :  std_logic_vector(4 downto 0)  :=  "01001";
 CONSTANT  SETC  :  std_logic_vector(4 downto 0)  := "01010";
 CONSTANT  CLC  :  std_logic_vector(4 downto 0)  := "01011";
+CONSTANT  myNOT  :  std_logic_vector(4 downto 0)  := "01100";
+CONSTANT  NEG  :  std_logic_vector(4 downto 0)  := "01101";
 CONSTANT  Z  :  integer  := 0;
 CONSTANT  N  :  integer  := 1;
 CONSTANT  C  :  integer  := 2;
@@ -50,6 +52,8 @@ signal shiftright:std_logic_vector(15 downto 0);
 signal Overflow:std_logic;
 signal rr:std_logic_vector(15 downto 0);
 signal rl:std_logic_vector(15 downto 0);
+signal nota:std_logic_vector(15 downto 0);
+signal nega:std_logic_vector(15 downto 0);
 begin
 	addersubLabel: AdderSub16Bit port map (A,AdderSecOperand,Op(0),carry,Overflow,sum);
     with Op select 
@@ -64,8 +68,10 @@ begin
     rl(0) <= Cin;
     rr(14 downto 0) <= A(15 downto 1) ;
     rr(15) <= Cin;
-
-    alu_process : process( clk )
+    nota <= not A;
+    nega<=std_logic_vector(unsigned(not A) + 1);
+   
+ alu_process : process( clk )
     begin
     	case(Op) is
     			when SHL =>--shift left 
@@ -187,6 +193,34 @@ begin
                         Flags(Z) <= '0';
                     end if;
                     if (AorB(15) = '1') then
+                        Flags(N) <='1';
+                    else
+                        Flags(N) <='0';  
+                    end if;
+                when SETC =>
+                    Flags(C) <='1';
+                when CLC =>
+                    Flags(C)<='0';
+                when myNOT =>
+                    F <= nota;
+                    if (nota =x"0000") then
+                        Flags(Z)<= '1';
+                    else
+                        Flags(Z) <='0';
+                    end if;
+                    if (nota(15) = '1') then
+                        Flags(N) <='1';
+                    else
+                        Flags(N) <='0';  
+                    end if;
+                when NEG =>
+                    F <= nega;
+                    if (nega =x"0000") then
+                        Flags(Z)<= '1';
+                    else
+                        Flags(Z) <='0';
+                    end if;
+                    if (nega(15) = '1') then
                         Flags(N) <='1';
                     else
                         Flags(N) <='0';  
