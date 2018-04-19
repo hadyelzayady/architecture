@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"Dec",
+				"Decoder"
+			],
+			[
+				"adder",
+				"adder1"
+			],
+			[
+				"k0",
+				"k0output"
+			],
+			[
+				"d1",
+				"d1output"
+			],
+			[
+				"temp",
+				"tempd1"
+			],
+			[
 				"Fl",
 				"Flags"
 			],
@@ -72,10 +92,6 @@
 				"Adder8Bit"
 			],
 			[
-				"temp",
-				"tempd0"
-			],
-			[
 				"comp",
 				"component\tvhdl-component-declaration"
 			],
@@ -112,65 +128,32 @@
 	"buffers":
 	[
 		{
-			"file": "ALU.vhd",
-			"settings":
-			{
-				"buffer_size": 8936,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Microprocessor.cr.do",
-			"settings":
-			{
-				"buffer_size": 3658,
-				"encoding": "UTF-8",
-				"line_ending": "Windows",
-				"name": "vsim -gui work.microprocessor"
-			}
-		},
-		{
+			"contents": "library ieee;\nuse ieee.std_logic_1164.all;\nuse ieee.numeric_std.all;\n\nentity MicroProcessor is\n\tport (\n\t\tClk : std_logic;\n\t\tInstCode: std_logic_vector(15 downto 0)\n\t);\nend MicroProcessor;\n\narchitecture MicroProcessor_arc of MicroProcessor is\ncomponent syncram is\nport \n( \n\tclk : in std_logic;\n\twe : in std_logic;\n\taddress : in std_logic_vector(9 downto 0);\n\tdatain : in std_logic_vector(15 downto 0);\n\tdataout : out std_logic_vector(15 downto 0) \n);\nend component syncram;\ncomponent ALU is\n\tport (\n\t\tA : in std_logic_vector(15 downto  0);\n\t\tB : in std_logic_vector(15 downto  0);\n       \tOp : in std_logic_vector(4 downto 0);\n       \tClk: in std_logic;\n       \tCin: in std_logic;\t\n        Flags:out std_logic_vector(3 downto 0);\n\t\tF : out std_logic_vector(15 downto 0)\n\t);\nend component ALU;\n\ncomponent my_nDFF is\nGeneric ( n : integer := 16);\nport( Clk,Rst : in std_logic;\nd : in std_logic_vector(n-1 downto 0);\nq : out std_logic_vector(n-1 downto 0));\nend component;\n\ncomponent  is\n\tport (\n\t\t\n\t);\nend component ;\n\nCONSTANT  STD  :  std_logic_vector(4 downto 0)  := \"01110\";\nsignal FlagRegisterWe :std_logic; -- temporary shoudl come from controller\nsignal ExMemBuffWe :std_logic; -- temporary shoudl come from controller\nsignal Memout :std_logic_vector(15 downto 0); -- temporary shoudl wite to MemWbBuff\nsignal ExMemBuffData: std_logic_vector(26 downto 0);\nsignal Opcode: std_logic_vector(4 downto 0);-- decoder\nsignal A :std_logic_vector(15 downto 0);--temp should come from register file\nsignal B :std_logic_vector(15 downto 0);--temp should come from register file\nsignal Rst:std_logic;--temp ,should come from control\nsignal Flags:std_logic_vector(3 downto 0);\nsignal FlagsOutput:std_logic_vector(3 downto 0);\nsignal F:std_logic_vector(15 downto 0);\nsignal address: std_logic_vector(9 downto 0);--temp ,shoudl come from DEBuffer then writeen in  ExMemBuff(10)\nCONSTANT  C  :  integer  := 2;\nbegin\n\tDecoder : Decoder\n\tmyAlu : ALU port map (A,B,Opcode,Clk,Flags(C),Flags,F);\n\tExMemBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,F,ExMemBuffData(26 downto 11));\n\tFlagRegister : my_nDFF generic map (n => 4) port map(Clk,Rst,Flags,FlagsOutput); \n\t--DataMemory : syncram port map(Clk,ExMemBuffData(0),ExMemBuffData(10 downto 1),ExMemBuffData(26 downto 11),Memout);--original\n\tDataMemory : syncram port map(Clk,ExMemBuffData(0),address,ExMemBuffData(26 downto 11),Memout);\n\tOpcode <= InstCode(4 downto 0);\n\twith Opcode select\n\t\tExMemBuffData(0) <='1' when STD,\n\t\t\t '0' when others;\nend MicroProcessor_arc;\n",
 			"file": "MicroProcessor.vhd",
+			"file_size": 2510,
+			"file_write_time": 131685323840425078,
 			"settings":
 			{
-				"buffer_size": 2445,
+				"buffer_size": 2513,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "RegisterFile.vhd",
+			"settings":
+			{
+				"buffer_size": 3686,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "nregister.vhd",
+			"file": "Decoder.vhd",
 			"settings":
 			{
-				"buffer_size": 395,
+				"buffer_size": 579,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/Labexam.vhd",
-			"settings":
-			{
-				"buffer_size": 3074,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Labexam.vhd",
-			"settings":
-			{
-				"buffer_size": 2112,
-				"encoding": "Western (Windows 1252)",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "force -freeze sim:/labexam/CLK 1 0, 0 {50 ns} -r 100\nforce -freeze sim:/labexam/RST 0 0\nrun\nforce -freeze sim:/labexam/RST 1 0\nrun\nforce -freeze sim:/labexam/RST 0 0\nforce -freeze sim:/labexam/Key 32'h00010203 0\nforce -freeze sim:/labexam/DataIn 16'h0000 0\nrun\nforce -freeze sim:/labexam/DataIn 16'h0001 0\nrun\nforce -freeze sim:/labexam/DataIn 16'h0002 0\nrun\nforce -freeze sim:/labexam/DataIn 16'h0003 0\nforce -freeze sim:/labexam/Key 32'hABCDEF98 0\nstep\nrun\nrun",
-			"settings":
-			{
-				"buffer_size": 462,
-				"line_ending": "Windows",
-				"name": "force -freeze sim:/labexam/CLK 1 0, 0 {50 ns} -r 1"
 			}
 		}
 	],
@@ -222,9 +205,53 @@
 	"command_palette":
 	{
 		"height": 443.0,
-		"last_filter": "",
+		"last_filter": "packages",
 		"selected_items":
 		[
+			[
+				"packages",
+				"Package Control: List Packages"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"booka",
+				"Bookmarks: Select All"
+			],
+			[
+				"be",
+				"VHDL Mode - Beautify (Buffer)"
+			],
+			[
+				"html",
+				"HTMLBeautify"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"syn jso",
+				"Set Syntax: JSON"
+			],
+			[
+				"push",
+				"Git: Push"
+			],
+			[
+				"git comm",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add All"
+			],
 			[
 				"todo",
 				"TodoReview: Project Files"
@@ -234,16 +261,8 @@
 				"Git: Amend Commit"
 			],
 			[
-				"git add",
-				"Git: Add All"
-			],
-			[
 				"git diff",
 				"Git: Diff Current File"
-			],
-			[
-				"git comm",
-				"Git: Commit"
 			],
 			[
 				"commit",
@@ -268,10 +287,6 @@
 			[
 				"add a",
 				"Git: Add All"
-			],
-			[
-				"ins",
-				"Package Control: Install Package"
 			],
 			[
 				"ignore",
@@ -304,10 +319,6 @@
 			[
 				"git commit",
 				"Git: Commit"
-			],
-			[
-				"git status",
-				"Git: Status"
 			],
 			[
 				"remove",
@@ -346,10 +357,6 @@
 				"Set Syntax: VHDL"
 			],
 			[
-				"install",
-				"Package Control: Install Package"
-			],
-			[
 				"git ignore",
 				"Gitignore: New gitignore"
 			],
@@ -378,7 +385,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 673.0
+		"width": 1047.0
 	},
 	"console":
 	{
@@ -402,46 +409,55 @@
 	],
 	"file_history":
 	[
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/BufferRegister.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/Labexam.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nregister.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Microprocessor.cr.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/memory.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nreg_enable.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Labexam.vhd",
+		"/C/Users/hadye/Downloads/Pipe_Enc.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/Labexam.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab_exam_sol/Pipe_Enc.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab_exam_sol/temp.html",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Decoder.vhd",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab4/register.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab4/main.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/testbench.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/saladicious.json",
+		"/C/Users/hadye/Downloads/labexam.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/BufferRegister.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu_do3.do",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/vsim -gui work.labexam",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/testbench.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/testbench.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu.do",
 		"/C/Users/hadye/Downloads/Pipe_Enc (2).vhd",
 		"/C/Users/hadye/Downloads/Pipe_Enc (1).vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/nregister.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RotShiftLeft.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu_do2.do",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUD.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab3/ALUC.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AdderSub16Bit.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/vsim -gui work.labexam",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Adder16Bit.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Labexam.vhd",
-		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALSU .vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/adder8bit.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/.gitignore",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/Encrypt.vhd",
 		"/C/Users/hadye/Desktop/LABEXAM/Encrypt.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nregister.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/testbench.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ShiftOperation.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab6/DMA.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/FullAdder.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/main.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab4/register.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/register.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab6/Memory.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Op2Reg.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/log",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/work-obj93.cf",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/transcript",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.sublime-project",
 		"/C/Users/hadye/Desktop/temp.vhd",
 		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/CustomPATH.sublime-settings",
@@ -507,6 +523,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"register_main",
+			"generic",
+			"7",
+			"port1_sel",
+			"deadline",
+			"Cy",
+			"Networkers",
+			"CyrusOne ",
+			"cyber",
+			"Overflow",
+			"Pipe_Enc",
+			"labexam",
 			"Cin",
 			"cin",
 			"f",
@@ -585,65 +613,68 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "ALU.vhd",
+					"file": "MicroProcessor.vhd",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8936,
+						"buffer_size": 2513,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1689,
-								1693
+								980,
+								980
+							],
+							[
+								1013,
+								1013
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
 							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 293.0,
+						"translation.y": 429.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "Microprocessor.cr.do",
+					"file": "RegisterFile.vhd",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3658,
+						"buffer_size": 3686,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3001,
-								3001
+								78,
+								408
 							]
 						],
 						"settings":
 						{
-							"auto_name": "vsim -gui work.microprocessor",
 							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1461.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -651,48 +682,19 @@
 				},
 				{
 					"buffer": 2,
-					"file": "MicroProcessor.vhd",
+					"file": "Decoder.vhd",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2445,
+						"buffer_size": 579,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1668,
-								1668
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 870.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "nregister.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 395,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								395
+								181,
+								181
 							]
 						],
 						"settings":
@@ -704,96 +706,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/Labexam.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3074,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2600,
-								2600
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": false,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1030.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "Labexam.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2112,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								343,
-								343
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1044.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 462,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								462
-							]
-						],
-						"settings":
-						{
-							"auto_name": "force -freeze sim:/labexam/CLK 1 0, 0 {50 ns} -r 1",
-							"default_dir": "C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Arch\\Project",
-							"git_gutter_is_enabled": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -860,6 +773,30 @@
 		"selected_items":
 		[
 			[
+				"mem",
+				"memory.vhd"
+			],
+			[
+				"nreg",
+				"nregister.vhd"
+			],
+			[
+				"de",
+				"Decoder.vhd"
+			],
+			[
+				"micro",
+				"MicroProcessor.vhd"
+			],
+			[
+				"dec",
+				"Decoder.vhd"
+			],
+			[
+				"al",
+				"alu.do"
+			],
+			[
 				"n",
 				"nregister.vhd"
 			],
@@ -870,14 +807,6 @@
 			[
 				"test",
 				"C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Arch\\Labs\\LABEXAM\\testbench.vhd"
-			],
-			[
-				"micro",
-				"MicroProcessor.vhd"
-			],
-			[
-				"mem",
-				"memory.vhd"
 			],
 			[
 				".do",
@@ -910,10 +839,6 @@
 			[
 				"tes",
 				"testbench.vhd"
-			],
-			[
-				"nreg",
-				"nregister.vhd"
 			],
 			[
 				"adder",
@@ -975,7 +900,7 @@
 	"show_minimap": false,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 274.0,
 	"status_bar_visible": true,
 	"template_settings":
