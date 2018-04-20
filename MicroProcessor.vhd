@@ -1,11 +1,11 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity MicroProcessor is
 	port (
 		Clk : in std_logic;
-		PC:in std_logic_vector(15 downto 0);
+		--PC:in std_logic_vector(15 downto 0);
 		Rst:in std_logic;
 		InPort:in std_logic_vector(15 downto 0);
 		OutPort:out std_logic_vector(15 downto 0)
@@ -111,7 +111,7 @@ signal port1_data:std_logic_vector(15 downto 0);
 signal port2_data:std_logic_vector(15 downto 0);
 
 CONSTANT  C  :  integer  := 2;
-signal myPC: std_logic_vector(15 downto 0);
+signal newPC: std_logic_vector(15 downto 0);
 signal RegPort2_data:std_logic_vector(15 downto 0);
 signal wb_enable : std_logic;
 signal wb_sel : std_logic_vector(2 downto 0);
@@ -124,20 +124,25 @@ signal OpcodeD : std_logic_vector(4 downto 0);
 signal port1_dataD : std_logic_vector(15 downto 0);
 signal port2_dataD : std_logic_vector(15 downto 0);
 signal OpcodeE	: std_logic_vector(4 downto 0);
+signal OpcodeM	: std_logic_vector(4 downto 0);
 signal AluOutputE : std_logic_vector(15 downto 0);
+signal AluOutputM : std_logic_vector(15 downto 0);
 signal RdstE : std_logic_vector(2 downto 0);
+signal RdstM : std_logic_vector(2 downto 0);
 
+signal PC: std_logic_vector(15 downto 0);
 --
 begin
 	-- opcode Rsrc Rdst Imm
-	--PC : my_nDFF generic map (n => 16) port map(Clk,Rst,myPC,InstCode2);
 	----------------------------------------------------------------------------
 	-- Fetch
 	----------------------------------------------------------------------------
-	
-	InstMemory: syncram port map(Clk,we=>'0',address=>PC(9 downto 0),datain=>x"0000",dataout=>InstCode);
+	PCReg : my_nDFF generic map (n => 16) port map(Clk,Rst,PC,newPC);
+	PC <= newPC+1;
+	InstMemory: syncram port map(Clk,we=>'0',address=>newPC(9 downto 0),datain=>x"0000",dataout=>InstCode);
 	--Fetch: Fetcher port map(Clk,PC,InstCode);
 	FDBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,InstCode,InstCode2);
+
 	----------------------------------------------------------------------------
 	-- Decode
 	----------------------------------------------------------------------------
@@ -182,6 +187,9 @@ begin
 	--DataMemory : syncram port map(Clk,we=>ExMemBuffData(0),address=>ExMemBuffData(10 downto 1),datain=>ExMemBuffData(26 downto 11),dataout=>Memout);--original
 	--MWdata <= ExMemBuffData(33 downto 31)&ExMemBuffData(30 downto 15)& Opcode & Memout;--rdst & aluresult
 	--MWBuff : my_nDFF generic map (n => 40) port map(Clk,Rst,MWdata,MWout);
+	MWOpcodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,OpcodeE,OpcodeM);
+	MWAluOutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,AluOutputE,AluOutputM);
+	MWRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,RdstE,RdstM);
 
 	----------------------------------------------------------------------------
 	-- Write back
@@ -194,11 +202,11 @@ begin
 	--with MWout(20  downto 16) select --opcode 
 	--	wb_data <= MWout(15 downto 0) when LDD,-- wb from memory
 	--				MWout(36 downto 21) when others;
-	with OpcodeE select --opcode
+	with OpcodeM select --opcode
 		wb_enable <= '1' when MOV | ADD | SUB | myAND | myOR | myNOT | NEG | INC | DEC,--specify ragne for wb operations
 					'0' when others;
-	wb_sel<= RdstE;
-	wb_data <= AluOutputE;
+	wb_sel<= RdstM;
+	wb_data <= AluOutputM;
 
 end MicroProcessor_arc;
 	--DataMemory : syncram port map(Clk,ExMemBuffData(0),address,ExMemBuffData(26 downto 11),Memout);
