@@ -30,8 +30,6 @@ signal  reg2_output : std_logic_vector(15 downto 0);
 signal  reg3_output : std_logic_vector(15 downto 0);
 signal  reg4_output : std_logic_vector(15 downto 0);
 signal  reg5_output : std_logic_vector(15 downto 0);
-signal  reg6_output : std_logic_vector(15 downto 0);
-signal  reg7_output : std_logic_vector(15 downto 0);
 
 signal  en_reg0 : std_logic;
 signal  en_reg1 : std_logic;
@@ -39,8 +37,6 @@ signal  en_reg2 : std_logic;
 signal  en_reg3 : std_logic;
 signal  en_reg4 : std_logic;
 signal  en_reg5 : std_logic;
-signal  en_reg6 : std_logic;
-signal  en_reg7 : std_logic;
 begin
 	 R0:my_nDFF_enable generic map (n => 16)  port map(clk,rst,write_value,q=>reg0_output,en=>en_reg0);	
 	 R1:my_nDFF_enable generic map (n => 16)  port map(clk,rst,write_value,q=>reg1_output,en=>en_reg1);	
@@ -48,8 +44,6 @@ begin
 	 R3:my_nDFF_enable generic map (n => 16)  port map(clk,rst,write_value,q=>reg3_output,en=>en_reg3);	
 	 R4:my_nDFF_enable generic map (n => 16)  port map(clk,rst,write_value,q=>reg4_output,en=>en_reg4);	
 	 R5:my_nDFF_enable generic map (n => 16)  port map(clk,rst,write_value,q=>reg5_output,en=>en_reg5);	
-	 R6:my_nDFF_enable generic map (n => 16)  port map(clk,rst,write_value,q=>reg6_output,en=>en_reg6);	
-	 R7:my_nDFF_enable generic map (n => 16)  port map(clk,rst,write_value,q=>reg7_output,en=>en_reg7);	
 	 
 	en_reg0 <='1' when w_sel="000" and w_en=  '1' else
 				'0';
@@ -63,10 +57,7 @@ begin
 				'0';
 	en_reg5 <='1' when w_sel="101" and w_en=  '1' else
 				'0';
-	en_reg6 <='1' when w_sel="110" and w_en=  '1' else
-				'0';
-	en_reg7 <='1' when w_sel="111" and w_en=  '1' else
-				'0';
+
 
 	port1_data <= reg0_output when port1_sel="000" and w_en=  '0' else
 				  reg1_output when port1_sel="001" and w_en=  '0' else
@@ -74,8 +65,6 @@ begin
 				  reg3_output when port1_sel="011" and w_en=  '0' else
 				  reg4_output when port1_sel="100" and w_en=  '0' else
 				  reg5_output when port1_sel="101" and w_en=  '0' else
-				  reg6_output when port1_sel="110" and w_en=  '0' else
-				  reg7_output when port1_sel="111" and w_en=  '0' else
 				  (others => 'U');	
 
 	port2_data <= reg0_output when port2_sel="000" and w_en=  '0' else
@@ -84,8 +73,6 @@ begin
 				  reg3_output when port2_sel="011" and w_en=  '0' else
 				  reg4_output when port2_sel="100" and w_en=  '0' else
 				  reg5_output when port2_sel="101" and w_en=  '0' else
-				  reg6_output when port2_sel="110" and w_en=  '0' else
-				  reg7_output when port2_sel="111" and w_en=  '0' else
 				  (others => 'U');					  
 end register_arch;
 

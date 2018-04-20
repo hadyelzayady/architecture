@@ -4,6 +4,42 @@
 		"selected_items":
 		[
 			[
+				"std",
+				"std_logic_vector"
+			],
+			[
+				"std_lo",
+				"std_logic_vector"
+			],
+			[
+				"Fe",
+				"Fetcher"
+			],
+			[
+				"port",
+				"port2_data"
+			],
+			[
+				"Por",
+				"port2_data"
+			],
+			[
+				"d",
+				"downto"
+			],
+			[
+				"por",
+				"port2_data"
+			],
+			[
+				"Regis",
+				"RegisterFile"
+			],
+			[
+				"Port1",
+				"port1_data"
+			],
+			[
 				"Dec",
 				"Decoder"
 			],
@@ -30,10 +66,6 @@
 			[
 				"Fla",
 				"FlagsOutput"
-			],
-			[
-				"std",
-				"std_logic_vector"
 			],
 			[
 				"Op",
@@ -108,10 +140,6 @@
 				"pro\tprocess"
 			],
 			[
-				"port",
-				"portmap\tvhdl-port-map"
-			],
-			[
 				"arc",
 				"architecture\tvhdl-architecture"
 			],
@@ -128,13 +156,28 @@
 	"buffers":
 	[
 		{
-			"contents": "library ieee;\nuse ieee.std_logic_1164.all;\nuse ieee.numeric_std.all;\n\nentity MicroProcessor is\n\tport (\n\t\tClk : std_logic;\n\t\tInstCode: std_logic_vector(15 downto 0)\n\t);\nend MicroProcessor;\n\narchitecture MicroProcessor_arc of MicroProcessor is\ncomponent syncram is\nport \n( \n\tclk : in std_logic;\n\twe : in std_logic;\n\taddress : in std_logic_vector(9 downto 0);\n\tdatain : in std_logic_vector(15 downto 0);\n\tdataout : out std_logic_vector(15 downto 0) \n);\nend component syncram;\ncomponent ALU is\n\tport (\n\t\tA : in std_logic_vector(15 downto  0);\n\t\tB : in std_logic_vector(15 downto  0);\n       \tOp : in std_logic_vector(4 downto 0);\n       \tClk: in std_logic;\n       \tCin: in std_logic;\t\n        Flags:out std_logic_vector(3 downto 0);\n\t\tF : out std_logic_vector(15 downto 0)\n\t);\nend component ALU;\n\ncomponent my_nDFF is\nGeneric ( n : integer := 16);\nport( Clk,Rst : in std_logic;\nd : in std_logic_vector(n-1 downto 0);\nq : out std_logic_vector(n-1 downto 0));\nend component;\n\ncomponent  is\n\tport (\n\t\t\n\t);\nend component ;\n\nCONSTANT  STD  :  std_logic_vector(4 downto 0)  := \"01110\";\nsignal FlagRegisterWe :std_logic; -- temporary shoudl come from controller\nsignal ExMemBuffWe :std_logic; -- temporary shoudl come from controller\nsignal Memout :std_logic_vector(15 downto 0); -- temporary shoudl wite to MemWbBuff\nsignal ExMemBuffData: std_logic_vector(26 downto 0);\nsignal Opcode: std_logic_vector(4 downto 0);-- decoder\nsignal A :std_logic_vector(15 downto 0);--temp should come from register file\nsignal B :std_logic_vector(15 downto 0);--temp should come from register file\nsignal Rst:std_logic;--temp ,should come from control\nsignal Flags:std_logic_vector(3 downto 0);\nsignal FlagsOutput:std_logic_vector(3 downto 0);\nsignal F:std_logic_vector(15 downto 0);\nsignal address: std_logic_vector(9 downto 0);--temp ,shoudl come from DEBuffer then writeen in  ExMemBuff(10)\nCONSTANT  C  :  integer  := 2;\nbegin\n\tDecoder : Decoder\n\tmyAlu : ALU port map (A,B,Opcode,Clk,Flags(C),Flags,F);\n\tExMemBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,F,ExMemBuffData(26 downto 11));\n\tFlagRegister : my_nDFF generic map (n => 4) port map(Clk,Rst,Flags,FlagsOutput); \n\t--DataMemory : syncram port map(Clk,ExMemBuffData(0),ExMemBuffData(10 downto 1),ExMemBuffData(26 downto 11),Memout);--original\n\tDataMemory : syncram port map(Clk,ExMemBuffData(0),address,ExMemBuffData(26 downto 11),Memout);\n\tOpcode <= InstCode(4 downto 0);\n\twith Opcode select\n\t\tExMemBuffData(0) <='1' when STD,\n\t\t\t '0' when others;\nend MicroProcessor_arc;\n",
 			"file": "MicroProcessor.vhd",
-			"file_size": 2510,
-			"file_write_time": 131685323840425078,
 			"settings":
 			{
-				"buffer_size": 2513,
+				"buffer_size": 3634,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Microprocessor.do",
+			"settings":
+			{
+				"buffer_size": 4114,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Fetcher.vhd",
+			"settings":
+			{
+				"buffer_size": 585,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -142,7 +185,7 @@
 			"file": "RegisterFile.vhd",
 			"settings":
 			{
-				"buffer_size": 3686,
+				"buffer_size": 3687,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -151,8 +194,24 @@
 			"file": "Decoder.vhd",
 			"settings":
 			{
-				"buffer_size": 579,
+				"buffer_size": 1430,
 				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "memory.vhd",
+			"settings":
+			{
+				"buffer_size": 666,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "ALU.vhd",
+			"settings":
+			{
+				"buffer_size": 8936,
 				"line_ending": "Windows"
 			}
 		}
@@ -205,9 +264,17 @@
 	"command_palette":
 	{
 		"height": 443.0,
-		"last_filter": "packages",
+		"last_filter": "comm",
 		"selected_items":
 		[
+			[
+				"comm",
+				"Git: Commit"
+			],
+			[
+				"add",
+				"Git: Add All"
+			],
 			[
 				"packages",
 				"Package Control: List Packages"
@@ -269,10 +336,6 @@
 				"Git: Commit"
 			],
 			[
-				"add",
-				"Git: Add All"
-			],
-			[
 				"git push",
 				"Git: Push"
 			],
@@ -327,10 +390,6 @@
 			[
 				"instal",
 				"Package Control: Install Package"
-			],
-			[
-				"comm",
-				"Git: Commit"
 			],
 			[
 				"add\t",
@@ -409,6 +468,8 @@
 	],
 	"file_history":
 	[
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.sublime-project",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nregister.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Microprocessor.cr.do",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
@@ -420,7 +481,6 @@
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/Labexam.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab_exam_sol/Pipe_Enc.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab_exam_sol/temp.html",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu.do",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Decoder.vhd",
 		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab4/register.vhd",
@@ -458,7 +518,6 @@
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/log",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/work-obj93.cf",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/transcript",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.sublime-project",
 		"/C/Users/hadye/Desktop/temp.vhd",
 		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/CustomPATH.sublime-settings",
 		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/CustomPATH/CustomPATH.sublime-settings",
@@ -523,6 +582,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"address",
+			"InstCode",
+			"dddd",
+			");\n",
+			"Rst",
+			"Opcode",
+			"tempPort2_data",
+			"clock",
 			"register_main",
 			"generic",
 			"7",
@@ -613,7 +680,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -622,19 +689,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2513,
+						"buffer_size": 3634,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								980,
-								980
-							],
-							[
-								1013,
-								1013
+								2565,
+								2565
 							]
 						],
 						"settings":
@@ -644,37 +707,36 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 429.0,
+						"translation.y": 1150.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "RegisterFile.vhd",
+					"file": "Microprocessor.do",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3686,
+						"buffer_size": 4114,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								78,
-								408
+								0,
+								4114
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1382.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -682,19 +744,78 @@
 				},
 				{
 					"buffer": 2,
-					"file": "Decoder.vhd",
+					"file": "Fetcher.vhd",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 579,
+						"buffer_size": 585,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								181,
-								181
+								528,
+								528
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
+						},
+						"translation.x": 132.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "RegisterFile.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3687,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								3686
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 668.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Decoder.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1430,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1009,
+								1009
 							]
 						],
 						"settings":
@@ -703,10 +824,71 @@
 							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
 						},
 						"translation.x": 0.0,
+						"translation.y": 198.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "memory.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 666,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								424,
+								424
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "ALU.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8936,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1589,
+								1589
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 457.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -773,6 +955,14 @@
 		"selected_items":
 		[
 			[
+				"alu",
+				"ALU.vhd"
+			],
+			[
+				"me",
+				"memory.vhd"
+			],
+			[
 				"mem",
 				"memory.vhd"
 			],
@@ -811,10 +1001,6 @@
 			[
 				".do",
 				"alu_do3.do"
-			],
-			[
-				"alu",
-				"alu.do"
 			],
 			[
 				"labexam",
