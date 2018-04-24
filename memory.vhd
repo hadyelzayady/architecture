@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 Entity syncram is
 port 
 ( 
@@ -9,7 +9,7 @@ port
 	we : in std_logic;
 	address : in std_logic_vector(9 downto 0);
 	datain : in std_logic_vector(15 downto 0);
-	dataout : out std_logic_vector(15 downto 0) 
+	dataout : out std_logic_vector(31 downto 0) 
 );
 end entity syncram;
 
@@ -27,7 +27,7 @@ begin
 			end if;
 		end if;
 	end process;
-	dataout <= ram(to_integer(unsigned(address)));
+	dataout <= ram(to_integer(unsigned(address+1))) & ram(to_integer(unsigned(address)));
 end architecture syncrama;
 
 
