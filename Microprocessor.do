@@ -82,9 +82,6 @@ add wave -position end  sim:/microprocessor/C
 force -freeze sim:/microprocessor/Clk 1 0, 0 {50 ns} -r 100
 force -freeze sim:/microprocessor/PC 16'h0 0
 force -freeze sim:/microprocessor/Rst 0 0
-mem load -filltype value -filldata 011100010000000000000001 -fillradix binary /microprocessor/InstMemory/ram(0)
-# (vsim-3862) Too many digits in data '011100010000000000000001'.
-# (vsim-3862) Too many digits in data '011100010000000000000001'.
 mem load -filltype value -filldata 0111100010000000 -fillradix binary /microprocessor/InstMemory/ram(0)
 run
 

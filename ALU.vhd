@@ -6,8 +6,8 @@ entity ALU is
 		A : in std_logic_vector(15 downto  0);
 		B : in std_logic_vector(15 downto  0);
        	Op : in std_logic_vector(4 downto 0);
-       	Clk: in std_logic;
 		Cin: in std_logic;
+        OldFlags : in std_logic_vector(3 downto 0);
         Flags:out std_logic_vector(3 downto 0);
 		F : out std_logic_vector(15 downto 0)
 	);
@@ -56,6 +56,9 @@ signal rr:std_logic_vector(15 downto 0);
 signal rl:std_logic_vector(15 downto 0);
 signal nota:std_logic_vector(15 downto 0);
 signal nega:std_logic_vector(15 downto 0);
+signal alu_out : std_logic_vector(15 downto 0);
+signal shiftlefttemp :std_logic_vector(15 downto 0);
+signal shiftrighttemp :std_logic_vector(15 downto 0);
 begin
 	addersubLabel: AdderSub16Bit port map (A,AdderSecOperand,Op(0),carry,Overflow,sum);
     with Op select 
@@ -64,174 +67,210 @@ begin
                             B   when others;
     AandB <= A and B;
     AorB <= A or B;
-    shiftleft <=  to_stdlogicvector(to_bitvector(A) sll to_integer(unsigned(B)));
-    shiftright <= to_stdlogicvector(to_bitvector(A) srl to_integer(unsigned(B)));
+
+    shiftlefttemp <=  to_stdlogicvector(to_bitvector(A) sll to_integer(unsigned(B)-1));
+    shiftleft <=  to_stdlogicvector(to_bitvector(shiftlefttemp)  sll 1) when B /=x"0000" else
+                  A ;
+    shiftrighttemp <= to_stdlogicvector(to_bitvector(A) srl to_integer(unsigned(B)-1));
+    shiftright <= to_stdlogicvector(to_bitvector(shiftrighttemp) srl 1) when B/= x"0000" else
+                  A ;
     rl(15 downto 1) <= A(14 downto 0) ;
     rl(0) <= Cin;
     rr(14 downto 0) <= A(15 downto 1) ;
     rr(15) <= Cin;
     nota <= not A;
     nega<=std_logic_vector(unsigned(not A) + 1);
-   
- alu_process : process( clk )
-    begin
-    	case(Op) is
-    			when SHL =>--shift left 
-    				F <= shiftleft;
-                    if (shiftleft = x"0000") then
-                        Flags(Z) <= '1';
-                    else
-                        Flags(Z) <= '0';
-                    end if;
-                    if (shiftleft(15) = '1') then
-                        Flags(N) <='1';
-                    else
-                        Flags(N) <='0';  
-                    end if;
-                    if (A(15) /= shiftleft(15)) then
-                        Flags(V)<='1';
-                    else
-                        Flags(V)<='0';
-                    end if;
-                    if ( B /=x"0000" ) then
-                        if (B < x"0011") then
-                            Flags(C) <=  A(to_integer(16-unsigned(B)));
-                        else
-                            Flags(C) <='0';
-                        end if;
-                    end if;
-    			when SHR => --shift right
-    				F <=shiftright;
+
+    with Op select 
+        alu_out <=      shiftleft when SHL,
+                        shiftright when SHR,
+                        sum when ADD | SUB | INC | DEC,
+                        rl when RLC,
+                        rr when RRC,
+                        AandB when myAND,
+                        AorB when myOR,
+                        nota when myNOT,
+                        nega when NEG,
+                        A when STD | MOV,
+                        (others => '0') when others;
+    with Op select 
+        Flags(V downto C) <= Overflow & carry when ADD |SUB | INC | DEC ,
+                             (A(15) xor shiftleft(15))& (shiftlefttemp(15)) when SHL,
+                             A(15)&(shiftrighttemp(0)) when SHR,
+                             (A(15) xor rl(15))& A(15) when RLC,
+                             (A(15) xor rr(15))& A(0) when RRC,
+                             oldFlags(V) & '1'  when SETC,
+                             oldFlags(V) &'0' when CLC,
+                             oldFlags(V downto C) when others;
+    with Op select 
+        Flags(N) <=  alu_out(15) when SHL | SHR | ADD | SUB|INC|DEC|RLC|RRC | myAND | myOR | myNOT| NEG,
+                     oldFlags(N) when others;
+
+    Flags(Z) <= '1' when alu_out = x"0000"  and (Op= SHL or Op=  SHR or Op=  ADD or Op=  SUB or Op= INC or Op= DEC or Op= RLC or Op= RRC or Op=myAND or Op=  myOR or Op= myNOT or Op=NEG) else
+                '0' when  alu_out /=x"0000" and (Op= SHL or Op=  SHR or Op=  ADD or Op=  SUB or Op= INC or Op= DEC or Op= RLC or Op= RRC or Op=myAND or Op=  myOR or Op= myNOT or Op=NEG) else
+                oldFlags(Z);
+    F<= alu_out;
+   --with Op select
+   --     Flags <= 
+ --alu_process : process( clk )
+ --   begin
+ --   	case(Op) is
+ --   			when SHL =>--shift left 
+ --   				F <= shiftleft;
+ --                   if (shiftleft = x"0000") then
+ --                       Flags(Z) <= '1';
+ --                   else
+ --                       Flags(Z) <= '0';
+ --                   end if;
+ --                   if (shiftleft(15) = '1') then
+ --                       Flags(N) <='1';
+ --                   else
+ --                       Flags(N) <='0';  
+ --                   end if;
+ --                   if (A(15) /= shiftleft(15)) then
+ --                       Flags(V)<='1';
+ --                   else
+ --                       Flags(V)<='0';
+ --                   end if;
+ --                   if ( B /=x"0000" ) then
+ --                       if (B < x"0011") then
+ --                           Flags(C) <=  A(to_integer(16-unsigned(B)));
+ --                       else
+ --                           Flags(C) <='0';
+ --                       end if;
+ --                   end if;
+ --   			when SHR => --shift right
+ --   				F <=shiftright;
                    
-                    if (shiftright = x"0000") then
-                        Flags(Z) <= '1';
-                    else
-                        Flags(Z) <= '0';
-                    end if;
-                    if (shiftright(15) = '1') then
-                        Flags(N) <='1';
-                    else
-                        Flags(N) <='0';  
-                    end if;
-                    if (A(15) ='1' ) then -- as always we insert zero -> if msb is 1 then it will be zero
-                         Flags(V)<='1';
-                    else
-                        Flags(V)<='0';
-                    end if;
-                    if ( B /=x"0000" ) then
-                        if (B < x"0011") then
-                            Flags(C) <= A(-1+to_integer(unsigned(B)));
-                        else
-                            Flags(C) <='0';
-                        end if;
-                    end if;
-                when ADD | SUB | INC | DEC  => --add or sub or inc or dec
-                    F <= sum;
-                    Flags(C) <=carry;
-                    if (sum = x"0000") then
-                        Flags(Z) <= '1';
-                    else
-                        Flags(Z) <= '0';
-                    end if;
-                    if (sum(15) = '1') then
-                        Flags(N) <='1';
-                    else
-                        Flags(N) <='0';  
-                    end if;
-                    Flags(V)<= Overflow;
-                when RLC => --rotate left
-                    F <= rl ;
-                    Flags(C) <=  A(15);
-                    if (rl = x"0000") then
-                        Flags(Z) <= '1';
-                    else
-                        Flags(Z) <= '0';
-                    end if;
-                    if (rl(15) = '1') then
-                        Flags(N) <='1';
-                    else
-                        Flags(N) <='0';  
-                    end if;
-                    if (A(15) /= rl(15) ) then -- as always we insert zero -> if msb is 1 then it will be zero
-                         Flags(V)<='1';
-                    else
-                        Flags(V)<='0';
-                    end if;
-                when RRC => --rotate right
-                    F <= rr ;
-                    Flags(C) <=  A(0);
-                    if (rr = x"0000") then
-                        Flags(Z) <= '1';
-                    else
-                        Flags(Z) <= '0';
-                    end if;
-                    if (rr(15) = '1') then
-                        Flags(N) <='1';
-                    else
-                        Flags(N) <='0';  
-                    end if;
-                    if (A(15) /= rr(15) ) then -- as always we insert zero -> if msb is 1 then it will be zero
-                         Flags(V)<='1';
-                    else
-                        Flags(V)<='0';
-                    end if;
-                when myAND => --and
-                    F <=AandB;
-                    if (AandB= x"0000") then
-                        Flags(Z) <= '1';
-                    else
-                        Flags(Z) <= '0';
-                    end if;
-                    if (AandB(15) = '1') then
-                        Flags(N) <='1';
-                    else
-                        Flags(N) <='0';  
-                    end if;
-                when myOR => --or
-                    F <= AorB;
-                    if (AorB= x"0000") then
-                        Flags(Z) <= '1';
-                    else
-                        Flags(Z) <= '0';
-                    end if;
-                    if (AorB(15) = '1') then
-                        Flags(N) <='1';
-                    else
-                        Flags(N) <='0';  
-                    end if;
-                when SETC =>
-                    Flags(C) <='1';
-                when CLC =>
-                    Flags(C)<='0';
-                when myNOT =>
-                    F <= nota;
-                    if (nota =x"0000") then
-                        Flags(Z)<= '1';
-                    else
-                        Flags(Z) <='0';
-                    end if;
-                    if (nota(15) = '1') then
-                        Flags(N) <='1';
-                    else
-                        Flags(N) <='0';  
-                    end if;
-                when NEG =>
-                    F <= nega;
-                    if (nega =x"0000") then
-                        Flags(Z)<= '1';
-                    else
-                        Flags(Z) <='0';
-                    end if;
-                    if (nega(15) = '1') then
-                        Flags(N) <='1';
-                    else
-                        Flags(N) <='0';  
-                    end if;
-                when STD | MOV=>
-                    F <=A;
-    			when others =>
-    				null;
-    		end case;	
-    end process ; -- alu_process
+ --                   if (shiftright = x"0000") then
+ --                       Flags(Z) <= '1';
+ --                   else
+ --                       Flags(Z) <= '0';
+ --                   end if;
+ --                   if (shiftright(15) = '1') then
+ --                       Flags(N) <='1';
+ --                   else
+ --                       Flags(N) <='0';  
+ --                   end if;
+ --                   if (A(15) ='1' ) then -- as always we insert zero -> if msb is 1 then it will be zero
+ --                        Flags(V)<='1';
+ --                   else
+ --                       Flags(V)<='0';
+ --                   end if;
+ --                   if ( B /=x"0000" ) then
+ --                       if (B < x"0011") then
+ --                           Flags(C) <= A(-1+to_integer(unsigned(B)));
+ --                       else
+ --                           Flags(C) <='0';
+ --                       end if;
+ --                   end if;
+ --               when ADD | SUB | INC | DEC  => --add or sub or inc or dec
+ --                   F <= sum;
+ --                   Flags(C) <=carry;
+ --                   if (sum = x"0000") then
+ --                       Flags(Z) <= '1';
+ --                   else
+ --                       Flags(Z) <= '0';
+ --                   end if;
+ --                   if (sum(15) = '1') then
+ --                       Flags(N) <='1';
+ --                   else
+ --                       Flags(N) <='0';  
+ --                   end if;
+ --                   Flags(V)<= Overflow;
+ --               when RLC => --rotate left
+ --                   F <= rl ;
+ --                   Flags(C) <=  A(15);
+ --                   if (rl = x"0000") then
+ --                       Flags(Z) <= '1';
+ --                   else
+ --                       Flags(Z) <= '0';
+ --                   end if;
+ --                   if (rl(15) = '1') then
+ --                       Flags(N) <='1';
+ --                   else
+ --                       Flags(N) <='0';  
+ --                   end if;
+ --                   if (A(15) /= rl(15) ) then -- as always we insert zero -> if msb is 1 then it will be zero
+ --                        Flags(V)<='1';
+ --                   else
+ --                       Flags(V)<='0';
+ --                   end if;
+ --               when RRC => --rotate right
+ --                   F <= rr ;
+ --                   Flags(C) <=  A(0);
+ --                   if (rr = x"0000") then
+ --                       Flags(Z) <= '1';
+ --                   else
+ --                       Flags(Z) <= '0';
+ --                   end if;
+ --                   if (rr(15) = '1') then
+ --                       Flags(N) <='1';
+ --                   else
+ --                       Flags(N) <='0';  
+ --                   end if;
+ --                   if (A(15) /= rr(15) ) then -- as always we insert zero -> if msb is 1 then it will be zero
+ --                        Flags(V)<='1';
+ --                   else
+ --                       Flags(V)<='0';
+ --                   end if;
+ --               when myAND => --and
+ --                   F <=AandB;
+ --                   if (AandB= x"0000") then
+ --                       Flags(Z) <= '1';
+ --                   else
+ --                       Flags(Z) <= '0';
+ --                   end if;
+ --                   if (AandB(15) = '1') then
+ --                       Flags(N) <='1';
+ --                   else
+ --                       Flags(N) <='0';  
+ --                   end if;
+ --               when myOR => --or
+ --                   F <= AorB;
+ --                   if (AorB= x"0000") then
+ --                       Flags(Z) <= '1';
+ --                   else
+ --                       Flags(Z) <= '0';
+ --                   end if;
+ --                   if (AorB(15) = '1') then
+ --                       Flags(N) <='1';
+ --                   else
+ --                       Flags(N) <='0';  
+ --                   end if;
+ --               when SETC =>
+ --                   Flags(C) <='1';
+ --               when CLC =>
+ --                   Flags(C)<='0';
+ --               when myNOT =>
+ --                   F <= nota;
+ --                   if (nota =x"0000") then
+ --                       Flags(Z)<= '1';
+ --                   else
+ --                       Flags(Z) <='0';
+ --                   end if;
+ --                   if (nota(15) = '1') then
+ --                       Flags(N) <='1';
+ --                   else
+ --                       Flags(N) <='0';  
+ --                   end if;
+ --               when NEG =>
+ --                   F <= nega;
+ --                   if (nega =x"0000") then
+ --                       Flags(Z)<= '1';
+ --                   else
+ --                       Flags(Z) <='0';
+ --                   end if;
+ --                   if (nega(15) = '1') then
+ --                       Flags(N) <='1';
+ --                   else
+ --                       Flags(N) <='0';  
+ --                   end if;
+ --               when STD | MOV=>
+ --                   F <=A;
+ --   			when others =>
+ --   				null;
+ --   		end case;	
+ --   end process ; -- alu_process
 
 end architecture ALU_arch;

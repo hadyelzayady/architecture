@@ -4,12 +4,20 @@
 		"selected_items":
 		[
 			[
-				"gene",
-				"generic\tvhdl-generic"
+				"ALU",
+				"AluOutputE"
 			],
 			[
 				"std",
-				"std_logic"
+				"std_logic_vector"
+			],
+			[
+				"O",
+				"Opcode"
+			],
+			[
+				"gene",
+				"generic\tvhdl-generic"
 			],
 			[
 				"Opc",
@@ -25,10 +33,6 @@
 			],
 			[
 				"OpC",
-				"OpcodeM"
-			],
-			[
-				"O",
 				"OpcodeM"
 			],
 			[
@@ -204,91 +208,48 @@
 	"buffers":
 	[
 		{
-			"contents": "library ieee;\nuse ieee.std_logic_1164.all;\nuse ieee.numeric_std.all;\nuse IEEE.STD_LOGIC_UNSIGNED.ALL;\nentity MicroProcessor is\n\tport (\n\t\tClk : in std_logic;\n\t\t--PC:in std_logic_vector(15 downto 0);\n\t\tRst:in std_logic;\n\t\tInPort:in std_logic_vector(15 downto 0);\n\t\tOutPort:out std_logic_vector(15 downto 0)\n\t\t\t);\nend MicroProcessor;\n\narchitecture MicroProcessor_arc of MicroProcessor is\ncomponent syncram is\nport \n( \n\tclk : in std_logic;\n\twe : in std_logic;\n\taddress : in std_logic_vector(9 downto 0);\n\tdatain : in std_logic_vector(15 downto 0);\n\tdataout : out std_logic_vector(15 downto 0) \n);\nend component syncram;\ncomponent ALU is\n\tport (\n\t\tA : in std_logic_vector(15 downto  0);\n\t\tB : in std_logic_vector(15 downto  0);\n       \tOp : in std_logic_vector(4 downto 0);\n       \tClk: in std_logic;\n       \tCin: in std_logic;\t\n        Flags:out std_logic_vector(3 downto 0);\n\t\tF : out std_logic_vector(15 downto 0)\n\t);\nend component ALU;\n\ncomponent my_nDFF is\nGeneric ( n : integer := 16);\nport( Clk,Rst : in std_logic;\nd : in std_logic_vector(n-1 downto 0);\nq : out std_logic_vector(n-1 downto 0));\nend component;\n\ncomponent Decoder is\n\tport (\n\t\tClk : in std_logic;\n\t\tInstCode:in std_logic_vector(15 downto 0);\n\t\tport1_data:out std_logic_vector(15 downto 0);\n\t\tport2_data:out std_logic_vector(15 downto 0);\n\t\tRst:in std_logic\n\t);\nend component Decoder;\ncomponent RegisterFile is\n\t\tport (\n\t\t\tw_en : in std_logic ;\n\tport1_sel:in std_logic_vector(2 downto 0);\n\tport2_sel:in std_logic_vector(2 downto 0);\n\tw_sel: in std_logic_vector(2 downto 0);\n\tclk: in std_logic;\n\trst: in std_logic;\n\tport1_data:out std_logic_vector(15 downto 0);\n\tport2_data:out std_logic_vector(15 downto 0);\n\twrite_value:in std_logic_vector(15 downto 0)\n\t\t);\nend component RegisterFile;\ncomponent Fetcher is\n\tport (\n\t\tClk :in std_logic;\n\t\tPC:in std_logic_vector(15 downto 0);\n\t\tInstCode:out std_logic_vector(15 downto 0)\n\t);\nend component Fetcher;\nCONSTANT  SHL  :  std_logic_vector(4 downto 0)  := \"00000\";\nCONSTANT  SHR  :  std_logic_vector(4 downto 0)  := \"00001\";\nCONSTANT  ADD  :  std_logic_vector(4 downto 0)  := \"00010\";--first bit must be 0 and sub is the opposite (also in inc and dec)\nCONSTANT  SUB  :  std_logic_vector(4 downto 0)  := \"00011\";\nCONSTANT  RLC  :  std_logic_vector(4 downto 0)  := \"00100\";\nCONSTANT  RRC  :  std_logic_vector(4 downto 0)  := \"00101\";\nCONSTANT  myAND  :  std_logic_vector(4 downto 0)  := \"00110\";\nCONSTANT  myOR  :  std_logic_vector(4 downto 0)  := \"00111\";\nCONSTANT  INC  :  std_logic_vector(4 downto 0)  := \"01000\";\nCONSTANT  DEC  :  std_logic_vector(4 downto 0)  :=  \"01001\";\nCONSTANT  SETC  :  std_logic_vector(4 downto 0)  := \"01010\";\nCONSTANT  CLC  :  std_logic_vector(4 downto 0)  := \"01011\";\nCONSTANT  myNOT  :  std_logic_vector(4 downto 0)  := \"01100\";\nCONSTANT  NEG  :  std_logic_vector(4 downto 0)  := \"01101\";\nCONSTANT  STD  :  std_logic_vector(4 downto 0)  := \"01110\";\nCONSTANT  MOV  :  std_logic_vector(4 downto 0)  := \"01111\";\nCONSTANT  LDM  :  std_logic_vector(4 downto 0)  := \"10000\";\nCONSTANT  LDD  :  std_logic_vector(4 downto 0)  := \"10001\";\nsignal FlagRegisterWe :std_logic; -- temporary shoudl come from controller\nsignal ExMemBuffWe :std_logic; -- temporary shoudl come from controller\nsignal Memout :std_logic_vector(15 downto 0); -- temporary shoudl wite to MemWbBuff\n\nsignal DXdata: std_logic_vector(39 downto 0); \nsignal DXoutput:std_logic_vector(39 downto 0);\n\nsignal ExMemBuffData: std_logic_vector(33 downto 0);\nsignal XMdata: std_logic_vector(33 downto 0); \nsignal Opcode: std_logic_vector(4 downto 0);-- decoder\n--signal A :std_logic_vector(15 downto 0);--temp should come from register file\n--signal B :std_logic_vector(15 downto 0);--temp should come from register file\nsignal Flags:std_logic_vector(3 downto 0);\nsignal FlagsOutput:std_logic_vector(3 downto 0);\nsignal F:std_logic_vector(15 downto 0);\n--signal address: std_logic_vector(9 downto 0);--temp ,shoudl come from DEBuffer then writeen in  ExMemBuff(10)\nsignal InstCode:std_logic_vector(15 downto 0);\nsignal InstCode2:std_logic_vector(15 downto 0);\nsignal port1_data:std_logic_vector(15 downto 0);\nsignal port2_data:std_logic_vector(15 downto 0);\n\nCONSTANT  C  :  integer  := 2;\nsignal newPC: std_logic_vector(15 downto 0);\nsignal RegPort2_data:std_logic_vector(15 downto 0);\nsignal wb_enable : std_logic;\nsignal wb_sel : std_logic_vector(2 downto 0);\nsignal wb_data : std_logic_vector(15 downto 0);\nsignal Rdst : std_logic_vector(2 downto 0);\nsignal MWout : std_logic_vector(39 downto 0);\nsignal MWdata : std_logic_vector(39 downto 0);\nsignal RdstD : std_logic_vector(2 downto 0);\nsignal OpcodeD : std_logic_vector(4 downto 0);\nsignal port1_dataD : std_logic_vector(15 downto 0);\nsignal port2_dataD : std_logic_vector(15 downto 0);\nsignal OpcodeE\t: std_logic_vector(4 downto 0);\nsignal OpcodeM\t: std_logic_vector(4 downto 0);\nsignal AluOutputE : std_logic_vector(15 downto 0);\nsignal AluOutputM : std_logic_vector(15 downto 0);\nsignal RdstE : std_logic_vector(2 downto 0);\nsignal RdstM : std_logic_vector(2 downto 0);\nsignal Mem_we: std_logic;\nsignal PC: std_logic_vector(15 downto 0);\n--\nbegin\n\t-- opcode Rsrc Rdst Imm\n\t----------------------------------------------------------------------------\n\t-- Fetch\n\t----------------------------------------------------------------------------\n\tPCReg : my_nDFF generic map (n => 16) port map(Clk,Rst,PC,newPC);\n\tPC <= newPC+1;\n\tInstMemory: syncram port map(Clk,we=>'0',address=>newPC(9 downto 0),datain=>x\"0000\",dataout=>InstCode);\n\t--Fetch: Fetcher port map(Clk,PC,InstCode);\n\tFDBuff : my_nDFF generic map (n => 32) port map(Clk,Rst,InstCode,InstCode2);\n\n\t----------------------------------------------------------------------------\n\t-- Decode\n\t----------------------------------------------------------------------------\n\tRegisters: RegisterFile port map (wb_enable,InstCode2(10 downto 8),InstCode2(7 downto 5),wb_sel,Clk,Rst,port1_data,Port2_data,wb_data);\n\tOpCode <= InstCode2(15 downto 11);\n\t--with OpCode select\n\t--\tport2_data <= x\"00\"&InstCode2( 7 downto 0) when SHL | SHR ,-- immediate value\n\t--\t\t\t\t\tRegPort2_data when others;\n\t\t\t\t\t\t--x\"0000\" when others;\n\twith Opcode select  --for wb\n\t\tRdst <= InstCode2(7 downto 5) when  MOV | ADD | SUB | myAND | myOR ,\n\t\t\t\tInstCode2(10 downto 8) when others;--should specify ops later\n\n\t--DXdata<= Rdst--&InstCode2(15 downto 11) & port2_data & port1_data;--opcode & ..\n\t-- DX Buffer\n\tDXRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,Rdst,RdstD);\n\tDXOpCodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,Opcode,OpcodeD);\n\tDXPort1Buff : my_nDFF generic map (n => 16) port map(Clk,Rst,port1_data,port1_dataD);\n\tDXPort2Buff : my_nDFF generic map (n => 16) port map(Clk,Rst,port2_data,port2_dataD);\n\tDXImmBuff\t: my_nDFF generic map(n => 16); port map(Clk,Rst,)\n\n\t----------------------------------------------------------------------------\n\t-- Execute\n\t----------------------------------------------------------------------------\n\t\n\tEX : ALU port map (port1_dataD,port2_dataD,OpcodeD,Clk,Flags(C),Flags,F);\n\t--XMdata <= DXoutput( 39 downto 32)&F&DXoutput(9 downto 0);--opcode & aluoutput & address\n\tEMOpCodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,OpcodeD,OpcodeE);\n\tEMAluOutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,F,AluOutputE);\n\tEMRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,RdstD,RdstE);\n\n\t--EMPort2Buff : my_nDFF generic map (n => 16) port map(Clk,Rst,port2_data,port2_dataD);\n\n\tFlagRegister : my_nDFF generic map (n => 4) port map(Clk,Rst,Flags,FlagsOutput); \n\n\t----------------------------------------------------------------------------\n\t-- Memory\n\t----------------------------------------------------------------------------\n\t\n\twith OpcodeE select\n\t\tMem_we <='1' when STD,\n\t\t\t '0' when others;\n\tDataMemory : syncram port map(Clk,we=>Mem_we,address=>ExMemBuffData(10 downto 1),datain=>ExMemBuffData(26 downto 11),dataout=>Memout);--original\n\tMWdata <= ExMemBuffData(33 downto 31)&ExMemBuffData(30 downto 15)& Opcode & Memout;--rdst & aluresult\n\tMWBuff : my_nDFF generic map (n => 40) port map(Clk,Rst,MWdata,MWout);\n\tMWOpcodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,OpcodeE,OpcodeM);\n\tMWAluOutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,AluOutputE,AluOutputM);\n\tMWRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,RdstE,RdstM);\n\n\t----------------------------------------------------------------------------\n\t-- Write back\n\t----------------------------------------------------------------------------\n\t\n\t--with MWout(20  downto 16) select --opcode\n\t--\twb_enable <= '1' when MOV | ADD | SUB | myAND | myOR | LDD | LDM | myNOT | NEG | INC | DEC   | SHR,--specify ragne for wb operations\n\t--\t\t\t\t'0' when others;\n\t--wb_sel<= MWout(39 downto 37);\n\t--with MWout(20  downto 16) select --opcode \n\t--\twb_data <= MWout(15 downto 0) when LDD,-- wb from memory\n\t--\t\t\t\tMWout(36 downto 21) when others;\n\twith OpcodeM select --opcode\n\t\twb_enable <= '1' when MOV | ADD | SUB | myAND | myOR | myNOT | NEG | INC | DEC,--specify ragne for wb operations\n\t\t\t\t\t'0' when others;\n\twb_sel<= RdstM;\n\twb_data <= AluOutputM;\n\nend MicroProcessor_arc;\n\t--DataMemory : syncram port map(Clk,ExMemBuffData(0),address,ExMemBuffData(26 downto 11),Memout);\n",
+			"contents": "size is in array\nsuggested items\n{\n\t\"new added items\":[],\n\t\"offers\":[],\n\t\"suggested based on rate\":[],\n}\n/juices \n{\n\n}\n/sandwiches\n{}\n\n/account/orders based on date\n\n/account/favourites\n",
+			"file": "jfljsdf.json",
+			"file_size": 203,
+			"file_write_time": 131685249714154643,
+			"settings":
+			{
+				"buffer_size": 186,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "MicroProcessor.vhd",
-			"file_size": 9354,
-			"file_write_time": 131690300335818754,
 			"settings":
 			{
-				"buffer_size": 9194,
+				"buffer_size": 9467,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": ".gitignore",
+			"file": "ALU.vhd",
 			"settings":
 			{
-				"buffer_size": 347,
+				"buffer_size": 8936,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Microprocessor.do",
+			"settings":
+			{
+				"buffer_size": 3870,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "nreg_enable.vhd",
+			"file": "instruction_set.vhd",
 			"settings":
 			{
-				"buffer_size": 443,
-				"encoding": "UTF-8",
+				"buffer_size": 1153,
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/hadye/Downloads/controlunit.vhd",
-			"settings":
-			{
-				"buffer_size": 1922,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/hadye/Downloads/fetchstage.vhd",
-			"settings":
-			{
-				"buffer_size": 2021,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/hadye/Downloads/Memory.vhd",
-			"settings":
-			{
-				"buffer_size": 839,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/hadye/Downloads/my_dff.vhd",
-			"settings":
-			{
-				"buffer_size": 364,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/hadye/Downloads/my_ndff.vhd",
-			"settings":
-			{
-				"buffer_size": 438,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "vsim -gui work.microprocessor\n# vsim \n# Start time: 17:04:27 on Apr 20,2018\n# Loading std.standard\n# Loading std.textio(body)\n# Loading ieee.std_logic_1164(body)\n# Loading ieee.numeric_std(body)\n# Loading work.microprocessor(microprocessor_arc)\n# Loading work.syncram(syncrama)\n# Loading work.my_ndff(a_my_ndff)\n# Loading work.registerfile(register_arch)\n# Loading work.my_ndff_enable(a_my_ndff)\n# Loading work.alu(alu_arch)\n# Loading work.addersub16bit(addersub16bit_arc)\n# Loading work.adder16bit(adder16bit_arch)\n# Loading work.halfadder(halfadder_arch)\n# Loading work.fulladder(fulladder_arch)\n# vsim \n# Start time: 17:01:56 on Apr 20,2018\n# Loading std.standard\n# Loading std.textio(body)\n# Loading ieee.std_logic_1164(body)\n# Loading ieee.numeric_std(body)\n# Loading work.microprocessor(microprocessor_arc)\n# Loading work.syncram(syncrama)\n# Loading work.my_ndff(a_my_ndff)\n# Loading work.registerfile(register_arch)\n# Loading work.my_ndff_enable(a_my_ndff)\n# Loading work.alu(alu_arch)\n# Loading work.addersub16bit(addersub16bit_arc)\n# Loading work.adder16bit(adder16bit_arch)\n# Loading work.halfadder(halfadder_arch)\n# Loading work.fulladder(fulladder_arch)\nadd wave -position end  sim:/microprocessor/Clk\nadd wave -position end  sim:/microprocessor/PC\nadd wave -position end  sim:/microprocessor/Rst\nadd wave -position end  sim:/microprocessor/InPort\nadd wave -position end  sim:/microprocessor/OutPort\nadd wave -position end  sim:/microprocessor/FlagRegisterWe\nadd wave -position end  sim:/microprocessor/ExMemBuffWe\nadd wave -position end  sim:/microprocessor/Memout\nadd wave -position end  sim:/microprocessor/DXdata\n# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf\n# \n#           File in use by: hadye  Hostname: DESKTOP-40T6NOR  ProcessID: 5500\n# \n#           Attempting to use alternate WLF file \"./wlftendkyz\".\n# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf\n# \n#           Using alternate file: ./wlftendkyz\n# \nadd wave -position end  sim:/microprocessor/DXoutput\nadd wave -position end  sim:/microprocessor/ExMemBuffData\nadd wave -position end  sim:/microprocessor/XMdata\nadd wave -position end  sim:/microprocessor/Opcode\nadd wave -position end  sim:/microprocessor/Flags\nadd wave -position end  sim:/microprocessor/FlagsOutput\nadd wave -position end  sim:/microprocessor/F\nadd wave -position end  sim:/microprocessor/InstCode\nadd wave -position end  sim:/microprocessor/InstCode2\nadd wave -position end  sim:/microprocessor/port1_data\nadd wave -position end  sim:/microprocessor/port2_data\nadd wave -position end  sim:/microprocessor/myPC\nadd wave -position end  sim:/microprocessor/RegPort2_data\nadd wave -position end  sim:/microprocessor/wb_enable\nadd wave -position end  sim:/microprocessor/wb_sel\nadd wave -position end  sim:/microprocessor/wb_data\nadd wave -position end  sim:/microprocessor/Rdst\nadd wave -position end  sim:/microprocessor/MWout\nadd wave -position end  sim:/microprocessor/MWdata\nadd wave -position end  sim:/microprocessor/RdstD\nadd wave -position end  sim:/microprocessor/OpcodeD\nadd wave -position end  sim:/microprocessor/port1_dataD\nadd wave -position end  sim:/microprocessor/port2_dataD\nadd wave -position end  sim:/microprocessor/OpcodeE\nadd wave -position end  sim:/microprocessor/AluOutputE\nadd wave -position end  sim:/microprocessor/RdstE\n# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf\n# \n#           File in use by: hadye  Hostname: DESKTOP-40T6NOR  ProcessID: 5500\n# \n#           Attempting to use alternate WLF file \"./wlft8hr5r6\".\n# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf\n# \n#           Using alternate file: ./wlft8hr5r6\n# \nmem load -filltype value -filldata 0100100000100000 -fillradix binary /microprocessor/InstMemory/ram(0)\nforce -freeze sim:/microprocessor/Clk 1 0, 0 {50 ns} -r 100\nforce -freeze sim:/microprocessor/Rst 1 0\nrun\n# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0\n#    Time: 0 ns  Iteration: 0  Instance: /microprocessor/EX\n# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0\n#    Time: 0 ns  Iteration: 0  Instance: /microprocessor/EX\n# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0\n#    Time: 0 ns  Iteration: 0  Instance: /microprocessor/InstMemory\n# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0\n#    Time: 0 ns  Iteration: 0  Instance: /microprocessor/EX\n# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0\n#    Time: 0 ns  Iteration: 0  Instance: /microprocessor/EX\n# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0\n#    Time: 0 ns  Iteration: 0  Instance: /microprocessor/InstMemory\nforce -freeze sim:/microprocessor/Rst 0 0\nforce -freeze sim:/microprocessor/PC 16'h0 0\nrun\nadd wave -position insertpoint  \\\nsim:/microprocessor/Registers/R0/q\nadd wave -position insertpoint  \\\nsim:/microprocessor/Registers/R1/q\nforce -freeze sim:/microprocessor/Registers/R0/q 16'h1 0\nforce -freeze sim:/microprocessor/Registers/R1/q 16'h2 0\nadd wave -position insertpoint  \\\nsim:/microprocessor/Registers/R0/en\nadd wave -position insertpoint  \\\nsim:/microprocessor/Registers/R1/en\nrun\n\n\nnoforce sim:/microprocessor/Registers/R0/q\nnoforce sim:/microprocessor/Registers/R1/q\n\n",
-			"settings":
-			{
-				"buffer_size": 5242,
-				"line_ending": "Windows",
-				"name": "vsim -gui work.microprocessor"
-			}
-		},
-		{
-			"contents": "vsim -gui work.microprocessor\n# vsim \n# Start time: 13:25:21 on Apr 20,2018\n# Loading std.standard\n# Loading std.textio(body)\n# Loading ieee.std_logic_1164(body)\n# Loading ieee.numeric_std(body)\n# Loading work.microprocessor(microprocessor_arc)\n# ** Warning: (vsim-3473) Component instance \"Fetch : Fetcher\" is not bound.\n#    Time: 0 ns  Iteration: 0  Instance: /microprocessor File: C:/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.vhd\n# Loading work.my_ndff(a_my_ndff)\n# Loading work.registerfile(register_arch)\n# Loading work.my_ndff_enable(a_my_ndff)\n# Loading work.alu(alu_arch)\n# Loading work.addersub16bit(addersub16bit_arc)\n# Loading work.adder16bit(adder16bit_arch)\n# Loading work.halfadder(halfadder_arch)\n# Loading work.fulladder(fulladder_arch)\n# Loading work.syncram(syncrama)\nadd wave -position end  sim:/microprocessor/Clk\nadd wave -position end  sim:/microprocessor/PC\nadd wave -position 2  sim:/microprocessor/newPC\nadd wave -position end  sim:/microprocessor/Rst\nadd wave -position end  sim:/microprocessor/FlagRegisterWe\nadd wave -position end  sim:/microprocessor/ExMemBuffWe\nadd wave -position end  sim:/microprocessor/Memout\nadd wave -position end  sim:/microprocessor/DXdata\nadd wave -position end  sim:/microprocessor/DXoutput\nadd wave -position end  sim:/microprocessor/ExMemBuffData\nadd wave -position end  sim:/microprocessor/XMdata\nadd wave -position end  sim:/microprocessor/Opcode\nadd wave -position end  sim:/microprocessor/Flags\nadd wave -position end  sim:/microprocessor/FlagsOutput\nadd wave -position end  sim:/microprocessor/F\nadd wave -position end  sim:/microprocessor/address\nadd wave -position end  sim:/microprocessor/InstCode\nadd wave -position end  sim:/microprocessor/InstCode2\nadd wave -position end  sim:/microprocessor/port1_data\nadd wave -position end  sim:/microprocessor/port2_data\nadd wave -position end  sim:/microprocessor/RegPort2_data\nadd wave -position end  sim:/microprocessor/wb_enable\nadd wave -position end  sim:/microprocessor/wb_sel\nadd wave -position end  sim:/microprocessor/wb_data\nadd wave -position end  sim:/microprocessor/Rdst\nadd wave -position end  sim:/microprocessor/MWout\nadd wave -position end  sim:/microprocessor/MWdata\nmem load -filltype value -filldata 0001000000100000 -fillradix binary /microprocessor/InstMemory/ram(0)\nmem load -filltype value -filldata 0001101001100000 -fillradix binary /microprocessor/InstMemory/ram(1)\nmem load -filltype value -filldata 0011010010100000 -fillradix binary /microprocessor/InstMemory/ram(2)\nforce -freeze sim:/microprocessor/Clk 1 0, 0 {50 ns} -r 100\nforce -freeze sim:/microprocessor/Rst 1 0\nrun\nforce -freeze sim:/microprocessor/Rst 0 0\n#force -freeze sim:/microprocessor/PC 16'h0 0",
-			"settings":
-			{
-				"buffer_size": 2721,
-				"line_ending": "Windows",
-				"name": "vsim -gui work.microprocessor"
 			}
 		}
 	],
@@ -340,12 +301,56 @@
 	"command_palette":
 	{
 		"height": 443.0,
-		"last_filter": "instal",
+		"last_filter": "",
 		"selected_items":
 		[
 			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"git comm",
+				"Git: Commit"
+			],
+			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"git ame",
+				"Git: Amend Commit"
+			],
+			[
+				"git add",
+				"Git: Add All"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"gutter",
+				"GutterColor: Fix Current Color Scheme"
+			],
+			[
 				"instal",
 				"Package Control: Install Package"
+			],
+			[
+				"index",
+				"Indexing Status"
+			],
+			[
+				"got",
+				"Go To Definition"
 			],
 			[
 				"git upda",
@@ -374,14 +379,6 @@
 			[
 				"git pus",
 				"Git: Push"
-			],
-			[
-				"git comm",
-				"Git: Commit"
-			],
-			[
-				"git add",
-				"Git: Add All"
 			],
 			[
 				"stash pop",
@@ -428,10 +425,6 @@
 				"Package Control: Install Package"
 			],
 			[
-				"git status",
-				"Git: Status"
-			],
-			[
 				"syn jso",
 				"Set Syntax: JSON"
 			],
@@ -456,10 +449,6 @@
 				"Git: Commit"
 			],
 			[
-				"git push",
-				"Git: Push"
-			],
-			[
 				"inst",
 				"Package Control: Install Package"
 			],
@@ -480,14 +469,6 @@
 				"Git: Commit"
 			],
 			[
-				"insta",
-				"Package Control: Install Package"
-			],
-			[
-				"git ame",
-				"Git: Amend Commit"
-			],
-			[
 				"git a",
 				"Git: Add All"
 			],
@@ -502,10 +483,6 @@
 			[
 				"git commit",
 				"Git: Commit"
-			],
-			[
-				"remove",
-				"Package Control: Remove Package"
 			],
 			[
 				"add\t",
@@ -560,7 +537,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 1047.0
+		"width": 673.0
 	},
 	"console":
 	{
@@ -584,6 +561,27 @@
 	],
 	"file_history":
 	[
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab3/AU.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab2/ALU.vhd",
+		"/C/Users/hadye/Downloads/fetchstage (1).vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Compilers/Project/lex.l",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Compilers/Project/yac.c",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/SHL_do.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RegisterFile.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/memory.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/.gitignore",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nreg_enable.vhd",
+		"/C/Users/hadye/Downloads/controlunit.vhd",
+		"/C/Users/hadye/Downloads/fetchstage.vhd",
+		"/C/Users/hadye/Downloads/Memory.vhd",
+		"/C/Users/hadye/Downloads/my_dff.vhd",
+		"/C/Users/hadye/Downloads/my_ndff.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/temp.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/instruction_set.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Decoder.vhd",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/GutterColor.sublime-settings",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RotShiftLeft.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RotShiftRight.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ShiftOperation.vhd",
@@ -592,23 +590,16 @@
 		"/C/Users/hadye/flex-bison-example/calc.y",
 		"/C/Users/hadye/flex-bison-example/calc.tab.h",
 		"/C/Users/hadye/flex-bison-example/calc.l",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/instruction_set.vhd",
 		"/C/Users/hadye/flex-bison-example/lex.yy.c",
 		"/C/Users/hadye/flex-bison-example/calc.tab.c",
 		"/C/Users/hadye/license.c",
 		"/C/Users/hadye/Downloads/bof",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RegisterFile.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nregister.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Fetcher.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Decoder.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/memory.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Microprocessor.do",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu.do",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.sublime-project",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Microprocessor.cr.do",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nreg_enable.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Labexam.vhd",
 		"/C/Users/hadye/Downloads/Pipe_Enc.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/Labexam.vhd",
@@ -635,7 +626,6 @@
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Adder16Bit.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALSU .vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/adder8bit.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/.gitignore",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/Encrypt.vhd",
 		"/C/Users/hadye/Desktop/LABEXAM/Encrypt.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/testbench.vhd",
@@ -709,6 +699,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"ImmD",
+			"downto",
+			"Imm",
+			"imm",
+			"Imm",
+			"RegPort2_data",
+			"InstCode2",
 			"fetch_stage",
 			"myPC",
 			"EM",
@@ -824,105 +821,16 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "MicroProcessor.vhd",
-					"semi_transient": false,
+					"file": "jfljsdf.json",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 9194,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5464,
-								5472
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"spell_check": false,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3223.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": ".gitignore",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 347,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								201,
-								201
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/zzz A File Icon zzz/aliases/Shell Script (Git).sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "nreg_enable.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 443,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								197,
-								197
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/C/Users/hadye/Downloads/controlunit.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1922,
+						"buffer_size": 186,
 						"regions":
 						{
 						},
@@ -936,66 +844,7 @@
 						"settings":
 						{
 							"git_gutter_is_enabled": false,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 490.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/C/Users/hadye/Downloads/fetchstage.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2021,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								283,
-								283
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": false,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 380.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/C/Users/hadye/Downloads/Memory.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 839,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": false,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1005,121 +854,124 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "/C/Users/hadye/Downloads/my_dff.vhd",
+					"buffer": 1,
+					"file": "MicroProcessor.vhd",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 364,
+						"buffer_size": 9467,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								7016,
+								7016
 							]
 						],
 						"settings":
 						{
-							"git_gutter_is_enabled": false,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"word_wrap": false,
+							"wrap_width": 120
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3840.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "ALU.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8936,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								76,
+								76
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1800.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Microprocessor.do",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3870,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3665,
+								3665
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1400.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "/C/Users/hadye/Downloads/my_ndff.vhd",
+					"buffer": 4,
+					"file": "instruction_set.vhd",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 438,
+						"buffer_size": 1153,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								106,
+								106
 							]
 						],
 						"settings":
 						{
-							"git_gutter_is_enabled": false,
+							"git_gutter_is_enabled": true,
 							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5242,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5240,
-								4757
-							]
-						],
-						"settings":
-						{
-							"auto_name": "vsim -gui work.microprocessor",
-							"default_dir": "C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Arch\\Project",
-							"git_gutter_is_enabled": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 104.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2721,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2369,
-								2369
-							]
-						],
-						"settings":
-						{
-							"auto_name": "vsim -gui work.microprocessor",
-							"default_dir": "C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Arch\\Project",
-							"git_gutter_is_enabled": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 72.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -1131,7 +983,7 @@
 	},
 	"input":
 	{
-		"height": 82.0
+		"height": 85.0
 	},
 	"layout":
 	{
@@ -1186,6 +1038,22 @@
 		"selected_items":
 		[
 			[
+				"",
+				"MicroProcessor.vhd"
+			],
+			[
+				"inst",
+				"instruction_set.vhd"
+			],
+			[
+				"micro",
+				"Microprocessor.do"
+			],
+			[
+				"mic",
+				"MicroProcessor.vhd"
+			],
+			[
 				"alu",
 				"ALU.vhd"
 			],
@@ -1196,10 +1064,6 @@
 			[
 				"file",
 				"RegisterFile.vhd"
-			],
-			[
-				"micro",
-				"MicroProcessor.vhd"
 			],
 			[
 				".do",
@@ -1278,10 +1142,6 @@
 				"ShiftOperation.vhd"
 			],
 			[
-				"",
-				"ALU.vhd"
-			],
-			[
 				"log",
 				"log"
 			],
@@ -1304,7 +1164,7 @@
 		[
 			[
 				"",
-				"C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Arch\\Project\\MicroProcessor.sublime-project"
+				"C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Compilers\\Project\\C_compilers.sublime-project"
 			]
 		],
 		"width": 475.0

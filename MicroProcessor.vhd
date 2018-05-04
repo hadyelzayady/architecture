@@ -28,7 +28,6 @@ component ALU is
 		A : in std_logic_vector(15 downto  0);
 		B : in std_logic_vector(15 downto  0);
        	Op : in std_logic_vector(4 downto 0);
-       	Clk: in std_logic;
        	Cin: in std_logic;	
         Flags:out std_logic_vector(3 downto 0);
 		F : out std_logic_vector(15 downto 0)
@@ -169,7 +168,7 @@ begin
 	-- Execute
 	----------------------------------------------------------------------------
 	
-	EX : ALU port map (port1_dataD,port2_dataE,OpcodeD,Clk,Flags(C),Flags,AluOutputE);
+	EX : ALU port map (port1_dataD,port2_dataE,OpcodeD,Flags(C),Flags,AluOutputE);
 	--XMdata <= DXoutput( 39 downto 32)&F&DXoutput(9 downto 0);--opcode & aluoutput & address
 	EMOpCodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,OpcodeD,OpcodeE);
 	--EMAluOutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,F,AluOutputE);
