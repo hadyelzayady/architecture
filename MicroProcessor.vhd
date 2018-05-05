@@ -374,29 +374,29 @@ begin
 	----DXPort2Buff : my_nDFF generic map (n => 16) port map(Clk,Rst,port2_data,port2_dataD);
 	--DXImmBuff	: my_nDFF generic map(n => 16) port map(Clk,Rst,Imm,ImmD);
 	ID_EXLabel: IDEX_buffer port map (pcinD
-		,spinD
-		,InputportinD
-		,ImminD
-		,EAinD
-		,rsrcinD
-		,rdstinD
-		,opcodeinD
-		,rsrcnoinD
-		,rdstnoinD
-		,jumpinD
-		,pushpopinD
-		,getdatafrominD
-		,retinD
-		,IDEX_rewriteD
-		,IDEX_resetD
-		,ClkD
-		,wbinD
-		,memtoreginD
-		,memreadinD
-		,memwriteinD
-		,callinD
-		,interruptinD
-		,outportinD
+		,spout
+		,Inputportout
+		,Imm
+		,EA
+		,port1_dataD
+		,port2_dataD
+		,opcode
+		,rsrcno
+		,rdstno
+		,jump
+		,pushpop
+		,getdatafrom
+		,ret
+		,regwrite
+		,ID_flush
+		,Clk
+		,wb_data
+		,memtoreg
+		,memread
+		,memwrite
+		,call
+		,int
+		,outtoport
 		,pcoutD
 		,spoutD
 		,InputportoutD
@@ -422,7 +422,7 @@ begin
 	-- Execute
 	----------------------------------------------------------------------------
 	
-	EX : ALU port map (rsrcoutD,rdstoutD,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
+	EX : ALU port map (rsrcoutD,rdstoutD,opcodeoutD,FlagsOutput,NewFlags,aluresultinE);
 	----XMdata <= DXoutput( 39 downto 32)&F&DXoutput(9 downto 0);--opcode & aluoutput & address
 	--EMOpCodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,OpcodeD,OpcodeE);
 	----EMAluOutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,F,AluOutputE);
@@ -456,8 +456,8 @@ begin
 	--with OpcodeE select
 	--	Mem_we <='1' when STD,
 	--		 '0' when others;
-	--DataMemory : syncram port map(Clk,we=>Mem_we,address=>ExMemBuffData(10 downto 1),datain=>ExMemBuffData(26 downto 11),dataout=>Memout);--original
-	--MWdata <= ExMemBuffData(33 downto 31)&ExMemBuffData(30 downto 15)& Opcode & Memout;--rdst & aluresult
+	DataMemory : syncram port map(Clk,we=>Mem_we,address=>ExMemBuffData(10 downto 1),datain=>ExMemBuffData(26 downto 11),dataout=>Memout);--original
+	MWdata <= ExMemBuffData(33 downto 31)&ExMemBuffData(30 downto 15)& Opcode & Memout;--rdst & aluresult
 	--MWBuff : my_nDFF generic map (n => 40) port map(Clk,Rst,MWdata,MWout);
 	MWOpcodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,'1',OpcodeE,OpcodeM);
 	MWAluOutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',AluOutputE,AluOutputM);
