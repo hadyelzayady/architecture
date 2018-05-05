@@ -4,6 +4,70 @@
 		"selected_items":
 		[
 			[
+				"reg",
+				"reg1sigin"
+			],
+			[
+				"rds",
+				"rdstsig"
+			],
+			[
+				"mem",
+				"MEM_WB_WB"
+			],
+			[
+				"ex",
+				"EX_MEM_WB"
+			],
+			[
+				"std_logic",
+				"std_logic_vector"
+			],
+			[
+				"prev",
+				"prevRdst"
+			],
+			[
+				"Ins",
+				"InstCode"
+			],
+			[
+				"Mem",
+				"Mem_inst"
+			],
+			[
+				"Inp",
+				"Inputportout"
+			],
+			[
+				"IF",
+				"IFID_buffer"
+			],
+			[
+				"alu",
+				"alu_out"
+			],
+			[
+				"shif",
+				"shiftrighttemp"
+			],
+			[
+				"shift",
+				"shiftlefttemp"
+			],
+			[
+				"sh",
+				"shiftlefttemp"
+			],
+			[
+				"shi",
+				"shiftleft"
+			],
+			[
+				"my",
+				"myNOT"
+			],
+			[
 				"ALU",
 				"AluOutputE"
 			],
@@ -136,14 +200,6 @@
 				"nota"
 			],
 			[
-				"shi",
-				"shiftleft"
-			],
-			[
-				"shif",
-				"shiftleft"
-			],
-			[
 				"over",
 				"overflow1op"
 			],
@@ -170,10 +226,6 @@
 			[
 				"te",
 				"tempcarry"
-			],
-			[
-				"sh",
-				"shifted2d1"
 			],
 			[
 				"add",
@@ -208,47 +260,54 @@
 	"buffers":
 	[
 		{
-			"contents": "size is in array\nsuggested items\n{\n\t\"new added items\":[],\n\t\"offers\":[],\n\t\"suggested based on rate\":[],\n}\n/juices \n{\n\n}\n/sandwiches\n{}\n\n/account/orders based on date\n\n/account/favourites\n",
-			"file": "jfljsdf.json",
-			"file_size": 203,
-			"file_write_time": 131685249714154643,
+			"file": "memory.vhd",
 			"settings":
 			{
-				"buffer_size": 186,
+				"buffer_size": 737,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "MicroProcessor.vhd",
+			"contents": "Package Control Messages\n========================\n\nTerminality\n-----------\n\n  Terminality has been successfully installed\n  \n  Please note that Terminality supports these languages by default but\n      not limited to...\n  \n      - C/C++\n      - Lua\n      - Python\n      - Ruby\n      - Swift (OS X only)\n  \n  To gain maximum potentials of Terminality, please read how you can add your own\n      commands in README.md file\n",
 			"settings":
 			{
-				"buffer_size": 9467,
+				"buffer_size": 421,
+				"line_ending": "Windows",
+				"name": "Package Control Messages",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"file": "MicroProcessor.sublime-project",
+			"settings":
+			{
+				"buffer_size": 2004,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
+			"settings":
+			{
+				"buffer_size": 56,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "ALU.vhd",
+			"file": "/C/Users/hadye/Google Drive/CUFE/term6/APT/Labs/Lab - Network Programming/requirement/client.java",
 			"settings":
 			{
-				"buffer_size": 8936,
+				"buffer_size": 2032,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Microprocessor.do",
+			"file": "/C/Users/hadye/floobits/welcome.md",
 			"settings":
 			{
-				"buffer_size": 3870,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "instruction_set.vhd",
-			"settings":
-			{
-				"buffer_size": 1153,
+				"buffer_size": 206,
 				"line_ending": "Windows"
 			}
 		}
@@ -301,9 +360,29 @@
 	"command_palette":
 	{
 		"height": 443.0,
-		"last_filter": "",
+		"last_filter": "ins",
 		"selected_items":
 		[
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"git am",
+				"Git: Amend Commit"
+			],
+			[
+				"git commi",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add All"
+			],
 			[
 				"git status",
 				"Git: Status"
@@ -319,10 +398,6 @@
 			[
 				"git ame",
 				"Git: Amend Commit"
-			],
-			[
-				"git add",
-				"Git: Add All"
 			],
 			[
 				"remove",
@@ -405,10 +480,6 @@
 				"Package Control: List Packages"
 			],
 			[
-				"ins",
-				"Package Control: Install Package"
-			],
-			[
 				"booka",
 				"Bookmarks: Select All"
 			],
@@ -437,20 +508,12 @@
 				"TodoReview: Project Files"
 			],
 			[
-				"git am",
-				"Git: Amend Commit"
-			],
-			[
 				"git diff",
 				"Git: Diff Current File"
 			],
 			[
 				"commit",
 				"Git: Commit"
-			],
-			[
-				"inst",
-				"Package Control: Install Package"
 			],
 			[
 				"comiit",
@@ -537,7 +600,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 673.0
+		"width": 1047.0
 	},
 	"console":
 	{
@@ -561,15 +624,40 @@
 	],
 	"file_history":
 	[
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/Terminality/Default (Windows).sublime-keymap",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/Terminality/README.md",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/myvhdl.sublime-build",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Memory (1).vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/my_ndff.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/my_nDFF3.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/controlunit (1).vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/pushpopunit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/jumpunit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/hazardunit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/EXMEM_buffer.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ForwardUnit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/my_dff3.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/IDEX_buffer.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/CallJumpHazard.vhdl",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/IFID_buffer.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/fetchstage.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RegisterFile.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/instruction_set.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/micro.do",
+		"/C/Users/hadye/Downloads/forwardunit.vhd",
+		"/C/Users/hadye/Desktop/vsim -gui work.idex_buffer",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/wlft1effr0",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Microprocessor.do",
+		"/C/Users/hadye/Downloads/fetchstage (1).vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu2.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab4/register.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab3/AU.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab2/ALU.vhd",
-		"/C/Users/hadye/Downloads/fetchstage (1).vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Compilers/Project/lex.l",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Compilers/Project/yac.c",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/SHL_do.do",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RegisterFile.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/memory.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/.gitignore",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nreg_enable.vhd",
@@ -579,7 +667,6 @@
 		"/C/Users/hadye/Downloads/my_dff.vhd",
 		"/C/Users/hadye/Downloads/my_ndff.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/temp.do",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/instruction_set.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Decoder.vhd",
 		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/GutterColor.sublime-settings",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RotShiftLeft.vhd",
@@ -596,7 +683,6 @@
 		"/C/Users/hadye/Downloads/bof",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nregister.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Fetcher.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Microprocessor.do",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu.do",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.sublime-project",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Microprocessor.cr.do",
@@ -606,7 +692,6 @@
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab_exam_sol/Pipe_Enc.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab_exam_sol/temp.html",
 		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab4/register.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab4/main.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/testbench.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/saladicious.json",
@@ -666,25 +751,11 @@
 		"/C/Users/hadye/PycharmProjects/Saladicious/back_end/SaladiciousAPI/models.py",
 		"/E/vagrant/kali/Vagrantfile",
 		"/C/cmder/config/user-profile.cmd",
-		"/C/cmder/config/settings",
-		"/C/Users/hadye/Downloads/sample.war",
-		"/C/Program Files/MongoDB/Server/3.6/mongod.cfg",
-		"/C/Program1",
-		"/C/Program Files/Microsoft Office/Office16/SLERROR.XML",
-		"/C/Users/hadye/.ssh/known_hosts",
-		"/C/Users/hadye/Downloads/start",
-		"/C/cmder/README.md",
-		"/C/Users/hadye/Desktop/reg.py",
-		"/C/Users/hadye/PycharmProjects/Saladicious/back_end/manage.py",
-		"/C/Users/hadye/PycharmProjects/Saladicious/back_end/back_end/settings.py",
-		"/C/Users/hadye/PycharmProjects/Saladicious/back_end/SaladiciousAPI/views.py",
-		"/C/Users/hadye/Desktop/temp.vhdl",
-		"/C/Users/hadye/Downloads/Compressed/cmder/bin/alias.bat",
-		"/E/Programs/rarreg.key"
+		"/C/cmder/config/settings"
 	],
 	"find":
 	{
-		"height": 37.0
+		"height": 40.0
 	},
 	"find_in_files":
 	{
@@ -699,6 +770,65 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"my_ndf",
+			"flagreg",
+			"my_nDFF",
+			"EXMEMBuff",
+			":",
+			",",
+			"d",
+			"D",
+			"d",
+			"D",
+			"d",
+			"D",
+			",",
+			":",
+			",",
+			"jumpout",
+			"jump",
+			"ret",
+			"controlunit",
+			"rdstno",
+			"Mem_inst",
+			"Rcallorjump",
+			"Rdst",
+			"rdst",
+			"imm",
+			"Imm",
+			"rsrc",
+			"ret",
+			"signal ret : std_logic_vector( downto 0 )\n",
+			"jmpCNZ",
+			"Rst",
+			"rst",
+			"Rst",
+			"Rret",
+			"Rcallorjump",
+			"rjump",
+			"Rjump",
+			"Inputportout",
+			"my_nDFF",
+			"instruction",
+			"oldFlags",
+			"Old",
+			"Cin",
+			"\n        ",
+			"shiftlefttemp",
+			"|",
+			"or",
+			"|",
+			"| ",
+			"shiftlefttemp",
+			"x\"",
+			"h'",
+			",\n",
+			"clk",
+			"Clk",
+			"clk",
+			"Flags(Z)",
+			"Flags(Z) ",
+			"others",
 			"ImmD",
 			"downto",
 			"Imm",
@@ -767,43 +897,7 @@
 			"DataIn",
 			"en",
 			"to_integer",
-			"Clk",
-			");\n",
-			"write_value",
-			"rst",
-			"PATH",
-			"0000000000000000",
-			"shift_left",
-			"downto",
-			");\n",
-			"do",
-			"000000000000000",
-			"cin",
-			"FullAdder",
-			"tempSum",
-			"tempCarry",
-			"0000000000000001",
-			"00000000000000001",
-			"000000000000000001",
-			"ALUC_arc",
-			"Op2Reg",
-			"my_adder",
-			"a_Adder16Bit",
-			"my_nadder",
-			"16BitAdder",
-			"my_nadder",
-			"a_FullAdder",
-			"my_adder",
-			"PartC",
-			"PartD",
-			"SelPart",
-			"make",
-			"vsim",
-			"Microprocessor",
-			"MicroProcessor",
-			"vsim",
-			"Microprocessor",
-			"MicroProcessor"
+			"Clk"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -821,16 +915,137 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "jfljsdf.json",
+					"file": "memory.vhd",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 186,
+						"buffer_size": 737,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								125,
+								125
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 421,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								421,
+								421
+							]
+						],
+						"settings":
+						{
+							"auto_indent": false,
+							"default_dir": "C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Arch\\Project",
+							"git_gutter_is_enabled": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_width": 2,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "MicroProcessor.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2004,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								171,
+								171
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/zzz A File Icon zzz/aliases/JSON (Sublime).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 56,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								56,
+								56
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": false,
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/Users/hadye/Google Drive/CUFE/term6/APT/Labs/Lab - Network Programming/requirement/client.java",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2032,
 						"regions":
 						{
 						},
@@ -844,134 +1059,43 @@
 						"settings":
 						{
 							"git_gutter_is_enabled": false,
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+							"syntax": "Packages/Java/Java.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "MicroProcessor.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9467,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7016,
-								7016
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"word_wrap": false,
-							"wrap_width": 120
-						},
-						"translation.x": 0.0,
-						"translation.y": 3840.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "ALU.vhd",
+					"buffer": 5,
+					"file": "/C/Users/hadye/floobits/welcome.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8936,
+						"buffer_size": 206,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								76,
-								76
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1800.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "Microprocessor.do",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3870,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3665,
-								3665
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1400.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "instruction_set.vhd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1153,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								106,
-								106
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
+							"git_gutter_is_enabled": false,
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -979,11 +1103,11 @@
 	],
 	"incremental_find":
 	{
-		"height": 37.0
+		"height": 40.0
 	},
 	"input":
 	{
-		"height": 85.0
+		"height": 88.0
 	},
 	"layout":
 	{
@@ -1010,7 +1134,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 265.0
+		"height": 409.0
 	},
 	"output.find_results":
 	{
@@ -1024,11 +1148,11 @@
 	{
 		"height": 0.0
 	},
-	"pinned_build_system": "",
+	"pinned_build_system": "Packages/User/mhvhdl.sublime-build",
 	"project": "MicroProcessor.sublime-project",
 	"replace":
 	{
-		"height": 69.0
+		"height": 75.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1038,7 +1162,7 @@
 		"selected_items":
 		[
 			[
-				"",
+				"mi",
 				"MicroProcessor.vhd"
 			],
 			[
@@ -1046,20 +1170,84 @@
 				"instruction_set.vhd"
 			],
 			[
-				"micro",
-				"Microprocessor.do"
+				"mem",
+				"Memory (1).vhd"
+			],
+			[
+				"my",
+				"my_nDFF3.vhd"
 			],
 			[
 				"mic",
 				"MicroProcessor.vhd"
 			],
 			[
-				"alu",
+				"fet",
+				"fetchstage.vhd"
+			],
+			[
+				"",
 				"ALU.vhd"
+			],
+			[
+				"if",
+				"IFID_buffer.vhd"
 			],
 			[
 				"ins",
 				"instruction_set.vhd"
+			],
+			[
+				"alu",
+				"ALU.vhd"
+			],
+			[
+				"ex",
+				"EXMEM_buffer.vhd"
+			],
+			[
+				"id",
+				"IDEX_buffer.vhd"
+			],
+			[
+				"contro",
+				"controlunit (1).vhd"
+			],
+			[
+				"c",
+				"controlunit (1).vhd"
+			],
+			[
+				"con",
+				"controlunit (1).vhd"
+			],
+			[
+				"conto",
+				"controlunit (1).vhd"
+			],
+			[
+				"push",
+				"pushpopunit.vhd"
+			],
+			[
+				"jum",
+				"jumpunit.vhd"
+			],
+			[
+				"ha",
+				"hazardunit.vhd"
+			],
+			[
+				"cal",
+				"CallJumpHazard.vhdl"
+			],
+			[
+				"fetch",
+				"fetchstage.vhd"
+			],
+			[
+				"micro",
+				"Microprocessor.do"
 			],
 			[
 				"file",
@@ -1075,10 +1263,6 @@
 			],
 			[
 				"me",
-				"memory.vhd"
-			],
-			[
-				"mem",
 				"memory.vhd"
 			],
 			[
@@ -1148,10 +1332,6 @@
 			[
 				"left",
 				"LeftOperation.vhd"
-			],
-			[
-				"ha",
-				"HalfAdder.vhd"
 			]
 		],
 		"width": 0.0
@@ -1185,7 +1365,7 @@
 	"show_minimap": false,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 274.0,
 	"status_bar_visible": true,
 	"template_settings":

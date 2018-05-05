@@ -1,7 +1,0 @@
-v 4
-file / "C:\Users\hadye\Google Drive\CUFE\term6\Arch\Project\Op2Reg.vhd" "826af68419b3474186e8ad1783f60d61ec7a5785" "20180414221200.509":
-  entity op2reg at 6( 59) + 0 on 15;
-  architecture aluc_arc of op2reg at 18( 349) + 0 on 16;
-file / "C:\Users\hadye\Google Drive\CUFE\term6\Arch\Project\Adder16Bit.vhd" "1722bd24b6f269acf1ad5384d568f689f2cd4493" "20180414221131.999":
-  entity adder16bit at 2( 2) + 0 on 13;
-  architecture adder16bit_arch of adder16bit at 10( 209) + 0 on 14;
