@@ -25,6 +25,7 @@ vsim -gui work.microprocessor
 # Loading work.fulladder(fulladder_arch)
 # Loading work.exmem_buffer(arch)
 mem load -filltype value -filldata 1101100101000000 -fillradix binary /microprocessor/fetchstageLabel/inst_mem/ram(0)
+mem load -filltype value -filldata 1101100101000000 -fillradix binary /microprocessor/fetchstageLabel/inst_mem/ram(1)
 add wave -position insertpoint  \
 sim:/microprocessor/Clk \
 sim:/microprocessor/Rst \
