@@ -120,7 +120,7 @@ end component;
 component control is
 port(
 	opcode : in std_logic_vector (4 downto 0);
-	interrupt: in std_logic;
+	interrupt,Rst: in std_logic;
 	ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport: out std_logic;
 	pushpop,ret,getdatafrom:out std_logic_vector (1 downto 0);
 	jump:out std_logic_vector (2 downto 0);
@@ -159,7 +159,16 @@ component my_nDFF is
 	d : in std_logic_vector(n-1 downto 0);
 	q : out std_logic_vector(n-1 downto 0));
 end component;
-
+component my_nDFF3 is
+Generic ( n : integer := 16);
+port( Clk,Rst,enable : in std_logic;
+d : in std_logic_vector(n-1 downto 0);
+q : out std_logic_vector(n-1 downto 0));
+end component;
+component my_DFF3 is
+port( clk,rst, enable,d: in std_logic;
+q : out std_logic);
+end component;
 --component Decoder is
 --	port (
 --		Clk : in std_logic;
@@ -183,46 +192,25 @@ component RegisterFile is
 		);
 end component RegisterFile;
 
-component DFF_Rising is
-port(clk,rst, enable,d: in std_logic;
-q : out std_logic);
- end component DFF_Rising; 
---------------------------------------------------------------------------------
--- instructions opcode
---------------------------------------------------------------------------------
-
-	CONSTANT  NOP  :  std_logic_vector(4 downto 0)  := "00000";
-	CONSTANT  MOV  :  std_logic_vector(4 downto 0)  := "00001";
+--instructions
+	CONSTANT  SHL  :  std_logic_vector(4 downto 0)  := "00000";
+	CONSTANT  SHR  :  std_logic_vector(4 downto 0)  := "00001";
 	CONSTANT  ADD  :  std_logic_vector(4 downto 0)  := "00010";--first bit must be 0 and sub is the opposite (also in inc and dec)
 	CONSTANT  SUB  :  std_logic_vector(4 downto 0)  := "00011";
-	CONSTANT  myAND  :  std_logic_vector(4 downto 0)  := "00100";
-	CONSTANT  myOR  :  std_logic_vector(4 downto 0)  := "00101";
-	CONSTANT  RLC  :  std_logic_vector(4 downto 0)  := "00110";
-	CONSTANT  RRC  :  std_logic_vector(4 downto 0)  := "00111";
-	CONSTANT  SHL  :  std_logic_vector(4 downto 0)  := "01000";
-	CONSTANT  SHR  :  std_logic_vector(4 downto 0)  :=  "01001";
+	CONSTANT  RLC  :  std_logic_vector(4 downto 0)  := "00100";
+	CONSTANT  RRC  :  std_logic_vector(4 downto 0)  := "00101";
+	CONSTANT  myAND  :  std_logic_vector(4 downto 0)  := "00110";
+	CONSTANT  myOR  :  std_logic_vector(4 downto 0)  := "00111";
+	CONSTANT  INC  :  std_logic_vector(4 downto 0)  := "01000";
+	CONSTANT  DEC  :  std_logic_vector(4 downto 0)  :=  "01001";
 	CONSTANT  SETC  :  std_logic_vector(4 downto 0)  := "01010";
 	CONSTANT  CLC  :  std_logic_vector(4 downto 0)  := "01011";
-	CONSTANT  PUSH  :  std_logic_vector(4 downto 0)  := "01100";
-	CONSTANT  POP  :  std_logic_vector(4 downto 0)  := "01101";
-	CONSTANT  myOUT  :  std_logic_vector(4 downto 0)  := "01110";
-	CONSTANT  myIN  :  std_logic_vector(4 downto 0)  := "01111";
-	CONSTANT  myNOT  :  std_logic_vector(4 downto 0)  := "10000";
-	CONSTANT  NEG :  std_logic_vector(4 downto 0)  := "10001";
-	CONSTANT  INC :  std_logic_vector(4 downto 0)  := "10010";
-	CONSTANT  DEC :  std_logic_vector(4 downto 0)  := "10011";
-	CONSTANT  JZ :  std_logic_vector(4 downto 0)  := "10100";
-	CONSTANT  JN :  std_logic_vector(4 downto 0)  := "10101";
-	CONSTANT  JC :  std_logic_vector(4 downto 0)  := "10110";
-	CONSTANT  JMP :  std_logic_vector(4 downto 0)  := "10111";
-	CONSTANT  RTI :  std_logic_vector(4 downto 0)  := "11010";
-	CONSTANT  LDM :  std_logic_vector(4 downto 0)  := "11011";
-	CONSTANT  LDD :  std_logic_vector(4 downto 0)  := "11100";
-	CONSTANT  STD :  std_logic_vector(4 downto 0)  := "11101";
---------------------------------------------------------------------------------
--- end instr
---------------------------------------------------------------------------------
-
+	CONSTANT  myNOT  :  std_logic_vector(4 downto 0)  := "01100";
+	CONSTANT  NEG  :  std_logic_vector(4 downto 0)  := "01101";
+	CONSTANT  STD  :  std_logic_vector(4 downto 0)  := "01110";
+	CONSTANT  MOV  :  std_logic_vector(4 downto 0)  := "01111";
+	CONSTANT  LDM  :  std_logic_vector(4 downto 0)  := "10000";
+	CONSTANT  LDD  :  std_logic_vector(4 downto 0)  := "10001";
 signal FlagRegisterWe :std_logic; -- temporary shoudl come from controller
 signal ExMemBuffWe :std_logic; -- temporary shoudl come from controller
 signal Memout :std_logic_vector(15 downto 0); -- temporary shoudl wite to MemWbBuff
@@ -250,7 +238,7 @@ signal RegPort2_data:std_logic_vector(15 downto 0);
 signal wb_enable : std_logic;
 signal wb_sel : std_logic_vector(2 downto 0);
 signal wb_data : std_logic_vector(15 downto 0);
-signal rdstno : std_logic_vector(2 downto 0);
+signal Rdstno : std_logic_vector(2 downto 0);
 signal rsrcno: std_logic_vector(2 downto 0);
 signal MWout : std_logic_vector(39 downto 0);
 signal MWdata : std_logic_vector(39 downto 0);
@@ -310,12 +298,8 @@ signal getdatafrom : std_logic_vector(1 downto 0);
 signal jump : std_logic_vector(2 downto 0);
 signal Aluop : std_logic_vector(4 downto 0);
 
-signal pcinD,spinD : std_logic_vector(15 downto 0);
-signal InputportinD,ImminD,EAinD,rsrcinD,rdstinD : std_logic_vector(15 downto 0);
-signal opcodeinD : std_logic_vector(4 downto 0);
-signal rsrcnoinD,rdstnoinD,jumpinD : std_logic_vector(2 downto 0);
-signal pushpopinD,getdatafrominD,retinD : std_logic_vector(1 downto 0);
-signal IDEX_rewriteD,IDEX_resetD,ClkD,wbinD,memtoreginD,memreadinD,memwriteinD,callinD,interruptinD,outportinD : std_logic;
+
+signal IDEX_rewriteD,IDEX_resetD : std_logic;
 signal pcoutD,spoutD : std_logic_vector(15 downto 0);
 signal InputportoutD,ImmoutD,EAoutD,rsrcoutD,rdstoutD : std_logic_vector(15 downto 0);
 signal opcodeoutD : std_logic_vector(4 downto 0);
@@ -324,13 +308,8 @@ signal pushpopoutD,getdatafromoutD,retoutD : std_logic_vector(1 downto 0);
 signal wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD : std_logic;
 
 
-signal pcinE,spinE,aluresultinE : std_logic_vector(15 downto 0);
-signal InputportinE,ImminE,EAinE,rsrcinE,rdstinE : std_logic_vector(15 downto 0);
-signal opcodeinE : std_logic_vector(4 downto 0);
-signal flaginE : std_logic_vector(3 downto 0);
-signal rsrcnoinE,rdstnoinE,jumpinE : std_logic_vector(2 downto 0);
-signal pushpopinE,getdatafrominE,retinE : std_logic_vector(1 downto 0);
-signal IDEX_rewriteE,IDEX_resetE,ClkE,wbinE,memtoreginE,memreadinE,memwriteinE,callinE,interruptinE,outportinE : std_logic;
+signal aluresultinE : std_logic_vector(15 downto 0);
+signal IDEX_rewriteE,IDEX_resetE: std_logic;
 signal pcoutE,spoutE,aluresultoutE : std_logic_vector(15 downto 0);
 signal InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE : std_logic_vector(15 downto 0);
 signal opcodeoutE : std_logic_vector(4 downto 0);
@@ -339,15 +318,11 @@ signal rsrcnooutE,rdstnooutE,jumpoutE : std_logic_vector(2 downto 0);
 signal pushpopoutE,getdatafromoutE,retoutE : std_logic_vector(1 downto 0);
 signal wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE : std_logic;
 
-
-
-signal regwriteoutD: std_logic;
-
-signal regwriteoutE: std_logic;
-signal regwriteoutM: std_logic;
-
+signal MemoutM : std_logic_vector(15 downto 0);
 signal rdstnooutM : std_logic_vector(2 downto 0);
-signal MemoutM 	: std_logic_vector(15 downto 0);
+signal regwriteoutE : std_logic_vector(15 downto 0);
+signal wboutM : std_logic;
+signal ImmoutM : std_logic_vector(15 downto 0);
 --------------------------------------------------------------------------------
 -- end magdy
 --------------------------------------------------------------------------------
@@ -356,99 +331,73 @@ signal MemoutM 	: std_logic_vector(15 downto 0);
 begin
 	----------------------------------------------------------------------------
 	-- Fetch
-	----------------------------------------------------------------------------
-	fetchstageLabel : fetch_stage port map(Rjump,Rcallorjump,Rret,Rint,Rrst,newsp,Rst,clk,callorjump,jmpCNZ,ret_mem_wb,interrupt,Mem_inst,NextPC,SPOutput);
-	IFID: IFID_buffer port map(pcin,spin,Mem_inst,InPort,IFID_rewrite,IFID_reset,Clk,pcout,Inputportout,spout,EA,Imm,opcode,rsrcno,rdstno);
-	--PCReg : my_nDFF generic map (n => 16) port map(Clk,Rst,PC,newPC);
-	--PC <= newPC+2;
-	--InstMemory: syncram port map(Clk,we=>'0',address=>newPC(9 downto 0),datain=>x"0000",dataout=>InstCode2);
-	--Fetch: Fetcher port map(Clk,PC,InstCode);
-	--FDBuff : my_nDFF generic map (n => 32) port map(Clk,Rst,InstCode,InstCode2);
-
+	----------------------------------------------------------------------------      call or jump ,jmpcnz,ret_mem_wb,interrupt
+	callorjump<='1' when call='1' or jump="1111" else '0';
+	IFID_reset<='1' when Rst='1' else '0'  ;
+	IDEX_resetD<='1' when Rst='1' else '0';
+	IDEX_resetE<='1' when Rst='1' else '0'  ;
+	
+	fetchstageLabel : fetch_stage port map(Rjump,Rcallorjump,Rret,Rint,Rrst,newsp,Rst,clk,callorjump,'0','0',interrupt,Mem_inst,NextPC,SPOutput);
+	IFID: IFID_buffer port map(NextPC,SPOutput,Mem_inst,InPort,IFID_rewrite,IFID_reset,Clk,pcout,Inputportout,spout,EA,Imm,opcode,rsrcno,rdstno);
+	
 	----------------------------------------------------------------------------
 	-- Decode
 	----------------------------------------------------------------------------
-	Registers: RegisterFile port map (regwriteoutM,rsrcno,rdstno,rdstnooutM,Clk,Rst,port1_dataD,Port2_dataD,AluOutputM);
+	
+	Registers: RegisterFile port map (wboutM,rsrcno,rdstno,rdstnooutM,Clk,Rst,port1_dataD,Port2_dataD,wb_data);
 
 	-- change '0' to interrupt signal 
-	controlunit: control port map(opcode,'0',ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pushpop,ret,getdatafrom,jump,Aluop);
-	--with Opcode select  --for wb
-	--	Rdst <= InstCode2(7 downto 5) when  MOV | ADD | SUB | myAND | myOR | SHL| SHR,--operand with two registers
-	--			InstCode2(10 downto 8) when others;--should specify ops later
-
-	--DXRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,'1',rdstno,rdstnooutD);
-	--DXOpCodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,'1',Aluop,OpcodeD);
-	--DXPort1Buff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',port1_data,rsrcoutD);
-	--DXPort2Buff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',port2_data,rdstoutD);
-	--DXImmBuff	: my_nDFF generic map(n => 16) port map(Clk,Rst,'1',Imm,ImmD);
-	--DXRegWriteBuff	: DFF_Rising  port map(Clk,Rst,'1',regwrite,regwriteoutD);
+	controlunit: control port map(opcode,'0',Rst,ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pushpop,ret,getdatafrom,jump,Aluop);
 	
-		----------------------------------------------------------------------------
+	
+	ID_EXLabel: IDEX_buffer port map (pcout,spout,Inputportout,Imm,EA,port1_dataD,port2_dataD,opcode,rsrcno,rdstno,jump,pushpop,getdatafrom,ret,IDEX_rewriteD,'0',Clk,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pcoutD,spoutD,InputportoutD,ImmoutD,EAoutD,rsrcoutD,rdstoutD,opcodeoutD,rsrcnooutD,rdstnooutD,jumpoutD,pushpopoutD,getdatafromoutD,retoutD,wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD);----------------------------------------------------------------------------
+	
+	----------------------------------------------------------------------------
 	-- Execute
 	----------------------------------------------------------------------------
 	
-	EX : ALU port map (rsrcoutD,rdstoutD,OpcodeD,FlagsOutput,NewFlags,aluresultinE);
-	--XMdata <= DXoutput( 39 downto 32)&F&DXoutput(9 downto 0);--opcode & aluoutput & address
-	EMOpCodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,'1',OpcodeD,OpcodeE);
-	EMAluOutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',aluresultinE,aluresultoutE);
-	EMRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,'1',rdstnooutD,rdstnooutE);
-	EMImmBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',ImmD,ImmoutE);
-	EM_MemWBuff : DFF_Rising  port map(Clk,Rst,'1',memwriteoutD,memwriteoutE);
-	EM_MemRBuff : DFF_Rising  port map(Clk,Rst,'1',memreadoutD,memreadoutE);
-	EM_RegWriteBuff : DFF_Rising port map(Clk,Rst,'1',regwriteoutD,regwriteoutE);
-	----with OpCode select
-	--port2_dataE <=  ImmD when OpcodeD=SHL else
-	--			   ImmD when OpcodeD=SHR else-- immediate value
-	--			   Port2_dataD ;
-					--x"0000" when others;
-	--EMPort2Buff : my_nDFF generic map (n => 16) port map(Clk,Rst,port2_data,port2_dataD);
-	--Ex_MEMLabel: EXMEM_buffer port map(pcinE,spinE,aluresultinE
-	--	,InputportinE,ImminE,EAinE,rsrcinE,rdstinE
-	--	,opcodeinE 
-	--	,flaginE
-	--	,rsrcnoinE,rdstnoinE,jumpinE
-	--	,pushpopinE,getdatafrominE,retinE
-	--	,IDEX_rewriteE,IDEX_resetE,ClkE,wbinE,memtoreginE,memreadinE,memwriteinE,callinE,interruptinE,outportinE
-	--	,pcoutE,spoutE,aluresultoutE
-	--	,InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE
-	--	,opcodeoutE
-	--	,flagoutE
-	--	,rsrcnooutE,rdstnooutE,jumpoutE
-	--	,pushpopoutE,getdatafromoutE,retoutE
-	--	,wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE);
+	EX : ALU port map (rsrcoutD,rdstoutD,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
+	with opcodeoutD select
+		port2_data <= ImmoutD when SHL | SHR ,
+					  rdstoutD when others;
+	-----*******************************************************
+    ----*************************************
+	-------------VIPPPPP abdo change flagoutput and put jump unit 
+	Ex_MEMLabel: EXMEM_buffer port map(pcoutD,spoutD,aluresultinE
+			,InputportoutD,ImmoutD,EAoutD,rsrcoutD,rdstoutD
+			,opcodeoutD 
+			,FlagsOutput
+			,rsrcnooutD,rdstnooutD,jumpoutD
+			,pushpopoutD,getdatafromoutD,retoutD
+			,IDEX_rewriteE,IDEX_resetE,Clk,wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD
+			,pcoutE,spoutE,aluresultoutE
+			,InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE
+			,opcodeoutE
+			,flagoutE
+			,rsrcnooutE,rdstnooutE,jumpoutE
+			,pushpopoutE,getdatafromoutE,retoutE
+			,wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE);
 	FlagRegister : my_nDFF generic map (n => 4) port map(Clk,Rst,'1',NewFlags,FlagsOutput); 
 
 	----------------------------------------------------------------------------
 	-- Memory
 	----------------------------------------------------------------------------
 	
-	--with OpcodeE select
-	--	Mem_we <='1' when STD,
-	--		 '0' when others;
 	DataMemory : syncram port map(Clk,we=>memwriteoutE,address=>ImmoutE(9 downto 0),datain=>aluresultoutE,dataout=>Memout);--original
-	--MWBuff : my_nDFF generic map (n => 40) port map(Clk,Rst,MWdata,MWout);
-	MWOpcodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,'1',OpcodeE,OpcodeM);
-	MWAluOutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',aluresultoutE,AluOutputM);
-	MWMemoutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',Memout,MemoutM);
-	MWRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,'1',rdstnooutE,rdstnooutM);
-	MW_RegWriteBuff : DFF_Rising port map (Clk,Rst,regwriteoutE,regwriteoutM);
+	
+	MWOpcodeBuff : my_nDFF3 generic map (n => 5) port map(Clk,Rst,'1',opcodeoutE,OpcodeM);
+	MWAluOutBuff : my_nDFF3 generic map (n => 16) port map(Clk,Rst,'1',aluresultoutE,AluOutputM);
+	MWMemoutBuff : my_nDFF3 generic map (n => 16) port map(Clk,Rst,'1',Memout,MemoutM);
+	MWImmBuff : my_nDFF3 generic map (n => 16) port map(Clk,Rst,'1',ImmoutE,ImmoutM);
+	MWRdstBuff : my_nDFF3 generic map (n => 3) port map(Clk,Rst,'1',rdstnooutE,rdstnooutM);
+	MW_RegWriteBuff : my_DFF3 port map (Clk,Rst,'1',wboutE,wboutM);
 
 	----------------------------------------------------------------------------
 	-- Write back
 	----------------------------------------------------------------------------
-	
-	--with MWout(20  downto 16) select --opcode
-	--	wb_enable <= '1' when MOV | ADD | SUB | myAND | myOR | LDD | LDM | myNOT | NEG | INC | DEC   | SHR,--specify ragne for wb operations
-	--				'0' when others;
-	--wb_sel<= MWout(39 downto 37);
-	--with MWout(20  downto 16) select --opcode 
-	--	wb_data <= MWout(15 downto 0) when LDD,-- wb from memory
-	--				MWout(36 downto 21) when others;
-	--with OpcodeM select --opcode
-	--	wb_enable <= '1' when MOV | ADD | SUB | myAND | myOR | myNOT | NEG | INC | DEC | SHR,--specify ragne for wb operations
-	--				'0' when others;
-	--wb_sel<= RdstM;
-	--wb_data <= AluOutputM;
+	with OpcodeM select 
+		wb_data <= MemoutM when LDD ,
+					ImmoutM when LDM,
+					AluOutputM when others;
 
 end MicroProcessor_arc;
-	--DataMemory : syncram port map(Clk,ExMemBuffData(0),address,ExMemBuffData(26 downto 11),Memout);

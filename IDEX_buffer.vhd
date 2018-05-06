@@ -51,31 +51,31 @@ begin
 
 enable <=not(IDEX_rewrite);
 
-PCreg: my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,enable,pcin,pcout);
-SPreg: my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,enable,spin,spout);
+PCreg: my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,'1',pcin,pcout);
+SPreg: my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,'1',spin,spout);
 
-inputreg:my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,enable,inputportin,Inputportout);
-IMMreg:my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,enable,Immin,Immout);
-EAreg:my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,enable,EAin,EAout);
-Rsrc:my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,enable,rsrcin,rsrcout);
-Rdst:my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,enable,rdstin,rdstout);
+inputreg:my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,'1',inputportin,Inputportout);
+IMMreg:my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,'1',Immin,Immout);
+EAreg:my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,'1',EAin,EAout);
+Rsrc:my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,'1',rsrcin,rsrcout);
+Rdst:my_nDFF3 generic map (n => 16) port map(Clk,IDEX_reset,'1',rdstin,rdstout);
 
-opcodereg : my_nDFF3 generic map (n => 5) port map(Clk,IDEX_reset,enable,opcodein,opcodeout);
-rsrcno: my_nDFF3 generic map (n => 3) port map(Clk,IDEX_reset,enable,rsrcnoin,rsrcnoout);
-rdstno: my_nDFF3 generic map (n => 3) port map(Clk,IDEX_reset,enable,rdstnoin,rdstnoout);
-jump: my_nDFF3 generic map (n => 3) port map(Clk,IDEX_reset,enable,jumpin,jumpout);
+opcodereg : my_nDFF3 generic map (n => 5) port map(Clk,IDEX_reset,'1',opcodein,opcodeout);
+rsrcno: my_nDFF3 generic map (n => 3) port map(Clk,IDEX_reset,'1',rsrcnoin,rsrcnoout);
+rdstno: my_nDFF3 generic map (n => 3) port map(Clk,IDEX_reset,'1',rdstnoin,rdstnoout);
+jump: my_nDFF3 generic map (n => 3) port map(Clk,IDEX_reset,'1',jumpin,jumpout);
 
 
-pushpop: my_nDFF3 generic map (n => 2) port map(Clk,IDEX_reset,enable,pushpopin,pushpopout);
-getdatafrom: my_nDFF3 generic map (n => 2) port map(Clk,IDEX_reset,enable,getdatafromin,getdatafromout);
-ret: my_nDFF3 generic map (n => 2) port map(Clk,IDEX_reset,enable,retin,retout);
-wb: my_DFF3  port map(Clk,IDEX_reset,enable,wbin,wbout);
-memtoreg: my_DFF3  port map(Clk,IDEX_reset,enable,memtoregin,memtoregout);
-memread: my_DFF3  port map(Clk,IDEX_reset,enable,memreadin,memreadout);
-memwrite: my_DFF3  port map(Clk,IDEX_reset,enable,memwritein,memwriteout);
-call: my_DFF3  port map(Clk,IDEX_reset,enable,callin,callout);
-interrupt: my_DFF3  port map(Clk,IDEX_reset,enable,interruptin,interruptout);
-outport: my_DFF3  port map(Clk,IDEX_reset,enable,outportin,outportout);
+pushpop: my_nDFF3 generic map (n => 2) port map(Clk,IDEX_reset,'1',pushpopin,pushpopout);
+getdatafrom: my_nDFF3 generic map (n => 2) port map(Clk,IDEX_reset,'1',getdatafromin,getdatafromout);
+ret: my_nDFF3 generic map (n => 2) port map(Clk,IDEX_reset,'1',retin,retout);
+wb: my_DFF3  port map(Clk,IDEX_reset,'1',wbin,wbout);
+memtoreg: my_DFF3  port map(Clk,IDEX_reset,'1',memtoregin,memtoregout);
+memread: my_DFF3  port map(Clk,IDEX_reset,'1',memreadin,memreadout);
+memwrite: my_DFF3  port map(Clk,IDEX_reset,'1',memwritein,memwriteout);
+call: my_DFF3  port map(Clk,IDEX_reset,'1',callin,callout);
+interrupt: my_DFF3  port map(Clk,IDEX_reset,'1',interruptin,interruptout);
+outport: my_DFF3  port map(Clk,IDEX_reset,'1',outportin,outportout);
 
 
 end arch;
