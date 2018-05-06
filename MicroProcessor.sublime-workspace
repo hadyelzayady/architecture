@@ -5,7 +5,79 @@
 		[
 			[
 				"reg",
-				"reg1sigin"
+				"regwriteoutM"
+			],
+			[
+				"std",
+				"std_logic"
+			],
+			[
+				"alures",
+				"aluresultoutE"
+			],
+			[
+				"alut",
+				"AluOutputM"
+			],
+			[
+				"Mem",
+				"Memout"
+			],
+			[
+				"memrea",
+				"memreadoutE"
+			],
+			[
+				"rdstno",
+				"rdstnooutM"
+			],
+			[
+				"rdstnoout",
+				"rdstnooutE"
+			],
+			[
+				"rdst",
+				"rdstoutE"
+			],
+			[
+				"alure",
+				"aluresultoutE"
+			],
+			[
+				"memwrite",
+				"memwriteoutE"
+			],
+			[
+				"rsrc",
+				"rsrcoutD"
+			],
+			[
+				"alu",
+				"Aluop"
+			],
+			[
+				"memwriteout",
+				"memwriteoutD"
+			],
+			[
+				"memreadD",
+				"memreadoutD"
+			],
+			[
+				"memwr",
+				"memwriteoutE"
+			],
+			[
+				"Imm",
+				"ImmoutE"
+			],
+			[
+				"opcode",
+				"opcode"
+			],
+			[
+				"port1",
+				"port1_dataD"
 			],
 			[
 				"rds",
@@ -32,20 +104,12 @@
 				"InstCode"
 			],
 			[
-				"Mem",
-				"Mem_inst"
-			],
-			[
 				"Inp",
 				"Inputportout"
 			],
 			[
 				"IF",
 				"IFID_buffer"
-			],
-			[
-				"alu",
-				"alu_out"
 			],
 			[
 				"shif",
@@ -70,10 +134,6 @@
 			[
 				"ALU",
 				"AluOutputE"
-			],
-			[
-				"std",
-				"std_logic_vector"
 			],
 			[
 				"O",
@@ -260,54 +320,66 @@
 	"buffers":
 	[
 		{
-			"file": "memory.vhd",
+			"file": "instruction_set.vhd",
 			"settings":
 			{
-				"buffer_size": 737,
+				"buffer_size": 1862,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "Package Control Messages\n========================\n\nTerminality\n-----------\n\n  Terminality has been successfully installed\n  \n  Please note that Terminality supports these languages by default but\n      not limited to...\n  \n      - C/C++\n      - Lua\n      - Python\n      - Ruby\n      - Swift (OS X only)\n  \n  To gain maximum potentials of Terminality, please read how you can add your own\n      commands in README.md file\n",
+			"file": "MicroProcessor.vhd",
 			"settings":
 			{
-				"buffer_size": 421,
-				"line_ending": "Windows",
-				"name": "Package Control Messages",
-				"read_only": true,
-				"scratch": true
-			}
-		},
-		{
-			"file": "MicroProcessor.sublime-project",
-			"settings":
-			{
-				"buffer_size": 2004,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
-			"settings":
-			{
-				"buffer_size": 56,
+				"buffer_size": 20417,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/Users/hadye/Google Drive/CUFE/term6/APT/Labs/Lab - Network Programming/requirement/client.java",
+			"contents": "library ieee;\nuse ieee.std_logic_1164.all;\nentity CallJumpHazard is\n\tport (\n\t\tcurrentRdst:in std_logic_vector(3 downto 0);\n\t\tprevRdst:in std_logic_vector(3 downto 0);\n\t\tcurrentRdstVal:in std_logic_vector(15 downto 0);\n\t\tprevRdstVal_alu:in std_logic_vector(15 downto 0);\n\t\tRdstVal: out std_logic_vector (15 downto 0)\n\t);\nend CallJumpHazard;\n\narchitecture CallJumpHazard_arc of CallJumpHazard is\nbegin\n\tRdstVal <=  prevRdstVal_alu when currentRdst = prevRdst else\n\t\t\t\tcurrentRdstVal;\t\t\n\nend CallJumpHazard_arc;",
+			"file": "CallJumpHazard.vhdl",
+			"file_size": 525,
+			"file_write_time": 131699261916529569,
 			"settings":
 			{
-				"buffer_size": 2032,
+				"buffer_size": 508,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/Users/hadye/floobits/welcome.md",
+			"file": "ALU.vhd",
 			"settings":
 			{
-				"buffer_size": 206,
+				"buffer_size": 6376,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/hadye/Desktop/temp.mem",
+			"settings":
+			{
+				"buffer_size": 5699,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "IFID_buffer.vhd",
+			"settings":
+			{
+				"buffer_size": 4400,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": " \n\nlibrary IEEE;\nuse IEEE.STD_LOGIC_1164.ALL;\nuse IEEE.STD_LOGIC_UNSIGNED.ALL;\nuse ieee.numeric_std.all;\n\n\nentity fetch_stage is\nport(\n\tRjump: in std_logic_vector(15 downto 0);-- from input to alu jump C N Z\n\tRcallorjump: in std_logic_vector(15 downto 0); --from reg rdst \n\tRret: in std_logic_vector(15 downto 0); -- from function mem/wb ret or reti\n\tRint: in std_logic_vector(15 downto 0); -- destination from interrupt\n\tRrst: in std_logic_vector(15 downto 0); -- destination from reset\n\tnewsp: in std_logic_vector(15 downto 0); -- new stack pointer updated every cycle  \n\tRst,clk,callorjump,jmpCNZ,ret,interrupt:in std_logic;\n\tMem_inst: out std_logic_vector(31 downto 0);\n\tNextPC: out std_logic_vector(15 downto 0);\n\tSPOutput: out std_logic_vector(15 downto 0)\n);\nend fetch_stage;\n\narchitecture arch of fetch_stage is\n\ncomponent my_nDFF is\nGeneric ( n : integer := 16);\nport( Clk,Rst,enable : in std_logic;\nd : in std_logic_vector(n-1 downto 0);\nq : out std_logic_vector(n-1 downto 0));\nend component;\n\ncomponent syncram2 is\nGeneric(n:integer:= 16);\nport ( clk : in std_logic;\nwe : in std_logic;\naddress : in std_logic_vector(n-1 downto 0);\ndatain : in std_logic_vector(n-1 downto 0);\ndataout : out std_logic_vector(2*n-1 downto 0) );\nend component;\n\nsignal regin,out1,out2,out3,out4: std_logic_vector(15 downto 0);\nsignal pc,sp: std_logic_vector(15 downto 0);\nsignal Memout: std_logic_vector(31 downto 0);\nsignal opcode: std_logic_vector(4 downto 0);\nsignal one :std_logic_vector(15 downto 0):=\"0000000000000001\";\nsignal two :std_logic_vector(15 downto 0):=\"0000000000000010\";\nsignal newPc:std_logic_vector(15 downto 0);\n\nbegin \nPCreg: my_nDFF generic map (n => 16) port map(Clk,Rst,'1',regin,pc);\nSPreg: my_nDFF generic map (n => 16) port map(Clk,Rst,'1',newsp,sp);\ninst_mem:syncram2 generic map (n => 16) port map(Clk,'0',pc,\"0000000000000000\",Memout);\nopcode <= Memout(31 downto 27);\nnewPc<= pc+two when opcode=\"01001\" or opcode=\"01010\"  or opcode=\"11110\"  or opcode=\"11101\"  or opcode=\"11100\" else\n\tpc+one; \n\n\nout1<= newpc when jmpCNZ='0' else  Rjump;\nout2<= out1 when ret='0' else Rret;\nout3<=out2 when Rst='0' else Rrst;\nout4<=out3 when callorjump='0' else Rcallorjump;\nregin<=out4 when interrupt='0' else Rint;  \nMem_inst<=Memout;\n\nend arch ;\n",
+			"file": "fetchstage.vhd",
+			"file_size": 2319,
+			"file_write_time": 131699341754204994,
+			"settings":
+			{
+				"buffer_size": 2253,
 				"line_ending": "Windows"
 			}
 		}
@@ -359,10 +431,58 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 443.0,
-		"last_filter": "ins",
+		"height": 171.0,
+		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"git reset",
+				"Git: Reset (hard) HEAD"
+			],
+			[
+				"git comm",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add All"
+			],
+			[
+				"git s",
+				"Git: Status"
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"git pull",
+				"Git: Pull"
+			],
+			[
+				"git pus",
+				"Git: Push"
+			],
+			[
+				"git ame",
+				"Git: Amend Commit"
+			],
+			[
+				"git ad",
+				"Git: Add All"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
 			[
 				"ins",
 				"Package Control: Install Package"
@@ -378,26 +498,6 @@
 			[
 				"git commi",
 				"Git: Commit"
-			],
-			[
-				"git add",
-				"Git: Add All"
-			],
-			[
-				"git status",
-				"Git: Status"
-			],
-			[
-				"git comm",
-				"Git: Commit"
-			],
-			[
-				"git push",
-				"Git: Push"
-			],
-			[
-				"git ame",
-				"Git: Amend Commit"
 			],
 			[
 				"remove",
@@ -450,10 +550,6 @@
 			[
 				"add ",
 				"Git: Add All"
-			],
-			[
-				"git pus",
-				"Git: Push"
 			],
 			[
 				"stash pop",
@@ -528,24 +624,12 @@
 				"Git: Update Project Ignored Files"
 			],
 			[
-				"git com",
-				"Git: Commit"
-			],
-			[
 				"git a",
 				"Git: Add All"
 			],
 			[
 				"git stat",
 				"Git: Status"
-			],
-			[
-				"git ad",
-				"Git: Add All"
-			],
-			[
-				"git commit",
-				"Git: Commit"
 			],
 			[
 				"add\t",
@@ -624,27 +708,37 @@
 	],
 	"file_history":
 	[
+		"/C/Users/hadye/Desktop/temp.mem",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project - Copy/MicroProcessor.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/instruction_set.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/memory.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/DFF_Rising.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/fetchstage.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/my_dff3.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/IDEX_buffer.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/IFID_buffer.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/controlunit (1).vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nregister.vhd",
+		"/C/Users/hadye/floobits/welcome.md",
+		"/C/Users/hadye/Google Drive/CUFE/term6/APT/Labs/Lab - Network Programming/requirement/client.java",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.sublime-project",
+		"/D/Music/(1) Kygo - Piano Jam (ALL 1-2-3) [1 HOUR] - YouTube.MKV",
 		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/Terminality/Default (Windows).sublime-keymap",
 		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/Terminality/README.md",
 		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/myvhdl.sublime-build",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Memory (1).vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/my_ndff.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/my_nDFF3.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/controlunit (1).vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/pushpopunit.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/jumpunit.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/hazardunit.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/EXMEM_buffer.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ForwardUnit.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/my_dff3.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/IDEX_buffer.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/CallJumpHazard.vhdl",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/IFID_buffer.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/fetchstage.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RegisterFile.vhd",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/instruction_set.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/micro.do",
 		"/C/Users/hadye/Downloads/forwardunit.vhd",
 		"/C/Users/hadye/Desktop/vsim -gui work.idex_buffer",
@@ -658,7 +752,6 @@
 		"/C/Users/hadye/Google Drive/CUFE/term6/Compilers/Project/lex.l",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Compilers/Project/yac.c",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/SHL_do.do",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/memory.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/.gitignore",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nreg_enable.vhd",
 		"/C/Users/hadye/Downloads/controlunit.vhd",
@@ -681,17 +774,14 @@
 		"/C/Users/hadye/flex-bison-example/calc.tab.c",
 		"/C/Users/hadye/license.c",
 		"/C/Users/hadye/Downloads/bof",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nregister.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Fetcher.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu.do",
-		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.sublime-project",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Microprocessor.cr.do",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Labexam.vhd",
 		"/C/Users/hadye/Downloads/Pipe_Enc.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/Labexam.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab_exam_sol/Pipe_Enc.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab_exam_sol/temp.html",
-		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab4/main.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/testbench.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/saladicious.json",
@@ -745,13 +835,7 @@
 		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RotateOP.vhd",
 		"/C/Users/hadye/Google Drive/CUFE/term6/APT/Labs/Lab - Network Programming/requirement/server.java",
 		"/C/Program Files/Apache Software Foundation/Tomcat 9.0/webapps/examples/WEB-INF/classes/http2/SimpleImagePush.java",
-		"/C/Program Files/Apache Software Foundation/Tomcat 9.0/conf/tomcat-users.xml",
-		"/C/Users/hadye/Desktop/Lab Servlet 7/Code/deploy.sh",
-		"/C/Users/hadye/Google Drive/CUFE/term6/APT/Req/Tuesday Requirement_threading/requirement_student.java",
-		"/C/Users/hadye/PycharmProjects/Saladicious/back_end/SaladiciousAPI/models.py",
-		"/E/vagrant/kali/Vagrantfile",
-		"/C/cmder/config/user-profile.cmd",
-		"/C/cmder/config/settings"
+		"/C/Program Files/Apache Software Foundation/Tomcat 9.0/conf/tomcat-users.xml"
 	],
 	"find":
 	{
@@ -762,6 +846,7 @@
 		"height": 198.0,
 		"where_history":
 		[
+			"C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Arch\\Project",
 			""
 		]
 	},
@@ -770,6 +855,29 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"pcin",
+			"my_DFF3",
+			"newpc",
+			"newPc",
+			"string",
+			":",
+			"CONSTANT",
+			"syncram",
+			"sync",
+			"<identifier>",
+			"regwriteoutE",
+			"my_DFF",
+			"regwrite",
+			"Rdstno",
+			"regwriteoutE",
+			"\n\t",
+			"wb_data",
+			"call",
+			"memwrite",
+			"aluresultinE",
+			"CONSTANT  ADD",
+			"CONSTANT ADD",
+			"CARELL",
 			"my_ndf",
 			"flagreg",
 			"my_nDFF",
@@ -874,65 +982,222 @@
 			"Pipe_Enc",
 			"labexam",
 			"Cin",
-			"cin",
-			"f",
-			"F",
-			"f",
-			"F",
-			"f",
-			"F",
-			"we",
-			"DataMemory",
-			"pipe_enc",
-			"Adder8Bit",
-			"DataMemory",
-			"01101",
-			"nota",
-			"nega",
-			"shiftright",
-			"00011",
-			"\";\n",
-			"type_name",
-			"d1output",
-			"DataIn",
-			"en",
-			"to_integer",
-			"Clk"
+			"cin"
 		],
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": false,
+		"regex": true,
 		"replace_history":
 		[
 		],
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "memory.vhd",
-					"semi_transient": true,
+					"file": "instruction_set.vhd",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 737,
+						"buffer_size": 1862,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								125,
-								125
+								689,
+								689
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "MicroProcessor.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20417,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								18854,
+								18854
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 11371.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "CallJumpHazard.vhdl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 508,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": false,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "ALU.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6376,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5823,
+								5823
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2482.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/Users/hadye/Desktop/temp.mem",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5699,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								72,
+								88
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "IFID_buffer.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4400,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4225,
+								4233
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1776.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "fetchstage.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2253,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2253,
+								2253
 							]
 						],
 						"settings":
@@ -945,157 +1210,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 421,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								421,
-								421
-							]
-						],
-						"settings":
-						{
-							"auto_indent": false,
-							"default_dir": "C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Arch\\Project",
-							"git_gutter_is_enabled": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_width": 2,
-							"word_wrap": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "MicroProcessor.sublime-project",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2004,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								171,
-								171
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/zzz A File Icon zzz/aliases/JSON (Sublime).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 56,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								56,
-								56
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": false,
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/C/Users/hadye/Google Drive/CUFE/term6/APT/Labs/Lab - Network Programming/requirement/client.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2032,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": false,
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/C/Users/hadye/floobits/welcome.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 206,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": false,
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -1162,7 +1277,15 @@
 		"selected_items":
 		[
 			[
-				"mi",
+				"call",
+				"CallJumpHazard.vhdl"
+			],
+			[
+				"alu",
+				"ALU.vhd"
+			],
+			[
+				"micr",
 				"MicroProcessor.vhd"
 			],
 			[
@@ -1170,12 +1293,36 @@
 				"instruction_set.vhd"
 			],
 			[
-				"mem",
-				"Memory (1).vhd"
+				"fetch",
+				"fetchstage.vhd"
 			],
 			[
 				"my",
-				"my_nDFF3.vhd"
+				"my_dff3.vhd"
+			],
+			[
+				"contro",
+				"controlunit (1).vhd"
+			],
+			[
+				"id",
+				"IDEX_buffer.vhd"
+			],
+			[
+				"ifif",
+				"IFID_buffer.vhd"
+			],
+			[
+				"micro",
+				"MicroProcessor.vhd"
+			],
+			[
+				"mi",
+				"MicroProcessor.vhd"
+			],
+			[
+				"mem",
+				"Memory (1).vhd"
 			],
 			[
 				"mic",
@@ -1198,20 +1345,8 @@
 				"instruction_set.vhd"
 			],
 			[
-				"alu",
-				"ALU.vhd"
-			],
-			[
 				"ex",
 				"EXMEM_buffer.vhd"
-			],
-			[
-				"id",
-				"IDEX_buffer.vhd"
-			],
-			[
-				"contro",
-				"controlunit (1).vhd"
 			],
 			[
 				"c",
@@ -1240,14 +1375,6 @@
 			[
 				"cal",
 				"CallJumpHazard.vhdl"
-			],
-			[
-				"fetch",
-				"fetchstage.vhd"
-			],
-			[
-				"micro",
-				"Microprocessor.do"
 			],
 			[
 				"file",
@@ -1365,7 +1492,7 @@
 	"show_minimap": false,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 274.0,
 	"status_bar_visible": true,
 	"template_settings":

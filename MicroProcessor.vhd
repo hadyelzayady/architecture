@@ -21,7 +21,7 @@ component syncram is
 		we : in std_logic;
 		address : in std_logic_vector(9 downto 0);
 		datain : in std_logic_vector(15 downto 0);
-		dataout : out std_logic_vector(31 downto 0) 
+		dataout : out std_logic_vector(15 downto 0) 
 	);
 end component syncram;
 
@@ -183,6 +183,10 @@ component RegisterFile is
 		);
 end component RegisterFile;
 
+component DFF_Rising is
+port(clk,rst, enable,d: in std_logic;
+q : out std_logic);
+ end component DFF_Rising; 
 --------------------------------------------------------------------------------
 -- instructions opcode
 --------------------------------------------------------------------------------
@@ -211,8 +215,6 @@ end component RegisterFile;
 	CONSTANT  JN :  std_logic_vector(4 downto 0)  := "10101";
 	CONSTANT  JC :  std_logic_vector(4 downto 0)  := "10110";
 	CONSTANT  JMP :  std_logic_vector(4 downto 0)  := "10111";
-	CONSTANT  CALL :  std_logic_vector(4 downto 0)  := "11000";
-	CONSTANT  RET :  std_logic_vector(4 downto 0)  := "11001";
 	CONSTANT  RTI :  std_logic_vector(4 downto 0)  := "11010";
 	CONSTANT  LDM :  std_logic_vector(4 downto 0)  := "11011";
 	CONSTANT  LDD :  std_logic_vector(4 downto 0)  := "11100";
@@ -248,7 +250,7 @@ signal RegPort2_data:std_logic_vector(15 downto 0);
 signal wb_enable : std_logic;
 signal wb_sel : std_logic_vector(2 downto 0);
 signal wb_data : std_logic_vector(15 downto 0);
-signal Rdstno : std_logic_vector(2 downto 0);
+signal rdstno : std_logic_vector(2 downto 0);
 signal rsrcno: std_logic_vector(2 downto 0);
 signal MWout : std_logic_vector(39 downto 0);
 signal MWdata : std_logic_vector(39 downto 0);
@@ -338,6 +340,14 @@ signal pushpopoutE,getdatafromoutE,retoutE : std_logic_vector(1 downto 0);
 signal wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE : std_logic;
 
 
+
+signal regwriteoutD: std_logic;
+
+signal regwriteoutE: std_logic;
+signal regwriteoutM: std_logic;
+
+signal rdstnooutM : std_logic_vector(2 downto 0);
+signal MemoutM 	: std_logic_vector(15 downto 0);
 --------------------------------------------------------------------------------
 -- end magdy
 --------------------------------------------------------------------------------
@@ -358,7 +368,7 @@ begin
 	----------------------------------------------------------------------------
 	-- Decode
 	----------------------------------------------------------------------------
-	Registers: RegisterFile port map (wb_enable,rsrcno,rdstno,wb_sel,Clk,Rst,port1_dataD,Port2_dataD,wb_data);
+	Registers: RegisterFile port map (regwriteoutM,rsrcno,rdstno,rdstnooutM,Clk,Rst,port1_dataD,Port2_dataD,AluOutputM);
 
 	-- change '0' to interrupt signal 
 	controlunit: control port map(opcode,'0',ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pushpop,ret,getdatafrom,jump,Aluop);
@@ -366,87 +376,46 @@ begin
 	--	Rdst <= InstCode2(7 downto 5) when  MOV | ADD | SUB | myAND | myOR | SHL| SHR,--operand with two registers
 	--			InstCode2(10 downto 8) when others;--should specify ops later
 
-	--DXdata<= Rdst--&InstCode2(15 downto 11) & port2_data & port1_data;--opcode & ..
-	-- DX Buffer
-	--DXRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,Rdst,RdstD);
-	--DXOpCodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,Opcode,OpcodeD);
-	----DXPort1Buff : my_nDFF generic map (n => 16) port map(Clk,Rst,port1_data,port1_dataD);
-	----DXPort2Buff : my_nDFF generic map (n => 16) port map(Clk,Rst,port2_data,port2_dataD);
-	--DXImmBuff	: my_nDFF generic map(n => 16) port map(Clk,Rst,Imm,ImmD);
-	ID_EXLabel: IDEX_buffer port map (pcinD
-		,spout
-		,Inputportout
-		,Imm
-		,EA
-		,port1_dataD
-		,port2_dataD
-		,opcode
-		,rsrcno
-		,rdstno
-		,jump
-		,pushpop
-		,getdatafrom
-		,ret
-		,regwrite
-		,ID_flush
-		,Clk
-		,wb_data
-		,memtoreg
-		,memread
-		,memwrite
-		,call
-		,int
-		,outtoport
-		,pcoutD
-		,spoutD
-		,InputportoutD
-		,ImmoutD
-		,EAoutD
-		,rsrcoutD
-		,rdstoutD
-		,opcodeoutD
-		,rsrcnooutD
-		,rdstnooutD
-		,jumpoutD
-		,pushpopoutD
-		,getdatafromoutD
-		,retoutD
-		,wboutD
-		,memtoregoutD
-		,memreadoutD
-		,memwriteoutD
-		,calloutD
-		,interruptoutD
-		,outportoutD);
+	--DXRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,'1',rdstno,rdstnooutD);
+	--DXOpCodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,'1',Aluop,OpcodeD);
+	--DXPort1Buff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',port1_data,rsrcoutD);
+	--DXPort2Buff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',port2_data,rdstoutD);
+	--DXImmBuff	: my_nDFF generic map(n => 16) port map(Clk,Rst,'1',Imm,ImmD);
+	--DXRegWriteBuff	: DFF_Rising  port map(Clk,Rst,'1',regwrite,regwriteoutD);
+	
 		----------------------------------------------------------------------------
 	-- Execute
 	----------------------------------------------------------------------------
 	
-	EX : ALU port map (rsrcoutD,rdstoutD,opcodeoutD,FlagsOutput,NewFlags,aluresultinE);
-	----XMdata <= DXoutput( 39 downto 32)&F&DXoutput(9 downto 0);--opcode & aluoutput & address
-	--EMOpCodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,OpcodeD,OpcodeE);
-	----EMAluOutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,F,AluOutputE);
-	--EMRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,RdstD,RdstE);
+	EX : ALU port map (rsrcoutD,rdstoutD,OpcodeD,FlagsOutput,NewFlags,aluresultinE);
+	--XMdata <= DXoutput( 39 downto 32)&F&DXoutput(9 downto 0);--opcode & aluoutput & address
+	EMOpCodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,'1',OpcodeD,OpcodeE);
+	EMAluOutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',aluresultinE,aluresultoutE);
+	EMRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,'1',rdstnooutD,rdstnooutE);
+	EMImmBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',ImmD,ImmoutE);
+	EM_MemWBuff : DFF_Rising  port map(Clk,Rst,'1',memwriteoutD,memwriteoutE);
+	EM_MemRBuff : DFF_Rising  port map(Clk,Rst,'1',memreadoutD,memreadoutE);
+	EM_RegWriteBuff : DFF_Rising port map(Clk,Rst,'1',regwriteoutD,regwriteoutE);
 	----with OpCode select
 	--port2_dataE <=  ImmD when OpcodeD=SHL else
 	--			   ImmD when OpcodeD=SHR else-- immediate value
 	--			   Port2_dataD ;
 					--x"0000" when others;
 	--EMPort2Buff : my_nDFF generic map (n => 16) port map(Clk,Rst,port2_data,port2_dataD);
-	Ex_MEMLabel: EXMEM_buffer port map(pcinE,spinE,aluresultinE
-		,InputportinE,ImminE,EAinE,rsrcinE,rdstinE
-		,opcodeinE 
-		,flaginE
-		,rsrcnoinE,rdstnoinE,jumpinE
-		,pushpopinE,getdatafrominE,retinE
-		,IDEX_rewriteE,IDEX_resetE,ClkE,wbinE,memtoreginE,memreadinE,memwriteinE,callinE,interruptinE,outportinE
-		,pcoutE,spoutE,aluresultoutE
-		,InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE
-		,opcodeoutE
-		,flagoutE
-		,rsrcnooutE,rdstnooutE,jumpoutE
-		,pushpopoutE,getdatafromoutE,retoutE
-		,wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE);
+	--Ex_MEMLabel: EXMEM_buffer port map(pcinE,spinE,aluresultinE
+	--	,InputportinE,ImminE,EAinE,rsrcinE,rdstinE
+	--	,opcodeinE 
+	--	,flaginE
+	--	,rsrcnoinE,rdstnoinE,jumpinE
+	--	,pushpopinE,getdatafrominE,retinE
+	--	,IDEX_rewriteE,IDEX_resetE,ClkE,wbinE,memtoreginE,memreadinE,memwriteinE,callinE,interruptinE,outportinE
+	--	,pcoutE,spoutE,aluresultoutE
+	--	,InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE
+	--	,opcodeoutE
+	--	,flagoutE
+	--	,rsrcnooutE,rdstnooutE,jumpoutE
+	--	,pushpopoutE,getdatafromoutE,retoutE
+	--	,wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE);
 	FlagRegister : my_nDFF generic map (n => 4) port map(Clk,Rst,'1',NewFlags,FlagsOutput); 
 
 	----------------------------------------------------------------------------
@@ -456,12 +425,13 @@ begin
 	--with OpcodeE select
 	--	Mem_we <='1' when STD,
 	--		 '0' when others;
-	DataMemory : syncram port map(Clk,we=>Mem_we,address=>ExMemBuffData(10 downto 1),datain=>ExMemBuffData(26 downto 11),dataout=>Memout);--original
-	MWdata <= ExMemBuffData(33 downto 31)&ExMemBuffData(30 downto 15)& Opcode & Memout;--rdst & aluresult
+	DataMemory : syncram port map(Clk,we=>memwriteoutE,address=>ImmoutE(9 downto 0),datain=>aluresultoutE,dataout=>Memout);--original
 	--MWBuff : my_nDFF generic map (n => 40) port map(Clk,Rst,MWdata,MWout);
 	MWOpcodeBuff : my_nDFF generic map (n => 5) port map(Clk,Rst,'1',OpcodeE,OpcodeM);
-	MWAluOutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',AluOutputE,AluOutputM);
-	MWRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,'1',RdstE,RdstM);
+	MWAluOutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',aluresultoutE,AluOutputM);
+	MWMemoutBuff : my_nDFF generic map (n => 16) port map(Clk,Rst,'1',Memout,MemoutM);
+	MWRdstBuff : my_nDFF generic map (n => 3) port map(Clk,Rst,'1',rdstnooutE,rdstnooutM);
+	MW_RegWriteBuff : DFF_Rising port map (Clk,Rst,regwriteoutE,regwriteoutM);
 
 	----------------------------------------------------------------------------
 	-- Write back
@@ -474,11 +444,11 @@ begin
 	--with MWout(20  downto 16) select --opcode 
 	--	wb_data <= MWout(15 downto 0) when LDD,-- wb from memory
 	--				MWout(36 downto 21) when others;
-	with OpcodeM select --opcode
-		wb_enable <= '1' when MOV | ADD | SUB | myAND | myOR | myNOT | NEG | INC | DEC | SHR,--specify ragne for wb operations
-					'0' when others;
-	wb_sel<= RdstM;
-	wb_data <= AluOutputM;
+	--with OpcodeM select --opcode
+	--	wb_enable <= '1' when MOV | ADD | SUB | myAND | myOR | myNOT | NEG | INC | DEC | SHR,--specify ragne for wb operations
+	--				'0' when others;
+	--wb_sel<= RdstM;
+	--wb_data <= AluOutputM;
 
 end MicroProcessor_arc;
 	--DataMemory : syncram port map(Clk,ExMemBuffData(0),address,ExMemBuffData(26 downto 11),Memout);
