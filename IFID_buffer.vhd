@@ -87,15 +87,15 @@ with opcodesigin select
 	rdstsig <= reg1sigin when RLC | RRC | NEG | INC | DEC,
 				reg2sigin when  others;
 
-PCreg: my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,'1',pcin,pcout);
-SPreg: my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,'1',spin,spout);
-IMMreg:my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,'1',immsigin,Imm);
-EAreg:my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,'1',EAsigin,EA);
-inputreg:my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,'1',inputportin,Inputportout);
+PCreg: my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,enable,pcin,pcout);
+SPreg: my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,enable,spin,spout);
+IMMreg:my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,enable,immsigin,Imm);
+EAreg:my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,enable,EAsigin,EA);
+inputreg:my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,enable,inputportin,Inputportout);
 
-opcodereg : my_nDFF3 generic map (n => 5) port map(Clk,IFID_reset,'1',opcodesigin,opcode);
-reg1: my_nDFF3 generic map (n => 3) port map(Clk,IFID_reset,'1',reg1sigin,rsrc);
-reg2: my_nDFF3 generic map (n => 3) port map(Clk,IFID_reset,'1',rdstsig,rdst);
+opcodereg : my_nDFF3 generic map (n => 5) port map(Clk,IFID_reset,enable,opcodesigin,opcode);
+reg1: my_nDFF3 generic map (n => 3) port map(Clk,IFID_reset,enable,reg1sigin,rsrc);
+reg2: my_nDFF3 generic map (n => 3) port map(Clk,IFID_reset,enable,rdstsig,rdst);
 
 
 end arch;

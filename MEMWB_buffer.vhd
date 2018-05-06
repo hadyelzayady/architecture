@@ -4,9 +4,9 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use ieee.numeric_std.all;
 
 
-entity EXMEM_buffer is
+entity MEMWB_buffer is
 port(
-	pcin,spin,aluresultin: in std_logic_vector (15 downto 0);
+	pcin,spin,aluresultin,memdatain: in std_logic_vector (15 downto 0);
 	Inputportin,Immin,EAin,rsrcin,rdstin: in std_logic_vector (15 downto 0);
 	opcodein : in std_logic_vector (4 downto 0);
 	flagin : in std_logic_vector (3 downto 0);
@@ -14,7 +14,7 @@ port(
 	pushpopin,getdatafromin,retin : in std_logic_vector (1 downto 0) ;  	
 	EXMEM_rewrite,EXMEM_reset,Clk,wbin,memtoregin,memreadin,memwritein,callin,interruptin,outportin: in std_logic;--wbin is regwrite signal to decode stage
 	
-	pcout,spout,aluresultout: out std_logic_vector (15 downto 0);
+	pcout,spout,aluresultout,memdataout: out std_logic_vector (15 downto 0);
 	Inputportout,Immout,EAout,rsrcout,rdstout: out std_logic_vector (15 downto 0);
 	opcodeout : out std_logic_vector (4 downto 0);
 	flagout : out std_logic_vector (3 downto 0);	
@@ -22,14 +22,10 @@ port(
 	pushpopout,getdatafromout,retout : out std_logic_vector (1 downto 0) ;  	
 	wbout,memtoregout,memreadout,memwriteout,callout,interruptout,outportout: out std_logic--wbin is regwrite signal to decode stage
 	
-
-	
-
-
 );
-end EXMEM_buffer;
+end MEMWB_buffer;
 
-architecture arch of EXMEM_buffer is
+architecture arch of MEMWB_buffer is
 
 component my_DFF3 is
 port( clk,rst, enable,d: in std_logic;
@@ -53,6 +49,7 @@ enable <=not(EXMEM_rewrite);
 PCreg: my_nDFF3 generic map (n => 16) port map(Clk,EXMEM_reset,enable,pcin,pcout);
 SPreg: my_nDFF3 generic map (n => 16) port map(Clk,EXMEM_reset,enable,spin,spout);
 aluresult: my_nDFF3 generic map (n => 16) port map(Clk,EXMEM_reset,enable,aluresultin,aluresultout);
+memdata: my_nDFF3 generic map (n => 16) port map(Clk,EXMEM_reset,enable,memdatain,memdataout);
 
 inputreg:my_nDFF3 generic map (n => 16) port map(Clk,EXMEM_reset,enable,inputportin,Inputportout);
 IMMreg:my_nDFF3 generic map (n => 16) port map(Clk,EXMEM_reset,enable,Immin,Immout);

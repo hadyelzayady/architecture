@@ -116,7 +116,25 @@ port(
 	wbout,memtoregout,memreadout,memwriteout,callout,interruptout,outportout: out std_logic--wbin is regwrite signal to decode stage
 );
 end component;
-
+component MEMWB_buffer is
+port(
+	pcin,spin,aluresultin,memdatain: in std_logic_vector (15 downto 0);
+	Inputportin,Immin,EAin,rsrcin,rdstin: in std_logic_vector (15 downto 0);
+	opcodein : in std_logic_vector (4 downto 0);
+	flagin : in std_logic_vector (3 downto 0);
+	rsrcnoin,rdstnoin ,jumpin: in std_logic_vector (2 downto 0);
+	pushpopin,getdatafromin,retin : in std_logic_vector (1 downto 0) ;  	
+	EXMEM_rewrite,EXMEM_reset,Clk,wbin,memtoregin,memreadin,memwritein,callin,interruptin,outportin: in std_logic;--wbin is regwrite signal to decode stage
+	
+	pcout,spout,aluresultout,memdataout: out std_logic_vector (15 downto 0);
+	Inputportout,Immout,EAout,rsrcout,rdstout: out std_logic_vector (15 downto 0);
+	opcodeout : out std_logic_vector (4 downto 0);
+	flagout : out std_logic_vector (3 downto 0);	
+	rsrcnoout,rdstnoout,jumpout : out std_logic_vector (2 downto 0);
+	pushpopout,getdatafromout,retout : out std_logic_vector (1 downto 0) ;  	
+	wbout,memtoregout,memreadout,memwriteout,callout,interruptout,outportout: out std_logic--wbin is regwrite signal to decode stage
+	);
+end component MEMWB_buffer;
 component control is
 port(
 	opcode : in std_logic_vector (4 downto 0);
@@ -318,11 +336,15 @@ signal rsrcnooutE,rdstnooutE,jumpoutE : std_logic_vector(2 downto 0);
 signal pushpopoutE,getdatafromoutE,retoutE : std_logic_vector(1 downto 0);
 signal wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE : std_logic;
 
-signal MemoutM : std_logic_vector(15 downto 0);
-signal rdstnooutM : std_logic_vector(2 downto 0);
-signal regwriteoutE : std_logic_vector(15 downto 0);
-signal wboutM : std_logic;
-signal ImmoutM : std_logic_vector(15 downto 0);
+signal aluresultoutM,memdataoutM : std_logic_vector(15 downto 0);
+signal IDEX_rewriteM,IDEX_resetM: std_logic;
+signal pcoutM,spoutM : std_logic_vector(15 downto 0);
+signal InputportoutM,ImmoutM,EAoutM,rsrcoutM,rdstoutM : std_logic_vector(15 downto 0);
+signal opcodeoutM : std_logic_vector(4 downto 0);
+signal flagoutM : std_logic_vector(3 downto 0);
+signal rsrcnooutM,rdstnooutM,jumpoutM : std_logic_vector(2 downto 0);
+signal pushpopoutM,getdatafromoutM,retoutM : std_logic_vector(1 downto 0);
+signal wboutM,memtoregoutM,memreadoutM,memwriteoutM,calloutM,interruptoutM,outportoutM : std_logic;
 --------------------------------------------------------------------------------
 -- end magdy
 --------------------------------------------------------------------------------
@@ -336,6 +358,7 @@ begin
 	IFID_reset<='1' when Rst='1' else '0'  ;
 	IDEX_resetD<='1' when Rst='1' else '0';
 	IDEX_resetE<='1' when Rst='1' else '0'  ;
+	IDEX_resetM<='1' when Rst='1' else '0'  ;
 	
 	fetchstageLabel : fetch_stage port map(Rjump,Rcallorjump,Rret,Rint,Rrst,newsp,Rst,clk,callorjump,'0','0',interrupt,Mem_inst,NextPC,SPOutput);
 	IFID: IFID_buffer port map(NextPC,SPOutput,Mem_inst,InPort,IFID_rewrite,IFID_reset,Clk,pcout,Inputportout,spout,EA,Imm,opcode,rsrcno,rdstno);
@@ -355,11 +378,12 @@ begin
 	----------------------------------------------------------------------------
 	-- Execute
 	----------------------------------------------------------------------------
-	
-	EX : ALU port map (rsrcoutD,rdstoutD,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
 	with opcodeoutD select
 		port2_data <= ImmoutD when SHL | SHR ,
 					  rdstoutD when others;
+
+	EX : ALU port map (rsrcoutD,rdstoutD,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
+
 	-----*******************************************************
     ----*************************************
 	-------------VIPPPPP abdo change flagoutput and put jump unit 
@@ -385,19 +409,26 @@ begin
 	
 	DataMemory : syncram port map(Clk,we=>memwriteoutE,address=>ImmoutE(9 downto 0),datain=>aluresultoutE,dataout=>Memout);--original
 	
-	MWOpcodeBuff : my_nDFF3 generic map (n => 5) port map(Clk,Rst,'1',opcodeoutE,OpcodeM);
-	MWAluOutBuff : my_nDFF3 generic map (n => 16) port map(Clk,Rst,'1',aluresultoutE,AluOutputM);
-	MWMemoutBuff : my_nDFF3 generic map (n => 16) port map(Clk,Rst,'1',Memout,MemoutM);
-	MWImmBuff : my_nDFF3 generic map (n => 16) port map(Clk,Rst,'1',ImmoutE,ImmoutM);
-	MWRdstBuff : my_nDFF3 generic map (n => 3) port map(Clk,Rst,'1',rdstnooutE,rdstnooutM);
-	MW_RegWriteBuff : my_DFF3 port map (Clk,Rst,'1',wboutE,wboutM);
-
+	MEM_WBLabel: MEMWB_buffer port map(pcoutE,spoutE,aluresultoutE,Memout
+			,InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE
+			,opcodeoutE
+			,flagoutE
+			,rsrcnooutE,rdstnooutE,jumpoutE
+			,pushpopoutE,getdatafromoutE,retoutE
+			,IDEX_rewriteM,IDEX_resetM,Clk,wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE
+			,pcoutM,spoutM,aluresultoutM,memdataoutM
+			,InputportoutM,ImmoutM,EAoutM,rsrcoutM,rdstoutM
+			,opcodeoutM
+			,flagoutM
+			,rsrcnooutM,rdstnooutM,jumpoutM
+			,pushpopoutM,getdatafromoutM,retoutM
+			,wboutM,memtoregoutM,memreadoutM,memwriteoutM,calloutM,interruptoutM,outportoutM);
 	----------------------------------------------------------------------------
 	-- Write back
 	----------------------------------------------------------------------------
 	with OpcodeM select 
-		wb_data <= MemoutM when LDD ,
+		wb_data <= memdataoutM when LDD ,
 					ImmoutM when LDM,
-					AluOutputM when others;
+					aluresultoutM when others;
 
 end MicroProcessor_arc;

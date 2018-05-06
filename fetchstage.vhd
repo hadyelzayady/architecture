@@ -50,9 +50,10 @@ signal newPc:std_logic_vector(15 downto 0);
 begin 
 PCreg: my_nDFF generic map (n => 16) port map(Clk,Rst,'1',regin,pc);
 SPreg: my_nDFF generic map (n => 16) port map(Clk,Rst,'1',newsp,sp);
-inst_mem:syncram2 generic map (n => 16) port map(Clk,'0',pc,"0000000000000000",Memout);
+inst_mem:syncram2 generic map (n => 16) port map(Clk,'0',newpc,"0000000000000000",Memout);
 opcode <= Memout(31 downto 27);
-newPc<= pc+two when opcode="01001" or opcode="01010"  or opcode="11110"  or opcode="11101"  or opcode="11100" else
+newPc<= pc when Rst='1' else 
+	pc+two when opcode="01001" or opcode="01010"  or opcode="11110"  or opcode="11101"  or opcode="11100" else
 	pc+one; 
 
 
@@ -62,5 +63,6 @@ out3<=out2 when Rst='0' else Rrst;
 out4<=out3 when callorjump='0' else Rcallorjump;
 regin<=out4 when interrupt='0' else Rint;  
 Mem_inst<=Memout;
-
+NextPC<=newpc;
+SPOutput<=sp;
 end arch ;
