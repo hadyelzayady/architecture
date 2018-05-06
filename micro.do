@@ -24,13 +24,16 @@ vsim -gui work.microprocessor
 # Loading work.halfadder(halfadder_arch)
 # Loading work.fulladder(fulladder_arch)
 # Loading work.exmem_buffer(arch)
-mem load -filltype value -filldata 0000100100000000 -fillradix binary /microprocessor/fetchstageLabel/inst_mem/ram(0)
+mem load -filltype value -filldata 1101100101000000 -fillradix binary /microprocessor/fetchstageLabel/inst_mem/ram(0)
 add wave -position insertpoint  \
 sim:/microprocessor/Clk \
 sim:/microprocessor/Rst \
 sim:/microprocessor/FlagRegisterWe \
 sim:/microprocessor/Memout \
 sim:/microprocessor/Opcode \
+sim:/microprocessor/opcodeoutD \
+sim:/microprocessor/opcodeoutE \
+sim:/microprocessor/opcodeoutM \
 sim:/microprocessor/Flags \
 sim:/microprocessor/FlagsOutput \
 sim:/microprocessor/port1_data \
@@ -44,12 +47,9 @@ sim:/microprocessor/wb_data \
 sim:/microprocessor/Rdstno \
 sim:/microprocessor/rsrcno \
 sim:/microprocessor/RdstD \
-sim:/microprocessor/OpcodeD \
 sim:/microprocessor/port1_dataD \
 sim:/microprocessor/port2_dataD \
 sim:/microprocessor/port2_dataE \
-sim:/microprocessor/OpcodeE \
-sim:/microprocessor/OpcodeM \
 sim:/microprocessor/AluOutputM \
 sim:/microprocessor/RdstE \
 sim:/microprocessor/RdstM \
@@ -75,7 +75,6 @@ sim:/microprocessor/Aluop \
 sim:/microprocessor/pcinD \
 sim:/microprocessor/rsrcinD \
 sim:/microprocessor/rdstinD \
-sim:/microprocessor/opcodeinD \
 sim:/microprocessor/rsrcnoinD \
 sim:/microprocessor/rdstnoinD \
 sim:/microprocessor/getdatafrominD \
@@ -88,7 +87,6 @@ sim:/microprocessor/memwriteinD \
 sim:/microprocessor/pcoutD \
 sim:/microprocessor/rsrcoutD \
 sim:/microprocessor/rdstoutD \
-sim:/microprocessor/opcodeoutD \
 sim:/microprocessor/rsrcnooutD \
 sim:/microprocessor/rdstnooutD \
 sim:/microprocessor/wboutD \
@@ -99,7 +97,6 @@ sim:/microprocessor/pcinE \
 sim:/microprocessor/aluresultinE \
 sim:/microprocessor/rsrcinE \
 sim:/microprocessor/rdstinE \
-sim:/microprocessor/opcodeinE \
 sim:/microprocessor/flaginE \
 sim:/microprocessor/rsrcnoinE \
 sim:/microprocessor/rdstnoinE \
@@ -113,7 +110,6 @@ sim:/microprocessor/pcoutE \
 sim:/microprocessor/aluresultoutE \
 sim:/microprocessor/rsrcoutE \
 sim:/microprocessor/rdstoutE \
-sim:/microprocessor/opcodeoutE \
 sim:/microprocessor/flagoutE \
 sim:/microprocessor/rsrcnooutE \
 sim:/microprocessor/rdstnooutE \
@@ -129,6 +125,9 @@ add wave -position insertpoint  \
 sim:/microprocessor/Registers/R1/d \
 sim:/microprocessor/Registers/R1/q
 add wave -position insertpoint  \
+sim:/microprocessor/Registers/R2/d \
+sim:/microprocessor/Registers/R2/q
+add wave -position insertpoint  \
 sim:/microprocessor/Imm
 add wave -position insertpoint  \
 sim:/microprocessor/ImmD
@@ -138,6 +137,10 @@ add wave -position insertpoint  \
 sim:/microprocessor/ImmoutE
 add wave -position insertpoint  \
 sim:/microprocessor/ImmoutM
+add wave -position insertpoint  \
+sim:/microprocessor/rdstnooutM
+add wave -position insertpoint  \
+sim:/microprocessor/LDM
 force -freeze sim:/microprocessor/interrupt 0 0
 force -freeze sim:/microprocessor/Clk 1 0, 0 {100 ns} -r 200
 force -freeze sim:/microprocessor/Rst 1 0
@@ -146,6 +149,7 @@ force -freeze sim:/microprocessor/Registers/R1/q 16'hFFFF 0
 force -freeze sim:/microprocessor/IFID_rewrite 0 0
 force -freeze sim:/microprocessor/IDEX_rewriteE 0 0
 force -freeze sim:/microprocessor/IDEX_rewriteD 0 0
+force -freeze sim:/microprocessor/IDEX_rewriteM 0 0
 force -freeze sim:/microprocessor/newpc 0 0
 force -freeze sim:/microprocessor/Nextpc 0 0
 run
@@ -155,7 +159,7 @@ run
 run
 run
 run
-
+noforce sim:/microprocessor/wb_data
 noforce sim:/microprocessor/NextPC
 noforce sim:/microprocessor/Rst
 force -freeze sim:/microprocessor/Rst 0 0

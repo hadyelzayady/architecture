@@ -52,9 +52,21 @@ PCreg: my_nDFF generic map (n => 16) port map(Clk,Rst,'1',regin,pc);
 SPreg: my_nDFF generic map (n => 16) port map(Clk,Rst,'1',newsp,sp);
 inst_mem:syncram2 generic map (n => 16) port map(Clk,'0',newpc,"0000000000000000",Memout);
 opcode <= Memout(31 downto 27);
-newPc<= pc when Rst='1' else 
-	pc+two when opcode="01001" or opcode="01010"  or opcode="11110"  or opcode="11101"  or opcode="11100" else
-	pc+one; 
+PC_process : process( Clk,Rst )
+begin
+	if(Rst ='1') then 
+		newPc <= pc;
+	elsif(falling_edge(Clk)) then
+		if(opcode="01001" or opcode="01010"  or opcode="11110"  or opcode="11101"  or opcode="11100") then
+			newPc <= pc+two;
+		else
+		 	newPc <= pc+one;
+		end if;
+	end if; 
+end process ; -- PC_process
+--newPc<= pc when Rst='1' else 
+--	pc+two when opcode="01001" or opcode="01010"  or opcode="11110"  or opcode="11101"  or opcode="11100" else
+--	pc+one; 
 
 
 out1<= newpc when jmpCNZ='0' else  Rjump;
