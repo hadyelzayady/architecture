@@ -112,7 +112,7 @@ begin
                         AorB when myOR,
                         nota when myNOT,
                         nega when NEG,
-                        A when STD | MOV,
+                        A when STD | MOV | myOUT,
                         B when LDM,
                         (others => '0') when others;
     with Op select 

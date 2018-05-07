@@ -1,1 +1,2 @@
-IN r1
+ldm r1 10
+out r1

@@ -387,6 +387,10 @@ begin
 	-- change '0' to interrupt signal 
 	controlunit: control port map(opcode,'0',Rst,ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pushpop,ret,getdatafrom,jump,Aluop);
 	
+	-- Out instrcution should be her but we should handle hazard first as mov then out will out old value
+	--with Opcode select 
+	--	OutPort <= port1_data when myOUT,
+	--			   (others => '0') when others;
 	
 	ID_EXLabel: IDEX_buffer port map (pcout,spout,Inputportout,Imm,EA,port1_dataD,port2_dataD,opcode,rsrcno,rdstno,jump,pushpop,getdatafrom,ret,IDEX_rewriteD,'0',Clk,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pcoutD,spoutD,InputportoutD,ImmoutD,EAoutD,rsrcoutD,rdstoutD,opcodeoutD,rsrcnooutD,rdstnooutD,jumpoutD,pushpopoutD,getdatafromoutD,retoutD,wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD);----------------------------------------------------------------------------
 	
@@ -455,5 +459,8 @@ begin
 		wb_data <= memdataoutM when LDD ,
 				   inputportoutM when myIN,
 				   aluresultoutM when others;
+	with OpcodeoutM select 
+		OutPort <= aluresultoutM when myOUT,
+				   (others => '0') when others;
 
 end MicroProcessor_arc;
