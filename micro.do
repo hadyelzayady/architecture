@@ -98,6 +98,7 @@ sim:/microprocessor/wboutE \
 sim:/microprocessor/memtoregoutE \
 sim:/microprocessor/memreadoutE \
 sim:/microprocessor/memwriteoutE \
+sim:/microprocessor/memdataoutM \
 sim:/microprocessor/wboutM \
 sim:/microprocessor/port1_choice \
 sim:/microprocessor/port2_choice \
@@ -107,7 +108,9 @@ sim:/microprocessor/ImmoutD	\
 sim:/microprocessor/ImmoutE	\
 sim:/microprocessor/ImmoutM	\
 sim:/microprocessor/rdstnooutM	\
-sim:/microprocessor/LDM 
+sim:/microprocessor/InPort \
+sim:/microprocessor/LDM \
+sim:/microprocessor/InputportoutM
 force -freeze sim:/microprocessor/interrupt 0 0
 force -freeze sim:/microprocessor/Clk 1 0, 0 {100 ns} -r 200
 force -freeze sim:/microprocessor/Rst 1 0
@@ -129,6 +132,7 @@ force -freeze sim:/microprocessor/IDEX_rewriteD 0 0
 force -freeze sim:/microprocessor/IDEX_rewriteM 0 0
 force -freeze sim:/microprocessor/newpc 0 0
 force -freeze sim:/microprocessor/Nextpc 0 0
+force -freeze sim:/microprocessor/InPort 16'hf0f0 0
 run
 run
 run
@@ -140,7 +144,5 @@ noforce sim:/microprocessor/wb_data
 noforce sim:/microprocessor/NextPC
 noforce sim:/microprocessor/Rst
 force -freeze sim:/microprocessor/Rst 0 0
-run
-run
-run
+
 

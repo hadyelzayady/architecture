@@ -84,7 +84,7 @@ reg1sigin <=instruction(26 downto 24);
 reg2sigin <=instruction(23 downto 21);
 
 with opcodesigin select 
-	rdstsig <= reg1sigin when RLC | RRC | NEG | INC | DEC | LDM | LDD,
+	rdstsig <= reg1sigin when RLC | RRC | NEG | INC | DEC | LDM | LDD | myIN,
 				reg2sigin when  others;
 
 PCreg: my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,enable,pcin,pcout);

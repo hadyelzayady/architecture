@@ -453,6 +453,7 @@ begin
 	----------------------------------------------------------------------------
 	with opcodeoutM select 
 		wb_data <= memdataoutM when LDD ,
+				   inputportoutM when myIN,
 				   aluresultoutM when others;
 
 end MicroProcessor_arc;
