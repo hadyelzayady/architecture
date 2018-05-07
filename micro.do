@@ -24,8 +24,7 @@ vsim -gui work.microprocessor
 # Loading work.halfadder(halfadder_arch)
 # Loading work.fulladder(fulladder_arch)
 # Loading work.exmem_buffer(arch)
-mem load -filltype value -filldata 1101100101000000 -fillradix binary /microprocessor/fetchstageLabel/inst_mem/ram(0)
-mem load -filltype value -filldata 1101100101000000 -fillradix binary /microprocessor/fetchstageLabel/inst_mem/ram(1)
+mem load -i C:/Users/hadye/Desktop/temp.mem /microprocessor/fetchstageLabel/inst_mem/ram
 add wave -position insertpoint  \
 sim:/microprocessor/Clk \
 sim:/microprocessor/Rst \
@@ -73,18 +72,8 @@ sim:/microprocessor/memread \
 sim:/microprocessor/memwrite \
 sim:/microprocessor/getdatafrom \
 sim:/microprocessor/Aluop \
-sim:/microprocessor/pcinD \
-sim:/microprocessor/rsrcinD \
-sim:/microprocessor/rdstinD \
-sim:/microprocessor/rsrcnoinD \
-sim:/microprocessor/rdstnoinD \
-sim:/microprocessor/getdatafrominD \
 sim:/microprocessor/IDEX_rewriteD \
 sim:/microprocessor/IDEX_resetD \
-sim:/microprocessor/wbinD \
-sim:/microprocessor/memtoreginD \
-sim:/microprocessor/memreadinD \
-sim:/microprocessor/memwriteinD \
 sim:/microprocessor/pcoutD \
 sim:/microprocessor/rsrcoutD \
 sim:/microprocessor/rdstoutD \
@@ -94,19 +83,9 @@ sim:/microprocessor/wboutD \
 sim:/microprocessor/memtoregoutD \
 sim:/microprocessor/memreadoutD \
 sim:/microprocessor/memwriteoutD \
-sim:/microprocessor/pcinE \
 sim:/microprocessor/aluresultinE \
-sim:/microprocessor/rsrcinE \
-sim:/microprocessor/rdstinE \
-sim:/microprocessor/flaginE \
-sim:/microprocessor/rsrcnoinE \
-sim:/microprocessor/rdstnoinE \
 sim:/microprocessor/IDEX_rewriteE \
 sim:/microprocessor/IDEX_resetE \
-sim:/microprocessor/wbinE \
-sim:/microprocessor/memtoreginE \
-sim:/microprocessor/memreadinE \
-sim:/microprocessor/memwriteinE \
 sim:/microprocessor/pcoutE \
 sim:/microprocessor/aluresultoutE \
 sim:/microprocessor/rsrcoutE \
@@ -145,8 +124,18 @@ sim:/microprocessor/LDM
 force -freeze sim:/microprocessor/interrupt 0 0
 force -freeze sim:/microprocessor/Clk 1 0, 0 {100 ns} -r 200
 force -freeze sim:/microprocessor/Rst 1 0
-force -freeze sim:/microprocessor/Registers/R1/d 16'hFFFF 0
-force -freeze sim:/microprocessor/Registers/R1/q 16'hFFFF 0
+add wave -position insertpoint  \
+sim:/microprocessor/Registers/R1/d \
+sim:/microprocessor/Registers/R1/q
+add wave -position insertpoint  \
+sim:/microprocessor/Registers/R2/d \
+sim:/microprocessor/Registers/R2/q
+add wave -position insertpoint  \
+sim:/microprocessor/Registers/R3/d \
+sim:/microprocessor/Registers/R3/q
+add wave -position insertpoint  \
+sim:/microprocessor/Registers/R4/d \
+sim:/microprocessor/Registers/R4/q
 force -freeze sim:/microprocessor/IFID_rewrite 0 0
 force -freeze sim:/microprocessor/IDEX_rewriteE 0 0
 force -freeze sim:/microprocessor/IDEX_rewriteD 0 0

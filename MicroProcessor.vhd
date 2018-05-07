@@ -394,11 +394,11 @@ begin
 		port2_data <= ImmoutD when SHL | SHR ,
 					  rdstoutD when others;
 
-	EX : ALU port map (rsrcoutD,rdstoutD,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
+	EX : ALU port map (rsrcoutD,port2_data,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
 
 	-----*******************************************************
     ----*************************************
-	-------------VIPPPPP abdo change flagoutput and put jump unit 
+	-------------VIPPPPP abdo change flagoutput  and put jump unit 
 	Ex_MEMLabel: EXMEM_buffer port map(pcoutD,spoutD,aluresultinE
 			,InputportoutD,ImmoutD,EAoutD,rsrcoutD,rdstoutD
 			,opcodeoutD 

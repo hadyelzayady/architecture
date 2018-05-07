@@ -59,20 +59,20 @@ begin
 				'0';
 
 
-	port1_data <= reg0_output when port1_sel="000" and w_en=  '0' else
-				  reg1_output when port1_sel="001" and w_en=  '0' else
-				  reg2_output when port1_sel="010" and w_en=  '0' else
-				  reg3_output when port1_sel="011" and w_en=  '0' else
-				  reg4_output when port1_sel="100" and w_en=  '0' else
-				  reg5_output when port1_sel="101" and w_en=  '0' else
+	port1_data <= reg0_output when port1_sel="000" else
+				  reg1_output when port1_sel="001" else
+				  reg2_output when port1_sel="010" else
+				  reg3_output when port1_sel="011" else
+				  reg4_output when port1_sel="100" else
+				  reg5_output when port1_sel="101" else
 				  (others => 'U');	
 
-	port2_data <= reg0_output when port2_sel="000" and w_en=  '0' else
-				  reg1_output when port2_sel="001" and w_en=  '0' else
-				  reg2_output when port2_sel="010" and w_en=  '0' else
-				  reg3_output when port2_sel="011" and w_en=  '0' else
-				  reg4_output when port2_sel="100" and w_en=  '0' else
-				  reg5_output when port2_sel="101" and w_en=  '0' else
+	port2_data <= reg0_output when port2_sel="000" else
+				  reg1_output when port2_sel="001" else
+				  reg2_output when port2_sel="010" else
+				  reg3_output when port2_sel="011" else
+				  reg4_output when port2_sel="100" else
+				  reg5_output when port2_sel="101" else
 				  (others => 'U');					  
 end register_arch;
 
