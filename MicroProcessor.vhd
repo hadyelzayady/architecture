@@ -89,10 +89,10 @@ component ForwardUnit is
 	port (
 		EX_MEM_WB:in std_logic;
 		MEM_WB_WB:in std_logic;
-		Rsrc: in std_logic_vector(3 downto 0);
-		Rdst: in std_logic_vector(3 downto 0);
-		EX_Mem_Rdst: in std_logic_vector(3 downto 0);
-		Mem_WB_Rdst: in std_logic_vector(3 downto 0);
+		Rsrc: in std_logic_vector(2 downto 0);
+		Rdst: in std_logic_vector(2 downto 0);
+		EX_Mem_Rdst: in std_logic_vector(2 downto 0);
+		Mem_WB_Rdst: in std_logic_vector(2 downto 0);
 		Rdst_choice,Rsrc_choice: out std_logic_vector (1 downto 0)
 	);
 end component ForwardUnit;
@@ -357,6 +357,9 @@ signal flagoutM : std_logic_vector(3 downto 0);
 signal rsrcnooutM,rdstnooutM,jumpoutM : std_logic_vector(2 downto 0);
 signal pushpopoutM,getdatafromoutM,retoutM : std_logic_vector(1 downto 0);
 signal wboutM,memtoregoutM,memreadoutM,memwriteoutM,calloutM,interruptoutM,outportoutM : std_logic;
+signal tempport2_data : std_logic_vector(15 downto 0);
+signal port1_choice : std_logic_vector(1 downto 0);
+signal port2_choice : std_logic_vector(1 downto 0);
 --------------------------------------------------------------------------------
 -- end magdy
 --------------------------------------------------------------------------------
@@ -391,10 +394,20 @@ begin
 	-- Execute
 	----------------------------------------------------------------------------
 	with opcodeoutD select
-		port2_data <= ImmoutD when SHL | SHR ,
+		tempport2_data <= ImmoutD when SHL | SHR | LDM  ,
 					  rdstoutD when others;
 
-	EX : ALU port map (rsrcoutD,port2_data,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
+	with port1_choice select
+		port1_data <=  aluresultoutE when "01",
+					   aluresultoutM when "10",
+					   rsrcoutD when others;
+	with port2_choice select
+		port2_data <=	aluresultoutE when "01",
+						aluresultoutM when "10",
+						tempport2_data when others;
+	forwardLabel: ForwardUnit port map(wboutE,wboutM,rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM,port1_choice,port2_choice);
+
+	EX : ALU port map (port1_data,port2_data,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
 
 	-----*******************************************************
     ----*************************************
@@ -440,7 +453,6 @@ begin
 	----------------------------------------------------------------------------
 	with opcodeoutM select 
 		wb_data <= memdataoutM when LDD ,
-					ImmoutM when LDM,
-					aluresultoutM when others;
+				   aluresultoutM when others;
 
 end MicroProcessor_arc;

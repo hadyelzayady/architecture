@@ -4,10 +4,10 @@ entity ForwardUnit is
 	port (
 		EX_MEM_WB:in std_logic;
 		MEM_WB_WB:in std_logic;
-		Rsrc: in std_logic_vector(3 downto 0);
-		Rdst: in std_logic_vector(3 downto 0);
-		EX_Mem_Rdst: in std_logic_vector(3 downto 0);
-		Mem_WB_Rdst: in std_logic_vector(3 downto 0);
+		Rsrc: in std_logic_vector(2 downto 0);
+		Rdst: in std_logic_vector(2 downto 0);
+		EX_Mem_Rdst: in std_logic_vector(2 downto 0);
+		Mem_WB_Rdst: in std_logic_vector(2 downto 0);
 		Rdst_choice,Rsrc_choice: out std_logic_vector (1 downto 0)
 	);
 end ForwardUnit;

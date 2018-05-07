@@ -113,6 +113,7 @@ begin
                         nota when myNOT,
                         nega when NEG,
                         A when STD | MOV,
+                        B when LDM,
                         (others => '0') when others;
     with Op select 
         Flags(V downto C) <= Overflow & carry when ADD |SUB | INC | DEC ,
