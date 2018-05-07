@@ -24,7 +24,7 @@ vsim -gui work.microprocessor
 # Loading work.halfadder(halfadder_arch)
 # Loading work.fulladder(fulladder_arch)
 # Loading work.exmem_buffer(arch)
-mem load -i C:/Users/hadye/Desktop/temp.mem /microprocessor/fetchstageLabel/inst_mem/ram
+mem load -i {C:/Users/hadye/Google Drive/CUFE/term6/Arch/Project/temp.mem} /microprocessor/fetchstageLabel/inst_mem/ram
 add wave -position insertpoint  \
 sim:/microprocessor/Clk \
 sim:/microprocessor/Rst \
@@ -38,7 +38,6 @@ sim:/microprocessor/Flags \
 sim:/microprocessor/FlagsOutput \
 sim:/microprocessor/port1_data \
 sim:/microprocessor/port2_data \
-sim:/microprocessor/newPC \
 sim:/microprocessor/NextPC \
 sim:/microprocessor/RegPort2_data \
 sim:/microprocessor/wb_enable \
@@ -80,14 +79,16 @@ sim:/microprocessor/rdstoutD \
 sim:/microprocessor/rsrcnooutD \
 sim:/microprocessor/rdstnooutD \
 sim:/microprocessor/wboutD \
+sim:/microprocessor/wboutM \
 sim:/microprocessor/memtoregoutD \
 sim:/microprocessor/memreadoutD \
 sim:/microprocessor/memwriteoutD \
 sim:/microprocessor/aluresultinE \
+sim:/microprocessor/aluresultoutE \
+sim:/microprocessor/aluresultoutM \
 sim:/microprocessor/IDEX_rewriteE \
 sim:/microprocessor/IDEX_resetE \
 sim:/microprocessor/pcoutE \
-sim:/microprocessor/aluresultoutE \
 sim:/microprocessor/rsrcoutE \
 sim:/microprocessor/rdstoutE \
 sim:/microprocessor/flagoutE \
@@ -98,29 +99,15 @@ sim:/microprocessor/memtoregoutE \
 sim:/microprocessor/memreadoutE \
 sim:/microprocessor/memwriteoutE \
 sim:/microprocessor/wboutM \
-add wave -position insertpoint  \
-sim:/microprocessor/Registers/R0/d \
-sim:/microprocessor/Registers/R0/q
-add wave -position insertpoint  \
-sim:/microprocessor/Registers/R1/d \
-sim:/microprocessor/Registers/R1/q
-add wave -position insertpoint  \
-sim:/microprocessor/Registers/R2/d \
-sim:/microprocessor/Registers/R2/q
-add wave -position insertpoint  \
-sim:/microprocessor/Imm
-add wave -position insertpoint  \
-sim:/microprocessor/ImmD
-add wave -position insertpoint  \
-sim:/microprocessor/ImmoutD
-add wave -position insertpoint  \
-sim:/microprocessor/ImmoutE
-add wave -position insertpoint  \
-sim:/microprocessor/ImmoutM
-add wave -position insertpoint  \
-sim:/microprocessor/rdstnooutM
-add wave -position insertpoint  \
-sim:/microprocessor/LDM
+sim:/microprocessor/port1_choice \
+sim:/microprocessor/port2_choice \
+sim:/microprocessor/Imm	\
+sim:/microprocessor/ImmD	\
+sim:/microprocessor/ImmoutD	\
+sim:/microprocessor/ImmoutE	\
+sim:/microprocessor/ImmoutM	\
+sim:/microprocessor/rdstnooutM	\
+sim:/microprocessor/LDM 
 force -freeze sim:/microprocessor/interrupt 0 0
 force -freeze sim:/microprocessor/Clk 1 0, 0 {100 ns} -r 200
 force -freeze sim:/microprocessor/Rst 1 0
