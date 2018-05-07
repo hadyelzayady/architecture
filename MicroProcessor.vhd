@@ -412,7 +412,7 @@ begin
 	forwardLabel: ForwardUnit port map(wboutE,wboutM,rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM,port1_choice,port2_choice);
 
 	EX : ALU port map (port1_data,port2_data,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
-
+	FlagRegister : my_nDFF generic map (n => 4) port map(Clk,Rst,'1',NewFlags,FlagsOutput); 
 	-----*******************************************************
     ----*************************************
 	-------------VIPPPPP abdo change flagoutput  and put jump unit 
@@ -430,7 +430,6 @@ begin
 			,rsrcnooutE,rdstnooutE,jumpoutE
 			,pushpopoutE,getdatafromoutE,retoutE
 			,wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE);
-	FlagRegister : my_nDFF generic map (n => 4) port map(Clk,Rst,'1',NewFlags,FlagsOutput); 
 
 	----------------------------------------------------------------------------
 	-- Memory

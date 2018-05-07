@@ -28,7 +28,6 @@ mem load -i {C:/Users/hadye/Google Drive/CUFE/term6/Arch/Project/temp.mem} /micr
 add wave -position insertpoint  \
 sim:/microprocessor/Clk \
 sim:/microprocessor/Rst \
-sim:/microprocessor/FlagRegisterWe \
 sim:/microprocessor/Memout \
 sim:/microprocessor/Opcode \
 sim:/microprocessor/opcodeoutD \
