@@ -109,6 +109,7 @@ sim:/microprocessor/ImmoutE	\
 sim:/microprocessor/ImmoutM	\
 sim:/microprocessor/rdstnooutM	\
 sim:/microprocessor/InPort \
+sim:/microprocessor/outportoutM \
 sim:/microprocessor/OutPort \
 sim:/microprocessor/LDM \
 sim:/microprocessor/InputportoutM

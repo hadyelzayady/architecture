@@ -459,8 +459,11 @@ begin
 		wb_data <= memdataoutM when LDD ,
 				   inputportoutM when myIN,
 				   aluresultoutM when others;
-	with OpcodeoutM select 
-		OutPort <= aluresultoutM when myOUT,
-				   (others => '0') when others;
+	outputport_process : process( Clk )
+	begin
+		if(outportoutM='1') then
+			OutPort <= aluresultoutM;
+		end if;
+	end process ; -- outputport_process
 
 end MicroProcessor_arc;
