@@ -351,6 +351,10 @@ end component RegisterFile;
 	signal port1_choice : std_logic_vector(1 downto 0);
 	signal port2_choice : std_logic_vector(1 downto 0);
 
+
+CONSTANT  Z  :  integer  := 0;
+CONSTANT  N  :  integer  := 1;
+CONSTANT  V  :  integer  := 3;
 --------------------------------------------------------------------------------
 -- end magdy
 --------------------------------------------------------------------------------
@@ -374,8 +378,7 @@ begin
 	----------------------------------------------------------------------------
 
 	Registers: RegisterFile port map (wboutM,rsrcno,rdstno,rdstnooutM,Clk,Rst,port1_dataD,Port2_dataD,wb_data);
-	--callorjump <= '1' when "111",
-	--			  '0' when others;
+
 	-- change '0' to interrupt signal 
 	controlunit: control port map(opcode,'0',Rst,ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pushpop,ret,getdatafrom,jump,Aluop);
 	
@@ -383,22 +386,27 @@ begin
 	--with Opcode select 
 	--	OutPort <= port1_data when myOUT,
 	--			   (others => '0') when others;
-	
+		with jump select
+		callorjump <= '1' when "111",
+				  	  '0' when others;
+		jmpCNZ <= '1' when jump="100" and (FlagsOutput(C)='1' or FlagsOutput(N)='1' or FlagsOutput(Z)='1') else
+				'0';--reset used flag
+	Rcallorjump <= port1_dataD ;
+	Rjump <= port1_dataD;
 	ID_EXLabel: IDEX_buffer port map (pcout,spout,Inputportout,Imm,EA,port1_dataD,port2_dataD,opcode,rsrcno,rdstno,jump,pushpop,getdatafrom,ret,IDEX_rewriteD,'0',Clk,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pcoutD,spoutD,InputportoutD,ImmoutD,EAoutD,rsrcoutD,rdstoutD,opcodeoutD,rsrcnooutD,rdstnooutD,jumpoutD,pushpopoutD,getdatafromoutD,retoutD,wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD);----------------------------------------------------------------------------
 	
 	----------------------------------------------------------------------------
 	-- Execute
 	----------------------------------------------------------------------------
-		with jumpoutD select
-		callorjump <= '1' when "111",
-					  '0' when others;
-		Rcallorjump <= port1_data;
+
 	--Rcallorjump <= port1_data ; --what if there is data hazard we should check for that
 	AluInputUnitLabel: AluInputUnit port map (opcodeoutD,wboutE,wboutM,rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM,rsrcoutD,rdstoutD,aluresultoutE,aluresultoutM,ImmoutD,port1_data,port2_data);
 
 	EX : ALU port map (port1_data,port2_data,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
 	FlagRegister : my_nDFF generic map (n => 4) port map(Clk,Rst,'1',NewFlags,FlagsOutput); 
 	
+
+
 	-----*******************************************************
     ----*************************************
 	-------------VIPPPPP abdo change flagoutput  and put jump unit 

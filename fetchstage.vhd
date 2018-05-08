@@ -83,15 +83,16 @@ PC_process : process( Clk,Rst )
 begin
 	if(Rst ='1') then 
 		newPc <= pc;
-	elsif(falling_edge(Clk)) then
+	elsif(rising_edge(Clk)) then
 		if (callorjump ='1') then
 			newpc <= Rcallorjump;
+		elsif(jmpCNZ ='1') then
+			newpc <= Rjump;
 		elsif(opcode= SHL or opcode=SHR  or opcode=LDM  or opcode=LDD  or opcode=STD) then
 			newPc <= newpc+two;
 		else
 		 	newPc <= newpc+one;
 		end if;
-	elsif(rising_edge(Clk)) then
 		Mem_inst<=Memout;
 	end if;
 end process ; -- PC_process

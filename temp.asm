@@ -1,10 +1,8 @@
-ldm r1 13
+ldm r1 4
 ldm r2 2
-ldm r3 3
+ldm r3 100
 ldm r4 4
-jmp r1
-add r1 r2
-inc r2
-jmp r3
-add r2 r3
-setc 
+and r2 r1
+jz  r3
+setc
+

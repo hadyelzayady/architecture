@@ -76,7 +76,9 @@ sim:/microprocessor/pcoutD \
 sim:/microprocessor/Rjump \
 sim:/microprocessor/Rcallorjump \
 sim:/microprocessor/callorjump \
+sim:/microprocessor/jmpCNZ \
 sim:/microprocessor/jump \
+sim:/microprocessor/jumpoutD \
 sim:/microprocessor/rsrcoutD \
 sim:/microprocessor/rdstoutD \
 sim:/microprocessor/rsrcnooutD \
