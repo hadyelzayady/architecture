@@ -135,8 +135,6 @@ force -freeze sim:/microprocessor/IFID_rewrite 0 0
 force -freeze sim:/microprocessor/IDEX_rewriteE 0 0
 force -freeze sim:/microprocessor/IDEX_rewriteD 0 0
 force -freeze sim:/microprocessor/IDEX_rewriteM 0 0
-force -freeze sim:/microprocessor/newpc 0 0
-force -freeze sim:/microprocessor/Nextpc 0 0
 force -freeze sim:/microprocessor/InPort 16'hf0f0 0
 run
 run
@@ -146,7 +144,6 @@ run
 run
 run
 noforce sim:/microprocessor/wb_data
-noforce sim:/microprocessor/NextPC
 noforce sim:/microprocessor/Rst
 force -freeze sim:/microprocessor/Rst 0 0
 

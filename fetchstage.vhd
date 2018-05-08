@@ -67,7 +67,7 @@ dataout : out std_logic_vector(2*n-1 downto 0) );
 end component;
 
 signal regin,out1,out2,out3,out4: std_logic_vector(15 downto 0);
-signal pc,sp: std_logic_vector(15 downto 0);
+signal pc,sp: std_logic_vector(15 downto 0):=x"0000";
 signal Memout: std_logic_vector(31 downto 0);
 signal opcode: std_logic_vector(4 downto 0);
 signal one :std_logic_vector(15 downto 0):="0000000000000001";
@@ -84,24 +84,27 @@ begin
 	if(Rst ='1') then 
 		newPc <= pc;
 	elsif(falling_edge(Clk)) then
-		if(opcode= SHL or opcode=SHR  or opcode=LDM  or opcode=LDD  or opcode=STD) then
-			newPc <= pc+two;
+		if (callorjump ='1') then
+			newpc <= Rcallorjump;
+		elsif(opcode= SHL or opcode=SHR  or opcode=LDM  or opcode=LDD  or opcode=STD) then
+			newPc <= newpc+two;
 		else
-		 	newPc <= pc+one;
+		 	newPc <= newpc+one;
 		end if;
-	end if; 
+	elsif(rising_edge(Clk)) then
+		Mem_inst<=Memout;
+	end if;
 end process ; -- PC_process
 --newPc<= pc when Rst='1' else 
 --	pc+two when opcode=SHL or opcode=LDM  or opcode="11110"  or opcode="11101"  or opcode="11100" else
 --	pc+one; 
 
 
-out1<= newpc when jmpCNZ='0' else  Rjump;
-out2<= out1 when ret='0' else Rret;
-out3<=out2 when Rst='0' else Rrst;
-out4<=out3 when callorjump='0' else Rcallorjump;
-regin<=out4 when interrupt='0' else Rint;  
-Mem_inst<=Memout;
+--out1<= newpc when jmpCNZ='0' else  Rjump;
+--out2<= out1 when ret='0' else Rret;
+--out3<=out2 when Rst='0' else Rrst;
+--out4<=out3 when callorjump='0' else Rcallorjump;
+--regin<=out4 when interrupt='0' else Rint;  
 NextPC<=newpc;
-SPOutput<=sp;
+--SPOutput<=sp;
 end arch ;

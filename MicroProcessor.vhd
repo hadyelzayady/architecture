@@ -360,7 +360,7 @@ begin
 	----------------------------------------------------------------------------
 	-- Fetch
 	----------------------------------------------------------------------------      call or jump ,jmpcnz,ret_mem_wb,interrupt
-	callorjump<='1' when call='1' or jump="1111" else '0';
+	--callorjump<='1' when call='1' or jump="111" else '0';
 	IFID_reset<='1' when Rst='1' else '0'  ;
 	IDEX_resetD<='1' when Rst='1' else '0';
 	IDEX_resetE<='1' when Rst='1' else '0'  ;
@@ -372,16 +372,22 @@ begin
 	----------------------------------------------------------------------------
 	-- Decode
 	----------------------------------------------------------------------------
-	
-	Registers: RegisterFile port map (wboutM,rsrcno,rdstno,rdstnooutM,Clk,Rst,port1_dataD,Port2_dataD,wb_data);
 
+	Registers: RegisterFile port map (wboutM,rsrcno,rdstno,rdstnooutM,Clk,Rst,port1_dataD,Port2_dataD,wb_data);
+	jumpprocess : process( Clk )
+	begin
+		if(falling_edge(Clk)) then
+			if(jump="111") then
+				callorjump<='1';
+				Rcallorjump <= port1_dataD;
+			end if;
+		end if;
+	end process ; -- jumpprocess
+	--callorjump <= '1' when "111",
+	--			  '0' when others;
 	-- change '0' to interrupt signal 
 	controlunit: control port map(opcode,'0',Rst,ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pushpop,ret,getdatafrom,jump,Aluop);
 	
-	with jump select
-		callorjump <= '1' when "111",
-					  '0' when others;
-	Rcallorjump <= port1_dataD ; --what if there is data hazard we should check for that
 	-- Out instrcution should be her but we should handle hazard first as mov then out will out old value
 	--with Opcode select 
 	--	OutPort <= port1_data when myOUT,
@@ -392,7 +398,10 @@ begin
 	----------------------------------------------------------------------------
 	-- Execute
 	----------------------------------------------------------------------------
-	
+		--with jumpoutD select
+		--callorjump <= '1' when "111",
+		--			  '0' when others;
+	--Rcallorjump <= port1_data ; --what if there is data hazard we should check for that
 	AluInputUnitLabel: AluInputUnit port map (opcodeoutD,wboutE,wboutM,rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM,rsrcoutD,rdstoutD,aluresultoutE,aluresultoutM,ImmoutD,port1_data,port2_data);
 
 	EX : ALU port map (port1_data,port2_data,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
