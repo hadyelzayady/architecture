@@ -25,6 +25,8 @@ vsim -gui work.microprocessor
 # Loading work.fulladder(fulladder_arch)
 # Loading work.exmem_buffer(arch)
 mem load -i {C:/Users/hadye/Google Drive/CUFE/term6/Arch/Project/temp.mem} /microprocessor/fetchstageLabel/inst_mem/ram
+mem load -filltype value -filldata 1111000011110000 -fillradix binary /microprocessor/DataMemory/ram(0)
+mem load -filltype value -filldata 0000000000001010 -fillradix binary /microprocessor/DataMemory/ram(1)
 add wave -position insertpoint  \
 sim:/microprocessor/Clk \
 sim:/microprocessor/Rst \
@@ -38,6 +40,10 @@ sim:/microprocessor/FlagsOutput \
 sim:/microprocessor/port1_data \
 sim:/microprocessor/port2_data \
 sim:/microprocessor/NextPC \
+sim:/microprocessor/PC_rewrite \
+sim:/microprocessor/IDIE_flush \
+sim:/microprocessor/flush \
+sim:/microprocessor/IFID_rewrite \
 sim:/microprocessor/RegPort2_data \
 sim:/microprocessor/wb_enable \
 sim:/microprocessor/wb_sel \
@@ -108,7 +114,6 @@ sim:/microprocessor/wboutM \
 sim:/microprocessor/port1_choice \
 sim:/microprocessor/port2_choice \
 sim:/microprocessor/Imm	\
-sim:/microprocessor/ImmD	\
 sim:/microprocessor/ImmoutD	\
 sim:/microprocessor/ImmoutE	\
 sim:/microprocessor/ImmoutM	\

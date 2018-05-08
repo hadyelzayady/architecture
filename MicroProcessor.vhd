@@ -32,6 +32,7 @@ component fetch_stage is
 	Rret: in std_logic_vector(15 downto 0); -- from function mem/wb ret or reti
 	Rint: in std_logic_vector(15 downto 0); -- destination from interrupt
 	Rrst: in std_logic_vector(15 downto 0); -- destination from reset
+	pc_rewrite:in std_logic;
 	newsp: in std_logic_vector(15 downto 0); -- new stack pointer updated every cycle  
 	Rst,clk,callorjump,jmpCNZ,ret,interrupt:in std_logic;
 	Mem_inst: out std_logic_vector(31 downto 0);
@@ -351,6 +352,9 @@ end component RegisterFile;
 	signal port1_choice : std_logic_vector(1 downto 0);
 	signal port2_choice : std_logic_vector(1 downto 0);
 
+signal PC_rewrite : std_logic; 
+signal IDIE_flush : std_logic; 
+signal flush : std_logic; 
 
 CONSTANT  Z  :  integer  := 0;
 CONSTANT  N  :  integer  := 1;
@@ -370,8 +374,8 @@ begin
 	IDEX_resetE<='1' when Rst='1' else '0'  ;
 	IDEX_resetM<='1' when Rst='1' else '0'  ;
 	
-	fetchstageLabel : fetch_stage port map(Rjump,Rcallorjump,Rret,Rint,Rrst,newsp,Rst,clk,callorjump,jmpcnz,'0',interrupt,Mem_inst,NextPC,SPOutput);
-	IFID: IFID_buffer port map(NextPC,SPOutput,Mem_inst,InPort,IFID_rewrite,IFID_reset,Clk,pcout,Inputportout,spout,EA,Imm,opcode,rsrcno,rdstno);
+	fetchstageLabel : fetch_stage port map(Rjump,Rcallorjump,Rret,Rint,Rrst,pc_rewrite,newsp,Rst,clk,callorjump,jmpcnz,'0',interrupt,Mem_inst,NextPC,SPOutput);
+	IFID: IFID_buffer port map(NextPC,SPOutput,Mem_inst,InPort,IFID_rewrite,IDIE_flush,Clk,pcout,Inputportout,spout,EA,Imm,opcode,rsrcno,rdstno);
 	
 	----------------------------------------------------------------------------
 	-- Decode
@@ -381,7 +385,8 @@ begin
 
 	-- change '0' to interrupt signal 
 	controlunit: control port map(opcode,'0',Rst,ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pushpop,ret,getdatafrom,jump,Aluop);
-	
+	hazardunitLabel: hazardunit port map (rdstnooutD,rdstno,rsrcno,memreadoutD,PC_rewrite,IFID_rewrite,IDIE_flush);
+	Rrst <= pcout;
 	-- Out instrcution should be her but we should handle hazard first as mov then out will out old value
 	--with Opcode select 
 	--	OutPort <= port1_data when myOUT,
@@ -391,9 +396,9 @@ begin
 				  	  '0' when others;
 		jmpCNZ <= '1' when jump="100" and (FlagsOutput(C)='1' or FlagsOutput(N)='1' or FlagsOutput(Z)='1') else
 				'0';--reset used flag
-				
-	Rcallorjump <= port1_dataD ;
-	Rjump <= port1_dataD;
+
+	Rcallorjump <= port1_dataD ;--handle hazard
+	Rjump <= port1_dataD;--handle hazard
 	ID_EXLabel: IDEX_buffer port map (pcout,spout,Inputportout,Imm,EA,port1_dataD,port2_dataD,opcode,rsrcno,rdstno,jump,pushpop,getdatafrom,ret,IDEX_rewriteD,'0',Clk,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pcoutD,spoutD,InputportoutD,ImmoutD,EAoutD,rsrcoutD,rdstoutD,opcodeoutD,rsrcnooutD,rdstnooutD,jumpoutD,pushpopoutD,getdatafromoutD,retoutD,wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD);----------------------------------------------------------------------------
 	
 	----------------------------------------------------------------------------
@@ -401,7 +406,7 @@ begin
 	----------------------------------------------------------------------------
 
 	--Rcallorjump <= port1_data ; --what if there is data hazard we should check for that
-	AluInputUnitLabel: AluInputUnit port map (opcodeoutD,wboutE,wboutM,rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM,rsrcoutD,rdstoutD,aluresultoutE,aluresultoutM,ImmoutD,port1_data,port2_data);
+	AluInputUnitLabel: AluInputUnit port map (opcodeoutD,wboutE,wboutM,rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM,rsrcoutD,rdstoutD,aluresultoutE,wb_data,ImmoutD,port1_data,port2_data);
 
 	EX : ALU port map (port1_data,port2_data,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
 	FlagRegister : my_nDFF generic map (n => 4) port map(Clk,Rst,'1',NewFlags,FlagsOutput); 

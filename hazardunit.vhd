@@ -9,9 +9,6 @@ port(
 	IDIE_rdst,rdst,rsrc:in std_logic_vector (2 downto 0);
 	IDIE_memread: in std_logic;
 	PC_rewrite,IFID_rewrite,IDIE_flush: out std_logic
-	
-	
-
 );
 end entity hazardunit;
 

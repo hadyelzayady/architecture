@@ -1,4 +1,4 @@
- 
+
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -13,6 +13,7 @@ port(
 	Rret: in std_logic_vector(15 downto 0); -- from function mem/wb ret or reti
 	Rint: in std_logic_vector(15 downto 0); -- destination from interrupt
 	Rrst: in std_logic_vector(15 downto 0); -- destination from reset
+	pc_rewrite:in std_logic;
 	newsp: in std_logic_vector(15 downto 0); -- new stack pointer updated every cycle  
 	Rst,clk,callorjump,jmpCNZ,ret,interrupt:in std_logic;
 	Mem_inst: out std_logic_vector(31 downto 0);
@@ -79,11 +80,14 @@ PCreg: my_nDFF generic map (n => 16) port map(Clk,Rst,'1',regin,pc);
 SPreg: my_nDFF generic map (n => 16) port map(Clk,Rst,'1',newsp,sp);
 inst_mem:syncram2 generic map (n => 16) port map(Clk,'0',newpc,"0000000000000000",Memout);
 opcode <= Memout(31 downto 27);
-PC_process : process( Clk,Rst )
+PC_process : process( Clk,Rst,pc_rewrite )
 begin
+	
 	if(Rst ='1') then 
 		newPc <= pc;
-	elsif(rising_edge(Clk)) then
+	elsif(pc_rewrite='1') then
+		newpc <= Rrst;
+	elsif(falling_edge(Clk)) then
 		if (callorjump ='1') then
 			newpc <= Rcallorjump;
 		elsif(jmpCNZ ='1') then
@@ -93,6 +97,7 @@ begin
 		else
 		 	newPc <= newpc+one;
 		end if;
+	elsif (rising_edge(Clk)) then
 		Mem_inst<=Memout;
 	end if;
 end process ; -- PC_process
