@@ -73,6 +73,10 @@ sim:/microprocessor/Aluop \
 sim:/microprocessor/IDEX_rewriteD \
 sim:/microprocessor/IDEX_resetD \
 sim:/microprocessor/pcoutD \
+sim:/microprocessor/Rjump \
+sim:/microprocessor/Rcallorjump \
+sim:/microprocessor/callorjump \
+sim:/microprocessor/jump \
 sim:/microprocessor/rsrcoutD \
 sim:/microprocessor/rdstoutD \
 sim:/microprocessor/rsrcnooutD \

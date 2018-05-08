@@ -289,7 +289,7 @@ end component RegisterFile;
 	signal Rrst : std_logic_vector(15 downto 0 );
 	signal newsp : std_logic_vector(15 downto 0 );
 	signal callorjump : std_logic;
-	signal jmpCNZ : std_logic;
+	signal jmpCNZ : std_logic:='0';
 	signal ret_mem_wb : std_logic;
 	signal interrupt : std_logic;
 	signal EA : std_logic_vector(15 downto 0);
@@ -350,6 +350,7 @@ end component RegisterFile;
 	signal tempport2_data : std_logic_vector(15 downto 0);
 	signal port1_choice : std_logic_vector(1 downto 0);
 	signal port2_choice : std_logic_vector(1 downto 0);
+
 --------------------------------------------------------------------------------
 -- end magdy
 --------------------------------------------------------------------------------
@@ -365,7 +366,7 @@ begin
 	IDEX_resetE<='1' when Rst='1' else '0'  ;
 	IDEX_resetM<='1' when Rst='1' else '0'  ;
 	
-	fetchstageLabel : fetch_stage port map(Rjump,Rcallorjump,Rret,Rint,Rrst,newsp,Rst,clk,callorjump,'0','0',interrupt,Mem_inst,NextPC,SPOutput);
+	fetchstageLabel : fetch_stage port map(Rjump,Rcallorjump,Rret,Rint,Rrst,newsp,Rst,clk,callorjump,jmpcnz,'0',interrupt,Mem_inst,NextPC,SPOutput);
 	IFID: IFID_buffer port map(NextPC,SPOutput,Mem_inst,InPort,IFID_rewrite,IFID_reset,Clk,pcout,Inputportout,spout,EA,Imm,opcode,rsrcno,rdstno);
 	
 	----------------------------------------------------------------------------
@@ -377,6 +378,10 @@ begin
 	-- change '0' to interrupt signal 
 	controlunit: control port map(opcode,'0',Rst,ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pushpop,ret,getdatafrom,jump,Aluop);
 	
+	with jump select
+		callorjump <= '1' when "111",
+					  '0' when others;
+	Rcallorjump <= port1_dataD ; --what if there is data hazard we should check for that
 	-- Out instrcution should be her but we should handle hazard first as mov then out will out old value
 	--with Opcode select 
 	--	OutPort <= port1_data when myOUT,
@@ -392,6 +397,7 @@ begin
 
 	EX : ALU port map (port1_data,port2_data,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
 	FlagRegister : my_nDFF generic map (n => 4) port map(Clk,Rst,'1',NewFlags,FlagsOutput); 
+	
 	-----*******************************************************
     ----*************************************
 	-------------VIPPPPP abdo change flagoutput  and put jump unit 
