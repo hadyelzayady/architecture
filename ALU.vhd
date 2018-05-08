@@ -123,13 +123,16 @@ begin
                              (A(15) xor rr(15))& A(0) when RRC,
                              OldFlags(V) & '1'  when SETC,
                              OldFlags(V) &'0' when CLC,
+                             OldFlags(V) & '0' when JC,
                              OldFlags(V downto C) when others;
     with Op select 
         Flags(N) <=  alu_out(15) when SHL | SHR | ADD | SUB|INC|DEC|RLC|RRC | myAND | myOR | myNOT| NEG,
+                     '0' when JN,
                      OldFlags(N) when others;
 
     Flags(Z) <= '1' when alu_out = x"0000"  and (Op= SHL or Op=  SHR or Op=  ADD or Op=  SUB or Op= INC or Op= DEC or Op= RLC or Op= RRC or Op=myAND or Op=  myOR or Op= myNOT or Op=NEG) else
                 '0' when  alu_out /=x"0000" and (Op= SHL or Op=  SHR or Op=  ADD or Op=  SUB or Op= INC or Op= DEC or Op= RLC or Op= RRC or Op=myAND or Op=  myOR or Op= myNOT or Op=NEG) else
+                '0' when Op=JZ else
                 OldFlags(Z);
     F<= alu_out;
 end architecture ALU_arch;

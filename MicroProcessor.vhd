@@ -391,6 +391,7 @@ begin
 				  	  '0' when others;
 		jmpCNZ <= '1' when jump="100" and (FlagsOutput(C)='1' or FlagsOutput(N)='1' or FlagsOutput(Z)='1') else
 				'0';--reset used flag
+				
 	Rcallorjump <= port1_dataD ;
 	Rjump <= port1_dataD;
 	ID_EXLabel: IDEX_buffer port map (pcout,spout,Inputportout,Imm,EA,port1_dataD,port2_dataD,opcode,rsrcno,rdstno,jump,pushpop,getdatafrom,ret,IDEX_rewriteD,'0',Clk,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pcoutD,spoutD,InputportoutD,ImmoutD,EAoutD,rsrcoutD,rdstoutD,opcodeoutD,rsrcnooutD,rdstnooutD,jumpoutD,pushpopoutD,getdatafromoutD,retoutD,wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD);----------------------------------------------------------------------------
