@@ -3,3 +3,4 @@ ldm r2 132
 add r1 r2
 setc
 clc
+neg r1

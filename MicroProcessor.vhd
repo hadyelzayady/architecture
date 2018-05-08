@@ -56,21 +56,21 @@ component IFID_buffer is
 end component IFID_buffer;
 
 component IDEX_buffer is
-port(
-	pcin,spin: in std_logic_vector (15 downto 0);
-	Inputportin,Immin,EAin,rsrcin,rdstin: in std_logic_vector (15 downto 0);
-	opcodein : in std_logic_vector (4 downto 0);
-	rsrcnoin,rdstnoin,jumpin : in std_logic_vector (2 downto 0);
-	pushpopin,getdatafromin,retin : in std_logic_vector (1 downto 0) ;  	
-	IDEX_rewrite,IDEX_reset,Clk,wbin,memtoregin,memreadin,memwritein,callin,interruptin,outportin: in std_logic;--wbin is regwrite signal to decode stage
-	
-	pcout,spout: out std_logic_vector (15 downto 0);
-	Inputportout,Immout,EAout,rsrcout,rdstout: out std_logic_vector (15 downto 0);
-	opcodeout : out std_logic_vector (4 downto 0);
-	rsrcnoout,rdstnoout ,jumpout: out std_logic_vector (2 downto 0);
-	pushpopout,getdatafromout,retout : out std_logic_vector (1 downto 0) ;  	
-	wbout,memtoregout,memreadout,memwriteout,callout,interruptout,outportout: out std_logic--wbin is regwrite signal to decode stage
-);
+	port(
+		pcin,spin: in std_logic_vector (15 downto 0);
+		Inputportin,Immin,EAin,rsrcin,rdstin: in std_logic_vector (15 downto 0);
+		opcodein : in std_logic_vector (4 downto 0);
+		rsrcnoin,rdstnoin,jumpin : in std_logic_vector (2 downto 0);
+		pushpopin,getdatafromin,retin : in std_logic_vector (1 downto 0) ;  	
+		IDEX_rewrite,IDEX_reset,Clk,wbin,memtoregin,memreadin,memwritein,callin,interruptin,outportin: in std_logic;--wbin is regwrite signal to decode stage
+		
+		pcout,spout: out std_logic_vector (15 downto 0);
+		Inputportout,Immout,EAout,rsrcout,rdstout: out std_logic_vector (15 downto 0);
+		opcodeout : out std_logic_vector (4 downto 0);
+		rsrcnoout,rdstnoout ,jumpout: out std_logic_vector (2 downto 0);
+		pushpopout,getdatafromout,retout : out std_logic_vector (1 downto 0) ;  	
+		wbout,memtoregout,memreadout,memwriteout,callout,interruptout,outportout: out std_logic--wbin is regwrite signal to decode stage
+	);
 end component IDEX_buffer;
 
 component ALU is
@@ -83,19 +83,15 @@ component ALU is
 		F : out std_logic_vector(15 downto 0)
 	);
 end component ALU;
-
-
-component ForwardUnit is
+component AluInputUnit is
 	port (
-		EX_MEM_WB:in std_logic;
-		MEM_WB_WB:in std_logic;
-		Rsrc: in std_logic_vector(2 downto 0);
-		Rdst: in std_logic_vector(2 downto 0);
-		EX_Mem_Rdst: in std_logic_vector(2 downto 0);
-		Mem_WB_Rdst: in std_logic_vector(2 downto 0);
-		Rsrc_choice,Rdst_choice: out std_logic_vector (1 downto 0)
+		opcodeoutD: in std_logic_vector(4 downto 0);
+		wboutE,wboutM: std_logic;
+		rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM:in std_logic_vector(2 downto 0);
+		rsrcoutD,rdstoutD,aluresultoutE,aluresultoutM,ImmoutD:in std_logic_vector(15 downto 0);
+		port1_data,port2_data: out std_logic_vector(15 downto 0)
 	);
-end component ForwardUnit;
+end component AluInputUnit;
 
 component EXMEM_buffer is
 port(
@@ -116,34 +112,36 @@ port(
 	wbout,memtoregout,memreadout,memwriteout,callout,interruptout,outportout: out std_logic--wbin is regwrite signal to decode stage
 );
 end component;
+
 component MEMWB_buffer is
-port(
-	pcin,spin,aluresultin,memdatain: in std_logic_vector (15 downto 0);
-	Inputportin,Immin,EAin,rsrcin,rdstin: in std_logic_vector (15 downto 0);
-	opcodein : in std_logic_vector (4 downto 0);
-	flagin : in std_logic_vector (3 downto 0);
-	rsrcnoin,rdstnoin ,jumpin: in std_logic_vector (2 downto 0);
-	pushpopin,getdatafromin,retin : in std_logic_vector (1 downto 0) ;  	
-	EXMEM_rewrite,EXMEM_reset,Clk,wbin,memtoregin,memreadin,memwritein,callin,interruptin,outportin: in std_logic;--wbin is regwrite signal to decode stage
-	
-	pcout,spout,aluresultout,memdataout: out std_logic_vector (15 downto 0);
-	Inputportout,Immout,EAout,rsrcout,rdstout: out std_logic_vector (15 downto 0);
-	opcodeout : out std_logic_vector (4 downto 0);
-	flagout : out std_logic_vector (3 downto 0);	
-	rsrcnoout,rdstnoout,jumpout : out std_logic_vector (2 downto 0);
-	pushpopout,getdatafromout,retout : out std_logic_vector (1 downto 0) ;  	
-	wbout,memtoregout,memreadout,memwriteout,callout,interruptout,outportout: out std_logic--wbin is regwrite signal to decode stage
-	);
+	port(
+		pcin,spin,aluresultin,memdatain: in std_logic_vector (15 downto 0);
+		Inputportin,Immin,EAin,rsrcin,rdstin: in std_logic_vector (15 downto 0);
+		opcodein : in std_logic_vector (4 downto 0);
+		flagin : in std_logic_vector (3 downto 0);
+		rsrcnoin,rdstnoin ,jumpin: in std_logic_vector (2 downto 0);
+		pushpopin,getdatafromin,retin : in std_logic_vector (1 downto 0) ;  	
+		EXMEM_rewrite,EXMEM_reset,Clk,wbin,memtoregin,memreadin,memwritein,callin,interruptin,outportin: in std_logic;--wbin is regwrite signal to decode stage
+		
+		pcout,spout,aluresultout,memdataout: out std_logic_vector (15 downto 0);
+		Inputportout,Immout,EAout,rsrcout,rdstout: out std_logic_vector (15 downto 0);
+		opcodeout : out std_logic_vector (4 downto 0);
+		flagout : out std_logic_vector (3 downto 0);	
+		rsrcnoout,rdstnoout,jumpout : out std_logic_vector (2 downto 0);
+		pushpopout,getdatafromout,retout : out std_logic_vector (1 downto 0) ;  	
+		wbout,memtoregout,memreadout,memwriteout,callout,interruptout,outportout: out std_logic--wbin is regwrite signal to decode stage
+		);
 end component MEMWB_buffer;
+
 component control is
-port(
-	opcode : in std_logic_vector (4 downto 0);
-	interrupt,Rst: in std_logic;
-	ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport: out std_logic;
-	pushpop,ret,getdatafrom:out std_logic_vector (1 downto 0);
-	jump:out std_logic_vector (2 downto 0);
-	Aluop : out std_logic_vector (4 downto 0)
-);
+	port(
+		opcode : in std_logic_vector (4 downto 0);
+		interrupt,Rst: in std_logic;
+		ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport: out std_logic;
+		pushpop,ret,getdatafrom:out std_logic_vector (1 downto 0);
+		jump:out std_logic_vector (2 downto 0);
+		Aluop : out std_logic_vector (4 downto 0)
+	);
 end component control;
 
 component hazardunit is
@@ -187,15 +185,7 @@ component my_DFF3 is
 port( clk,rst, enable,d: in std_logic;
 q : out std_logic);
 end component;
---component Decoder is
---	port (
---		Clk : in std_logic;
---		InstCode:in std_logic_vector(15 downto 0);
---		port1_data:out std_logic_vector(15 downto 0);
---		port2_data:out std_logic_vector(15 downto 0);
---		Rst:in std_logic
---	);
---end component Decoder;
+
 component RegisterFile is
 		port (
 			w_en : in std_logic ;
@@ -212,154 +202,154 @@ end component RegisterFile;
 
 --instructions
 	CONSTANT  NOP  :  std_logic_vector(4 downto 0)  := "00000";
-CONSTANT  MOV  :  std_logic_vector(4 downto 0)  := "00001";
-CONSTANT  ADD  :  std_logic_vector(4 downto 0)  := "00010";--first bit must be 0 and sub is the opposite (also in inc and dec)
-CONSTANT  SUB  :  std_logic_vector(4 downto 0)  := "00011";
-CONSTANT  myAND  :  std_logic_vector(4 downto 0)  := "00100";
-CONSTANT  myOR  :  std_logic_vector(4 downto 0)  := "00101";
-CONSTANT  RLC  :  std_logic_vector(4 downto 0)  := "00110";
-CONSTANT  RRC  :  std_logic_vector(4 downto 0)  := "00111";
-CONSTANT  SHL  :  std_logic_vector(4 downto 0)  := "01000";
-CONSTANT  SHR  :  std_logic_vector(4 downto 0)  :=  "01001";
-CONSTANT  SETC  :  std_logic_vector(4 downto 0)  := "01010";
-CONSTANT  CLC  :  std_logic_vector(4 downto 0)  := "01011";
-CONSTANT  PUSH  :  std_logic_vector(4 downto 0)  := "01100";
-CONSTANT  POP  :  std_logic_vector(4 downto 0)  := "01101";
-CONSTANT  myOUT  :  std_logic_vector(4 downto 0)  := "01110";
-CONSTANT  myIN  :  std_logic_vector(4 downto 0)  := "01111";
-CONSTANT  myNOT  :  std_logic_vector(4 downto 0)  := "10000";
-CONSTANT  NEG :  std_logic_vector(4 downto 0)  := "10001";
-CONSTANT  INC :  std_logic_vector(4 downto 0)  := "10010";
-CONSTANT  DEC :  std_logic_vector(4 downto 0)  := "10011";
-CONSTANT  JZ :  std_logic_vector(4 downto 0)  := "10100";
-CONSTANT  JN :  std_logic_vector(4 downto 0)  := "10101";
-CONSTANT  JC :  std_logic_vector(4 downto 0)  := "10110";
-CONSTANT  JMP :  std_logic_vector(4 downto 0)  := "10111";
---CONSTANT  CALL :  std_logic_vector(4 downto 0)  := "11000";
---CONSTANT  RET :  std_logic_vector(4 downto 0)  := "11001";
-CONSTANT  RTI :  std_logic_vector(4 downto 0)  := "11010";
-CONSTANT  LDM :  std_logic_vector(4 downto 0)  := "11011";
-CONSTANT  LDD :  std_logic_vector(4 downto 0)  := "11100";
-CONSTANT  STD :  std_logic_vector(4 downto 0)  := "11101";
-signal FlagRegisterWe :std_logic; -- temporary shoudl come from controller
-signal ExMemBuffWe :std_logic; -- temporary shoudl come from controller
-signal Memout :std_logic_vector(15 downto 0); -- temporary shoudl wite to MemWbBuff
+	CONSTANT  MOV  :  std_logic_vector(4 downto 0)  := "00001";
+	CONSTANT  ADD  :  std_logic_vector(4 downto 0)  := "00010";--first bit must be 0 and sub is the opposite (also in inc and dec)
+	CONSTANT  SUB  :  std_logic_vector(4 downto 0)  := "00011";
+	CONSTANT  myAND  :  std_logic_vector(4 downto 0)  := "00100";
+	CONSTANT  myOR  :  std_logic_vector(4 downto 0)  := "00101";
+	CONSTANT  RLC  :  std_logic_vector(4 downto 0)  := "00110";
+	CONSTANT  RRC  :  std_logic_vector(4 downto 0)  := "00111";
+	CONSTANT  SHL  :  std_logic_vector(4 downto 0)  := "01000";
+	CONSTANT  SHR  :  std_logic_vector(4 downto 0)  :=  "01001";
+	CONSTANT  SETC  :  std_logic_vector(4 downto 0)  := "01010";
+	CONSTANT  CLC  :  std_logic_vector(4 downto 0)  := "01011";
+	CONSTANT  PUSH  :  std_logic_vector(4 downto 0)  := "01100";
+	CONSTANT  POP  :  std_logic_vector(4 downto 0)  := "01101";
+	CONSTANT  myOUT  :  std_logic_vector(4 downto 0)  := "01110";
+	CONSTANT  myIN  :  std_logic_vector(4 downto 0)  := "01111";
+	CONSTANT  myNOT  :  std_logic_vector(4 downto 0)  := "10000";
+	CONSTANT  NEG :  std_logic_vector(4 downto 0)  := "10001";
+	CONSTANT  INC :  std_logic_vector(4 downto 0)  := "10010";
+	CONSTANT  DEC :  std_logic_vector(4 downto 0)  := "10011";
+	CONSTANT  JZ :  std_logic_vector(4 downto 0)  := "10100";
+	CONSTANT  JN :  std_logic_vector(4 downto 0)  := "10101";
+	CONSTANT  JC :  std_logic_vector(4 downto 0)  := "10110";
+	CONSTANT  JMP :  std_logic_vector(4 downto 0)  := "10111";
+	--CONSTANT  CALL :  std_logic_vector(4 downto 0)  := "11000";
+	--CONSTANT  RET :  std_logic_vector(4 downto 0)  := "11001";
+	CONSTANT  RTI :  std_logic_vector(4 downto 0)  := "11010";
+	CONSTANT  LDM :  std_logic_vector(4 downto 0)  := "11011";
+	CONSTANT  LDD :  std_logic_vector(4 downto 0)  := "11100";
+	CONSTANT  STD :  std_logic_vector(4 downto 0)  := "11101";
+	signal FlagRegisterWe :std_logic; -- temporary shoudl come from controller
+	signal ExMemBuffWe :std_logic; -- temporary shoudl come from controller
+	signal Memout :std_logic_vector(15 downto 0); -- temporary shoudl wite to MemWbBuff
 
-signal DXdata: std_logic_vector(39 downto 0); 
-signal DXoutput:std_logic_vector(39 downto 0);
+	signal DXdata: std_logic_vector(39 downto 0); 
+	signal DXoutput:std_logic_vector(39 downto 0);
 
-signal ExMemBuffData: std_logic_vector(33 downto 0);
-signal XMdata: std_logic_vector(33 downto 0); 
-signal Opcode: std_logic_vector(4 downto 0);-- decoder
---signal A :std_logic_vector(15 downto 0);--temp should come from register file
---signal B :std_logic_vector(15 downto 0);--temp should come from register file
-signal Flags:std_logic_vector(3 downto 0);
-signal FlagsOutput:std_logic_vector(3 downto 0);
-signal F:std_logic_vector(15 downto 0);
---signal address: std_logic_vector(9 downto 0);--temp ,shoudl come from DEBuffer then writeen in  ExMemBuff(10)
-signal InstCode:std_logic_vector(31 downto 0);
-signal InstCode2:std_logic_vector(31 downto 0);
-signal port1_data:std_logic_vector(15 downto 0);
-signal port2_data:std_logic_vector(15 downto 0);
+	signal ExMemBuffData: std_logic_vector(33 downto 0);
+	signal XMdata: std_logic_vector(33 downto 0); 
+	signal Opcode: std_logic_vector(4 downto 0);-- decoder
+	--signal A :std_logic_vector(15 downto 0);--temp should come from register file
+	--signal B :std_logic_vector(15 downto 0);--temp should come from register file
+	signal Flags:std_logic_vector(3 downto 0);
+	signal FlagsOutput:std_logic_vector(3 downto 0);
+	signal F:std_logic_vector(15 downto 0);
+	--signal address: std_logic_vector(9 downto 0);--temp ,shoudl come from DEBuffer then writeen in  ExMemBuff(10)
+	signal InstCode:std_logic_vector(31 downto 0);
+	signal InstCode2:std_logic_vector(31 downto 0);
+	signal port1_data:std_logic_vector(15 downto 0);
+	signal port2_data:std_logic_vector(15 downto 0);
 
-CONSTANT  C  :  integer  := 2;
-signal newPC: std_logic_vector(15 downto 0);
-signal RegPort2_data:std_logic_vector(15 downto 0);
-signal wb_enable : std_logic;
-signal wb_sel : std_logic_vector(2 downto 0);
-signal wb_data : std_logic_vector(15 downto 0);
-signal Rdstno : std_logic_vector(2 downto 0);
-signal rsrcno: std_logic_vector(2 downto 0);
-signal MWout : std_logic_vector(39 downto 0);
-signal MWdata : std_logic_vector(39 downto 0);
-signal RdstD : std_logic_vector(2 downto 0);
-signal OpcodeD : std_logic_vector(4 downto 0);
-signal port1_dataD : std_logic_vector(15 downto 0);
-signal port2_dataD : std_logic_vector(15 downto 0);
-signal port2_dataE : std_logic_vector(15 downto 0);
-signal OpcodeE	: std_logic_vector(4 downto 0);
-signal OpcodeM	: std_logic_vector(4 downto 0);
-signal AluOutputE : std_logic_vector(15 downto 0);
-signal AluOutputM : std_logic_vector(15 downto 0);
-signal RdstE : std_logic_vector(2 downto 0);
-signal RdstM : std_logic_vector(2 downto 0);
-signal Mem_we: std_logic;
-signal PC: std_logic_vector(15 downto 0);
-signal Imm: std_logic_vector(15 downto 0);
-signal ImmD: std_logic_vector(15 downto 0);
-signal NewFlags: std_logic_vector(3 downto 0);
---------------------------------------------------------------------------------
--- Magdy
---------------------------------------------------------------------------------
+	CONSTANT  C  :  integer  := 2;
+	signal newPC: std_logic_vector(15 downto 0);
+	signal RegPort2_data:std_logic_vector(15 downto 0);
+	signal wb_enable : std_logic;
+	signal wb_sel : std_logic_vector(2 downto 0);
+	signal wb_data : std_logic_vector(15 downto 0);
+	signal Rdstno : std_logic_vector(2 downto 0);
+	signal rsrcno: std_logic_vector(2 downto 0);
+	signal MWout : std_logic_vector(39 downto 0);
+	signal MWdata : std_logic_vector(39 downto 0);
+	signal RdstD : std_logic_vector(2 downto 0);
+	signal OpcodeD : std_logic_vector(4 downto 0);
+	signal port1_dataD : std_logic_vector(15 downto 0);
+	signal port2_dataD : std_logic_vector(15 downto 0);
+	signal port2_dataE : std_logic_vector(15 downto 0);
+	signal OpcodeE	: std_logic_vector(4 downto 0);
+	signal OpcodeM	: std_logic_vector(4 downto 0);
+	signal AluOutputE : std_logic_vector(15 downto 0);
+	signal AluOutputM : std_logic_vector(15 downto 0);
+	signal RdstE : std_logic_vector(2 downto 0);
+	signal RdstM : std_logic_vector(2 downto 0);
+	signal Mem_we: std_logic;
+	signal PC: std_logic_vector(15 downto 0);
+	signal Imm: std_logic_vector(15 downto 0);
+	signal ImmD: std_logic_vector(15 downto 0);
+	signal NewFlags: std_logic_vector(3 downto 0);
+	--------------------------------------------------------------------------------
+	-- Magdy
+	--------------------------------------------------------------------------------
 
-signal Rjump :std_logic_vector(15 downto 0);
-signal Rcallorjump : std_logic_vector(15 downto 0 );
-signal Rret : std_logic_vector(15 downto 0 );
-signal Rint : std_logic_vector(15 downto 0 );
-signal Rrst : std_logic_vector(15 downto 0 );
-signal newsp : std_logic_vector(15 downto 0 );
-signal callorjump : std_logic;
-signal jmpCNZ : std_logic;
-signal ret_mem_wb : std_logic;
-signal interrupt : std_logic;
-signal EA : std_logic_vector(15 downto 0);
-signal rsrc : std_logic_vector(15 downto 0);
-signal rdst : std_logic_vector(15 downto 0);
-signal Mem_inst : std_logic_vector(31 downto 0);
-signal NextPC : std_logic_vector(15 downto 0);
-signal SPOutput : std_logic_vector(15 downto 0);
-signal pcin,spin : std_logic_vector(15 downto 0);
-signal IFID_rewrite,IFID_reset : std_logic;
-signal pcout : std_logic_vector(15 downto 0);
-signal Inputportout : std_logic_vector(15 downto 0);
-signal spout : std_logic_vector(15 downto 0);
-signal ID_flush : std_logic;
-signal Ex_flush : std_logic;
-signal regwrite : std_logic;
-signal memtoreg : std_logic;
-signal memread : std_logic;
-signal memwrite : std_logic;
-signal call : std_logic;
-signal int : std_logic;
-signal outtoport : std_logic;
-signal pushpop : std_logic_vector(1 downto 0);
-signal ret : std_logic_vector(1 downto 0);
-signal getdatafrom : std_logic_vector(1 downto 0);
-signal jump : std_logic_vector(2 downto 0);
-signal Aluop : std_logic_vector(4 downto 0);
-
-
-signal IDEX_rewriteD,IDEX_resetD : std_logic;
-signal pcoutD,spoutD : std_logic_vector(15 downto 0);
-signal InputportoutD,ImmoutD,EAoutD,rsrcoutD,rdstoutD : std_logic_vector(15 downto 0);
-signal opcodeoutD : std_logic_vector(4 downto 0);
-signal rsrcnooutD,rdstnooutD,jumpoutD : std_logic_vector(2 downto 0);
-signal pushpopoutD,getdatafromoutD,retoutD : std_logic_vector(1 downto 0);
-signal wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD : std_logic;
+	signal Rjump :std_logic_vector(15 downto 0);
+	signal Rcallorjump : std_logic_vector(15 downto 0 );
+	signal Rret : std_logic_vector(15 downto 0 );
+	signal Rint : std_logic_vector(15 downto 0 );
+	signal Rrst : std_logic_vector(15 downto 0 );
+	signal newsp : std_logic_vector(15 downto 0 );
+	signal callorjump : std_logic;
+	signal jmpCNZ : std_logic;
+	signal ret_mem_wb : std_logic;
+	signal interrupt : std_logic;
+	signal EA : std_logic_vector(15 downto 0);
+	signal rsrc : std_logic_vector(15 downto 0);
+	signal rdst : std_logic_vector(15 downto 0);
+	signal Mem_inst : std_logic_vector(31 downto 0);
+	signal NextPC : std_logic_vector(15 downto 0);
+	signal SPOutput : std_logic_vector(15 downto 0);
+	signal pcin,spin : std_logic_vector(15 downto 0);
+	signal IFID_rewrite,IFID_reset : std_logic;
+	signal pcout : std_logic_vector(15 downto 0);
+	signal Inputportout : std_logic_vector(15 downto 0);
+	signal spout : std_logic_vector(15 downto 0);
+	signal ID_flush : std_logic;
+	signal Ex_flush : std_logic;
+	signal regwrite : std_logic;
+	signal memtoreg : std_logic;
+	signal memread : std_logic;
+	signal memwrite : std_logic;
+	signal call : std_logic;
+	signal int : std_logic;
+	signal outtoport : std_logic;
+	signal pushpop : std_logic_vector(1 downto 0);
+	signal ret : std_logic_vector(1 downto 0);
+	signal getdatafrom : std_logic_vector(1 downto 0);
+	signal jump : std_logic_vector(2 downto 0);
+	signal Aluop : std_logic_vector(4 downto 0);
 
 
-signal aluresultinE : std_logic_vector(15 downto 0);
-signal IDEX_rewriteE,IDEX_resetE: std_logic;
-signal pcoutE,spoutE,aluresultoutE : std_logic_vector(15 downto 0);
-signal InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE : std_logic_vector(15 downto 0);
-signal opcodeoutE : std_logic_vector(4 downto 0);
-signal flagoutE : std_logic_vector(3 downto 0);
-signal rsrcnooutE,rdstnooutE,jumpoutE : std_logic_vector(2 downto 0);
-signal pushpopoutE,getdatafromoutE,retoutE : std_logic_vector(1 downto 0);
-signal wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE : std_logic;
+	signal IDEX_rewriteD,IDEX_resetD : std_logic;
+	signal pcoutD,spoutD : std_logic_vector(15 downto 0);
+	signal InputportoutD,ImmoutD,EAoutD,rsrcoutD,rdstoutD : std_logic_vector(15 downto 0);
+	signal opcodeoutD : std_logic_vector(4 downto 0);
+	signal rsrcnooutD,rdstnooutD,jumpoutD : std_logic_vector(2 downto 0);
+	signal pushpopoutD,getdatafromoutD,retoutD : std_logic_vector(1 downto 0);
+	signal wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD : std_logic;
 
-signal aluresultoutM,memdataoutM : std_logic_vector(15 downto 0);
-signal IDEX_rewriteM,IDEX_resetM: std_logic;
-signal pcoutM,spoutM : std_logic_vector(15 downto 0);
-signal InputportoutM,ImmoutM,EAoutM,rsrcoutM,rdstoutM : std_logic_vector(15 downto 0);
-signal opcodeoutM : std_logic_vector(4 downto 0);
-signal flagoutM : std_logic_vector(3 downto 0);
-signal rsrcnooutM,rdstnooutM,jumpoutM : std_logic_vector(2 downto 0);
-signal pushpopoutM,getdatafromoutM,retoutM : std_logic_vector(1 downto 0);
-signal wboutM,memtoregoutM,memreadoutM,memwriteoutM,calloutM,interruptoutM,outportoutM : std_logic;
-signal tempport2_data : std_logic_vector(15 downto 0);
-signal port1_choice : std_logic_vector(1 downto 0);
-signal port2_choice : std_logic_vector(1 downto 0);
+
+	signal aluresultinE : std_logic_vector(15 downto 0);
+	signal IDEX_rewriteE,IDEX_resetE: std_logic;
+	signal pcoutE,spoutE,aluresultoutE : std_logic_vector(15 downto 0);
+	signal InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE : std_logic_vector(15 downto 0);
+	signal opcodeoutE : std_logic_vector(4 downto 0);
+	signal flagoutE : std_logic_vector(3 downto 0);
+	signal rsrcnooutE,rdstnooutE,jumpoutE : std_logic_vector(2 downto 0);
+	signal pushpopoutE,getdatafromoutE,retoutE : std_logic_vector(1 downto 0);
+	signal wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE : std_logic;
+
+	signal aluresultoutM,memdataoutM : std_logic_vector(15 downto 0);
+	signal IDEX_rewriteM,IDEX_resetM: std_logic;
+	signal pcoutM,spoutM : std_logic_vector(15 downto 0);
+	signal InputportoutM,ImmoutM,EAoutM,rsrcoutM,rdstoutM : std_logic_vector(15 downto 0);
+	signal opcodeoutM : std_logic_vector(4 downto 0);
+	signal flagoutM : std_logic_vector(3 downto 0);
+	signal rsrcnooutM,rdstnooutM,jumpoutM : std_logic_vector(2 downto 0);
+	signal pushpopoutM,getdatafromoutM,retoutM : std_logic_vector(1 downto 0);
+	signal wboutM,memtoregoutM,memreadoutM,memwriteoutM,calloutM,interruptoutM,outportoutM : std_logic;
+	signal tempport2_data : std_logic_vector(15 downto 0);
+	signal port1_choice : std_logic_vector(1 downto 0);
+	signal port2_choice : std_logic_vector(1 downto 0);
 --------------------------------------------------------------------------------
 -- end magdy
 --------------------------------------------------------------------------------
@@ -397,19 +387,8 @@ begin
 	----------------------------------------------------------------------------
 	-- Execute
 	----------------------------------------------------------------------------
-	with opcodeoutD select
-		tempport2_data <= ImmoutD when SHL | SHR | LDM  ,
-					  rdstoutD when others;
-
-	with port1_choice select
-		port1_data <=  aluresultoutE when "01",
-					   aluresultoutM when "10",
-					   rsrcoutD when others;
-	with port2_choice select
-		port2_data <=	aluresultoutE when "01",
-						aluresultoutM when "10",
-						tempport2_data when others;
-	forwardLabel: ForwardUnit port map(wboutE,wboutM,rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM,port1_choice,port2_choice);
+	
+	AluInputUnitLabel: AluInputUnit port map (opcodeoutD,wboutE,wboutM,rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM,rsrcoutD,rdstoutD,aluresultoutE,aluresultoutM,ImmoutD,port1_data,port2_data);
 
 	EX : ALU port map (port1_data,port2_data,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
 	FlagRegister : my_nDFF generic map (n => 4) port map(Clk,Rst,'1',NewFlags,FlagsOutput); 
