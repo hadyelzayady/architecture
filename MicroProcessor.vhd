@@ -374,15 +374,6 @@ begin
 	----------------------------------------------------------------------------
 
 	Registers: RegisterFile port map (wboutM,rsrcno,rdstno,rdstnooutM,Clk,Rst,port1_dataD,Port2_dataD,wb_data);
-	jumpprocess : process( Clk )
-	begin
-		if(falling_edge(Clk)) then
-			if(jump="111") then
-				callorjump<='1';
-				Rcallorjump <= port1_dataD;
-			end if;
-		end if;
-	end process ; -- jumpprocess
 	--callorjump <= '1' when "111",
 	--			  '0' when others;
 	-- change '0' to interrupt signal 
@@ -398,9 +389,10 @@ begin
 	----------------------------------------------------------------------------
 	-- Execute
 	----------------------------------------------------------------------------
-		--with jumpoutD select
-		--callorjump <= '1' when "111",
-		--			  '0' when others;
+		with jumpoutD select
+		callorjump <= '1' when "111",
+					  '0' when others;
+		Rcallorjump <= port1_data;
 	--Rcallorjump <= port1_data ; --what if there is data hazard we should check for that
 	AluInputUnitLabel: AluInputUnit port map (opcodeoutD,wboutE,wboutM,rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM,rsrcoutD,rdstoutD,aluresultoutE,aluresultoutM,ImmoutD,port1_data,port2_data);
 
