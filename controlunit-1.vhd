@@ -58,7 +58,7 @@ regwrite<='1' when Rst='0' and(opcode <= SHR or opcode = POP or (opcode >=myIN a
 memtoreg<='1' when (opcode=LDD or opcode=POP )and Rst='0' else '0';--memtoreg when op is load or pop
 memread<='1' when (opcode=POP or opcode=LDD or opcode=myRET or opcode=RTI) and Rst='0' else '0';--memread when op is pop,ldd,ret,reti
 memwrite<='1' when (opcode=STD or interrupt='1' or opcode=myCALL or opcode=PUSH) and RSt='0' else '0';--memwrite when op is std,int,call,push
-jump<="100" when opcode=JZ or opcode=JC or opcode=JN else --jz
+jump<="100" when opcode=JZ or opcode=JC or opcode=JN or opcode =myCALL else --jz
 	"111" when opcode=JMP else--jmp
 	"000" when Rst='1' else  --first bit det if its a jump or not the last 2 det which type of jump 
 	"000";

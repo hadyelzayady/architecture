@@ -1,3 +1,4 @@
 ldm r1 100
 setc
-jmp r1
+call r1
+clc
