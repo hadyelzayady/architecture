@@ -420,6 +420,8 @@ begin
 			if(falling_edge(Clk)) then
 				if (jmpCNZ='1' or callorjump ='1') then
 					IFID_jumpflush <= '1';					
+				else
+					IFID_jumpflush <= '0';
 				end if;
 			end if;
 		end process ; -- jmpflush
