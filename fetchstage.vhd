@@ -64,7 +64,10 @@ port ( clk : in std_logic;
 we : in std_logic;
 address : in std_logic_vector(n-1 downto 0);
 datain : in std_logic_vector(n-1 downto 0);
-dataout : out std_logic_vector(2*n-1 downto 0) );
+dataout : out std_logic_vector(2*n-1 downto 0);
+mem0out: out std_logic_vector(15 downto 0);
+mem1out:out std_logic_vector(15 downto 0)
+ );
 end component;
 
 signal regin,out1,out2,out3,out4: std_logic_vector(15 downto 0);
@@ -73,18 +76,20 @@ signal Memout: std_logic_vector(31 downto 0);
 signal opcode: std_logic_vector(4 downto 0);
 signal one :std_logic_vector(15 downto 0):="0000000000000001";
 signal two :std_logic_vector(15 downto 0):="0000000000000010";
-signal newPc:std_logic_vector(15 downto 0);
+signal newPc,mem0out,mem1out:std_logic_vector(15 downto 0);
 
 begin 
 PCreg: my_nDFF generic map (n => 16) port map(Clk,Rst,'1',regin,pc);
 SPreg: my_nDFF generic map (n => 16) port map(Clk,Rst,'1',newsp,sp);
-inst_mem:syncram2 generic map (n => 16) port map(Clk,'0',newpc,"0000000000000000",Memout);
+inst_mem:syncram2 generic map (n => 16) port map(Clk,'0',newpc,"0000000000000000",Memout,mem0out,mem1out);
 opcode <= Memout(31 downto 27);
-PC_process : process( Clk,Rst,pc_rewrite )
+PC_process : process( Clk,Rst,pc_rewrite,interrupt )
 begin
 	
 	if(Rst ='1') then 
 		newPc <= pc;
+	elsif (rising_edge(interrupt)) then
+		newpc <= mem1out; 
 	elsif(rising_edge(pc_rewrite)) then
 		newpc <= Rrst;
 	elsif(falling_edge(Clk)) then

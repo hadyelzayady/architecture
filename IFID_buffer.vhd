@@ -9,6 +9,7 @@ use ieee.numeric_std.all;
 entity IFID_buffer is
 port(
 	pcin,spin: in std_logic_vector (15 downto 0);
+	interrupt: in std_logic;
 	instruction: in std_logic_vector (31 downto 0);
 	Inputportin: in std_logic_vector (15 downto 0);
 	IFID_rewrite : in std_logic ;  --make enable =0 used in hazard detection unit
@@ -16,7 +17,8 @@ port(
 	pcout,Inputportout,spout : out std_logic_vector (15 downto 0);
 	EA,Imm : out std_logic_vector (15 downto 0);
 	opcode : out std_logic_vector (4 downto 0);
-	rsrc,rdst : out std_logic_vector (2 downto 0)
+	rsrc,rdst : out std_logic_vector (2 downto 0);
+	interruptf: out std_logic
 
 );
 end IFID_buffer;
@@ -76,6 +78,10 @@ signal reg1sigin,reg2sigin :std_logic_vector (2 downto 0);
 
 signal rdstsig : std_logic_vector(2 downto 0);
 signal reset : std_logic;
+component my_DFF3 is
+port( clk,rst, enable,d: in std_logic;
+q : out std_logic);
+end component;
 begin
 enable <=not(IFID_rewrite);
 immsigin<=instruction (15 downto 0);
@@ -98,6 +104,7 @@ inputreg:my_nDFF3 generic map (n => 16) port map(Clk,reset,enable,inputportin,In
 opcodereg : my_nDFF3 generic map (n => 5) port map(Clk,reset,enable,opcodesigin,opcode);
 reg1: my_nDFF3 generic map (n => 3) port map(Clk,reset,enable,reg1sigin,rsrc);
 reg2: my_nDFF3 generic map (n => 3) port map(Clk,reset,enable,rdstsig,rdst);
+interruptflabel: my_DFF3  port map(Clk,reset,enable,interrupt,interruptf);
 
 
 end arch;

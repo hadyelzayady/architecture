@@ -9,7 +9,9 @@ port
 	we : in std_logic;
 	address : in std_logic_vector(9 downto 0);
 	datain : in std_logic_vector(15 downto 0);
-	dataout : out std_logic_vector(15 downto 0) 
+	flagreg : in std_logic_vector(3 downto 0);
+	flag32write:in std_logic;
+	dataout : out std_logic_vector(15 downto 0)
 );
 end entity syncram;
 
@@ -24,6 +26,9 @@ begin
 		if rising_edge(clk) then
 			if we = '1' then
 				ram(to_integer(unsigned(address))) <= datain;
+				if(flag32write='1') then
+					ram(to_integer(unsigned(address))-1) <= "000000000000"&flagreg;
+				end if;					
 			end if;
 		end if;
 	end process;

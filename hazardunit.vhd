@@ -9,6 +9,7 @@ port(
 	IDIE_rdst,rdst,rsrc:in std_logic_vector (2 downto 0);
 	IDIE_memread: in std_logic;
 	opcode: in std_logic_vector( 4 downto 0);
+	jmpcall: in std_logic;
 	PC_rewrite,IFID_rewrite,IDIE_flush: out std_logic
 );
 end entity hazardunit;
@@ -22,7 +23,7 @@ signal actualhazard : std_logic;
 begin 
 actualhazard<='0' when  opcode=POP or opcode=LDM or opcode=LDD  else
 		'1';
-PC_rewrite<='1' when (IDIE_rdst=rdst or IDIE_rdst=rsrc) and IDIE_memread='1' and actualhazard='1'  else
+PC_rewrite<='1' when (IDIE_rdst=rdst or IDIE_rdst=rsrc) and (IDIE_memread='1' or jmpcall ='1') and actualhazard='1'  else
 		'0';
 
 IFID_rewrite<='1' when (IDIE_rdst=rdst or IDIE_rdst=rsrc) and IDIE_memread='1'and actualhazard='1' else

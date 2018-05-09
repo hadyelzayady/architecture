@@ -9,7 +9,10 @@ port ( clk : in std_logic;
 we : in std_logic;
 address : in std_logic_vector(n-1 downto 0);
 datain : in std_logic_vector(n-1 downto 0);
-dataout : out std_logic_vector(2*n-1 downto 0) );
+dataout : out std_logic_vector(2*n-1 downto 0);
+mem0out: out std_logic_vector(15 downto 0);
+mem1out:out std_logic_vector(15 downto 0)
+);
 end entity syncram2;
 
 
@@ -29,6 +32,8 @@ end if;
 end process;
 address2<=address+"0000000000000001";
 dataout<=ram(to_integer(unsigned(address)))&ram(to_integer(unsigned(address2)));
+mem0out<=ram(0);
+mem1out<=ram(1);
 
 
 
