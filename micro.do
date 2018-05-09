@@ -41,6 +41,7 @@ sim:/microprocessor/port1_data \
 sim:/microprocessor/port2_data \
 sim:/microprocessor/NextPC \
 sim:/microprocessor/PC_rewrite \
+sim:/microprocessor/IFID_flush \
 sim:/microprocessor/IDIE_flush \
 sim:/microprocessor/flush \
 sim:/microprocessor/IFID_rewrite \

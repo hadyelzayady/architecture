@@ -85,7 +85,7 @@ begin
 	
 	if(Rst ='1') then 
 		newPc <= pc;
-	elsif(pc_rewrite='1') then
+	elsif(rising_edge(pc_rewrite)) then
 		newpc <= Rrst;
 	elsif(falling_edge(Clk)) then
 		if (callorjump ='1') then

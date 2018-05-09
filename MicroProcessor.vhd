@@ -354,6 +354,9 @@ end component RegisterFile;
 
 signal PC_rewrite : std_logic; 
 signal IDIE_flush : std_logic; 
+signal IFID_flush : std_logic; 
+signal jmpcnzORLoadcaseflush : std_logic; 
+
 signal flush : std_logic; 
 
 CONSTANT  Z  :  integer  := 0;
@@ -367,15 +370,15 @@ CONSTANT  V  :  integer  := 3;
 begin
 	----------------------------------------------------------------------------
 	-- Fetch
-	----------------------------------------------------------------------------      call or jump ,jmpcnz,ret_mem_wb,interrupt
+	----------------------------------------------------------------------------      call or jump ,jmpCNZ,ret_mem_wb,interrupt
 	--callorjump<='1' when call='1' or jump="111" else '0';
 	IFID_reset<='1' when Rst='1' else '0'  ;
 	IDEX_resetD<='1' when Rst='1' else '0';
 	IDEX_resetE<='1' when Rst='1' else '0'  ;
 	IDEX_resetM<='1' when Rst='1' else '0'  ;
 	
-	fetchstageLabel : fetch_stage port map(Rjump,Rcallorjump,Rret,Rint,Rrst,pc_rewrite,newsp,Rst,clk,callorjump,jmpcnz,'0',interrupt,Mem_inst,NextPC,SPOutput);
-	IFID: IFID_buffer port map(NextPC,SPOutput,Mem_inst,InPort,IFID_rewrite,IDIE_flush,Clk,pcout,Inputportout,spout,EA,Imm,opcode,rsrcno,rdstno);
+	fetchstageLabel : fetch_stage port map(Rjump,Rcallorjump,Rret,Rint,Rrst,pc_rewrite,newsp,Rst,clk,callorjump,jmpCNZ,'0',interrupt,Mem_inst,NextPC,SPOutput);
+	IFID: IFID_buffer port map(NextPC,SPOutput,Mem_inst,InPort,IFID_rewrite,IFID_flush,Clk,pcout,Inputportout,spout,EA,Imm,opcode,rsrcno,rdstno);
 	
 	----------------------------------------------------------------------------
 	-- Decode
@@ -385,7 +388,7 @@ begin
 
 	-- change '0' to interrupt signal 
 	controlunit: control port map(opcode,'0',Rst,ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pushpop,ret,getdatafrom,jump,Aluop);
-	hazardunitLabel: hazardunit port map (rdstnooutD,rdstno,rsrcno,memreadoutD,PC_rewrite,IFID_rewrite,IDIE_flush);
+	hazardunitLabel: hazardunit port map (rdstnooutD,rdstno,rsrcno,memreadoutD,PC_rewrite,IFID_rewrite,IFID_flush);
 	Rrst <= pcout;
 	-- Out instrcution should be her but we should handle hazard first as mov then out will out old value
 	--with Opcode select 
@@ -396,9 +399,19 @@ begin
 				  	  '0' when others;
 		jmpCNZ <= '1' when jump="100" and (FlagsOutput(C)='1' or FlagsOutput(N)='1' or FlagsOutput(Z)='1') else
 				'0';--reset used flag
+		jmpflush : process( Clk )
+		begin
+			if(falling_edge(Clk)) then
+				if(jmpCNZ ='1' or IFID_flush='1') then
+					IFID_flush <= '1';
+				else
+					IFID_flush <='0';
+				end if;
+			end if;
+		end process ; -- jmpflush
+		Rcallorjump <= port1_dataD ;--handle hazard
+		Rjump <= port1_dataD;--handle hazard
 
-	Rcallorjump <= port1_dataD ;--handle hazard
-	Rjump <= port1_dataD;--handle hazard
 	ID_EXLabel: IDEX_buffer port map (pcout,spout,Inputportout,Imm,EA,port1_dataD,port2_dataD,opcode,rsrcno,rdstno,jump,pushpop,getdatafrom,ret,IDEX_rewriteD,'0',Clk,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pcoutD,spoutD,InputportoutD,ImmoutD,EAoutD,rsrcoutD,rdstoutD,opcodeoutD,rsrcnooutD,rdstnooutD,jumpoutD,pushpopoutD,getdatafromoutD,retoutD,wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD);----------------------------------------------------------------------------
 	
 	----------------------------------------------------------------------------
@@ -422,7 +435,7 @@ begin
 			,FlagsOutput
 			,rsrcnooutD,rdstnooutD,jumpoutD
 			,pushpopoutD,getdatafromoutD,retoutD
-			,IDEX_rewriteE,IDEX_resetE,Clk,wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD
+			,IDEX_rewriteE,'0',Clk,wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD
 			,pcoutE,spoutE,aluresultoutE
 			,InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE
 			,opcodeoutE
