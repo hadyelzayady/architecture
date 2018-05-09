@@ -49,7 +49,7 @@ CONSTANT  LDD :  std_logic_vector(4 downto 0)  := "11100";
 CONSTANT  STD :  std_logic_vector(4 downto 0)  := "11101";
 begin
 
-pushpop<="10" when opcode=POP or opcode=myCALL or interrupt='1' else --push when op is push,call,int
+pushpop<="10" when opcode=PUSH or opcode=myCALL or interrupt='1' else --push when op is push,call,int
 	"01" when opcode=POP or opcode=myRET or opcode=RTI else --pop when op is pop,ret,reti
 	"00" when Rst='1' else
 		"00";

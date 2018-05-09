@@ -141,6 +141,38 @@ sim:/microprocessor/Registers/R3/q
 add wave -position insertpoint  \
 sim:/microprocessor/Registers/R4/d \
 sim:/microprocessor/Registers/R4/q
+
+add wave -position insertpoint  \
+sim:/microprocessor/spoutD
+add wave -position insertpoint  \
+sim:/microprocessor/spoutE
+add wave -position insertpoint  \
+sim:/microprocessor/spoutM
+add wave -position insertpoint  \
+sim:/microprocessor/sp_tomemwb
+add wave -position insertpoint  \
+sim:/microprocessor/spunit
+add wave -position insertpoint  \
+sim:/microprocessor/getdatafrom
+
+add wave -position insertpoint  \
+sim:/microprocessor/getdatafromoutD
+
+add wave -position insertpoint  \
+sim:/microprocessor/getdatafromoutE
+add wave -position insertpoint  \
+sim:/microprocessor/datato_MEMWB
+
+add wave -position insertpoint  \
+sim:/microprocessor/address_tomem	
+
+
+add wave -position insertpoint  \
+sim:/microprocessor/pushpopoutE	
+add wave -position insertpoint  \
+sim:/microprocessor/data_tomem	
+
+force -freeze sim:/microprocessor/spoutM 03ff 0
 force -freeze sim:/microprocessor/IFID_rewrite 0 0
 force -freeze sim:/microprocessor/IDEX_rewriteE 0 0
 force -freeze sim:/microprocessor/IDEX_rewriteD 0 0
@@ -153,8 +185,14 @@ run
 run
 run
 run
+
 noforce sim:/microprocessor/wb_data
 noforce sim:/microprocessor/Rst
 force -freeze sim:/microprocessor/Rst 0 0
+run 
+run
+run
+noforce sim:/microprocessor/spoutM
+run
 
 

@@ -147,8 +147,9 @@ end component control;
 
 component hazardunit is
 	port(
-	IDIE_rdst,rdst,rsrc:in std_logic_vector (2 downto 0);
+		IDIE_rdst,rdst,rsrc:in std_logic_vector (2 downto 0);
 	IDIE_memread: in std_logic;
+	opcode: in std_logic_vector( 4 downto 0);
 	PC_rewrite,IFID_rewrite,IDIE_flush: out std_logic
 );
 end component hazardunit;
@@ -174,8 +175,8 @@ end component CallJumpHazard;
 
 component pushpopunit is
 port(
-	EXMEM_SP,MEMWB_SP:in std_logic_vector (15 downto 0);
-	EXMEM_pushpop,MEMWB_pushpop:in std_logic_vector(3 downto 0); --from control unit push=10 pop =01 
+	spreg:in std_logic_vector (15 downto 0);
+	EXMEM_pushpop,MEMWB_pushpop:in std_logic_vector(1 downto 0); --from control unit push=10 pop =01 
 	sp_tomemwb,sp:out std_logic_vector (15 downto 0)
 );
 end component pushpopunit;
@@ -289,6 +290,8 @@ end component RegisterFile;
 	signal Imm: std_logic_vector(15 downto 0);
 	signal ImmD: std_logic_vector(15 downto 0);
 	signal NewFlags: std_logic_vector(3 downto 0);
+	signal address_tomem :std_logic_vector(9 downto 0);
+	signal data_tomem,datato_MEMWB :std_logic_vector(15 downto 0);
 	--------------------------------------------------------------------------------
 	-- Magdy
 	--------------------------------------------------------------------------------
@@ -298,7 +301,7 @@ end component RegisterFile;
 	signal Rret : std_logic_vector(15 downto 0 );
 	signal Rint : std_logic_vector(15 downto 0 );
 	signal Rrst : std_logic_vector(15 downto 0 );
-	signal newsp : std_logic_vector(15 downto 0 );
+	signal newsp,spunit,sp_tomemwb : std_logic_vector(15 downto 0 );
 	signal callorjump : std_logic;
 	signal jmpCNZ : std_logic:='0';
 	signal ret_mem_wb : std_logic;
@@ -399,7 +402,7 @@ begin
 
 	-- change '0' to interrupt signal 
 	controlunit: control port map(opcode,'0',Rst,ID_flush,Ex_flush,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pushpop,ret,getdatafrom,jump,Aluop);
-	hazardunitLabel: hazardunit port map (rdstnooutD,rdstno,rsrcno,memreadoutD,PC_rewrite,IFID_rewrite,IFID_flush);
+	hazardunitLabel: hazardunit port map (rdstnooutD,rdstno,rsrcno,memreadoutD,opcode,PC_rewrite,IFID_rewrite,IFID_flush);
 	Rrst <= pcout;
 	-- Out instrcution should be her but we should handle hazard first as mov then out will out old value
 	--with Opcode select 
@@ -459,9 +462,17 @@ begin
 	-- Memory
 	----------------------------------------------------------------------------
 	
-	DataMemory : syncram port map(Clk,we=>memwriteoutE,address=>ImmoutE(9 downto 0),datain=>aluresultoutE,dataout=>Memout);--original
+	address_tomem<=ImmoutE(9 downto 0) when pushpopoutE="00" else spunit(9 downto 0);
+	data_tomem<=pcoutE when calloutE='1' or interruptoutE='1' else rsrcoutE;
+	datato_MEMWB<=aluresultoutE when getdatafromoutE="11" else
+					ImmoutE     when getdatafromoutE="01" else
+				  InputportoutE when getdatafromoutE="10" else  aluresultoutE;
+
+	DataMemory : syncram port map(Clk,we=>memwriteoutE,address=>address_tomem,datain=>data_tomem,dataout=>Memout);--original
 	
-	MEM_WBLabel: MEMWB_buffer port map(pcoutE,spoutE,aluresultoutE,Memout
+	unit6:pushpopunit port map(spoutM,pushpopoutE,pushpopoutM,sp_tomemwb,spunit);
+
+	MEM_WBLabel: MEMWB_buffer port map(pcoutE,sp_tomemwb,datato_MEMWB,Memout
 			,InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE
 			,opcodeoutE
 			,flagoutE
