@@ -82,6 +82,7 @@ sim:/microprocessor/IDEX_rewriteD \
 sim:/microprocessor/IDEX_resetD \
 sim:/microprocessor/pcoutD \
 sim:/microprocessor/Rjump \
+sim:/microprocessor/destination \
 sim:/microprocessor/Rcallorjump \
 sim:/microprocessor/callorjump \
 sim:/microprocessor/jmpCNZ \

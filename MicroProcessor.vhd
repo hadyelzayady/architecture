@@ -161,6 +161,16 @@ port(
 	jump: out std_logic
 );
 end component jumpunit;
+component CallJumpHazard is
+	port (
+		currentRdst:in std_logic_vector(2 downto 0);
+		prevRdst:in std_logic_vector(2 downto 0);
+		currentRdstVal:in std_logic_vector(15 downto 0);
+		prevRdstVal_alu:in std_logic_vector(15 downto 0);
+		wb:in std_logic;
+		RdstVal: out std_logic_vector (15 downto 0)
+	);
+end component CallJumpHazard;
 
 component pushpopunit is
 port(
@@ -356,6 +366,7 @@ signal PC_rewrite : std_logic;
 signal IDIE_flush : std_logic; 
 signal IFID_flush : std_logic; 
 signal IFID_jumpflush : std_logic; 
+signal destination : std_logic_vector(15 downto 0); 
 
 signal flush : std_logic; 
 
@@ -394,6 +405,8 @@ begin
 	--with Opcode select 
 	--	OutPort <= port1_data when myOUT,
 	--			   (others => '0') when others;
+		--rsrno is rdst in jump
+		callOrJumpHazardUnit: CallJumpHazard port map(rsrcno,rdstnooutE,port1_dataD,aluresultoutE,wboutE,destination);
 		with jump select
 		callorjump <= '1' when "111",
 				  	  '0' when others;
@@ -402,11 +415,13 @@ begin
 		jmpflush : process( Clk )
 		begin
 			if(falling_edge(Clk)) then
-				IFID_jumpflush <= jmpCNZ;					
+				if (jmpCNZ='1' or callorjump ='1') then
+					IFID_jumpflush <= '1';					
+				end if;
 			end if;
 		end process ; -- jmpflush
-		Rcallorjump <= port1_dataD ;--handle hazard
-		Rjump <= port1_dataD;--handle hazard
+		Rcallorjump <= destination ;--handle hazard
+		Rjump <= destination;--handle hazard
 
 	ID_EXLabel: IDEX_buffer port map (pcout,spout,Inputportout,Imm,EA,port1_dataD,port2_dataD,opcode,rsrcno,rdstno,jump,pushpop,getdatafrom,ret,IDEX_rewriteD,'0',Clk,regwrite,memtoreg,memread,memwrite,call,int,outtoport,pcoutD,spoutD,InputportoutD,ImmoutD,EAoutD,rsrcoutD,rdstoutD,opcodeoutD,rsrcnooutD,rdstnooutD,jumpoutD,pushpopoutD,getdatafromoutD,retoutD,wboutD,memtoregoutD,memreadoutD,memwriteoutD,calloutD,interruptoutD,outportoutD);----------------------------------------------------------------------------
 	
