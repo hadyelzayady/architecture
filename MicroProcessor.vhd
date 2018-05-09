@@ -490,7 +490,7 @@ begin
 	-- Write back
 	----------------------------------------------------------------------------
 	with opcodeoutM select 
-		wb_data <= memdataoutM when LDD ,
+		wb_data <= memdataoutM when LDD | POP ,
 				   inputportoutM when myIN,
 				   aluresultoutM when others;
 	outputport_process : process( Clk )

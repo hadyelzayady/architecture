@@ -85,7 +85,7 @@ reg1sigin <=instruction(26 downto 24);
 reg2sigin <=instruction(23 downto 21);
 
 with opcodesigin select 
-	rdstsig <= reg1sigin when RLC | RRC | NEG | INC | DEC | LDM | LDD | myIN,
+	rdstsig <= reg1sigin when RLC | RRC | NEG | INC | DEC | LDM | LDD | myIN | POP,
 				reg2sigin when  others;
 reset <= '1' when IFID_reset ='1' or IFID_reset2 ='1' else
 			'0';
