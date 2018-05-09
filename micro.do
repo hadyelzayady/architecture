@@ -27,6 +27,8 @@ vsim -gui work.microprocessor
 mem load -i {C:/Users/hadye/Google Drive/CUFE/term6/Arch/Project/temp.mem} /microprocessor/fetchstageLabel/inst_mem/ram
 mem load -filltype value -filldata 1111000011110000 -fillradix binary /microprocessor/DataMemory/ram(0)
 mem load -filltype value -filldata 0000000000001010 -fillradix binary /microprocessor/DataMemory/ram(1)
+mem load -filltype value -filldata 1111000000000000 -fillradix binary /microprocessor/fetchstageLabel/inst_mem/ram(100)
+
 add wave -position insertpoint  \
 sim:/microprocessor/Clk \
 sim:/microprocessor/Rst \
