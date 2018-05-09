@@ -463,7 +463,7 @@ begin
 	----------------------------------------------------------------------------
 	
 	address_tomem<=ImmoutE(9 downto 0) when pushpopoutE="00" else spunit(9 downto 0);
-	data_tomem<=pcoutE when calloutE='1' or interruptoutE='1' else rsrcoutE;
+	data_tomem<=pcoutE when calloutE='1' or interruptoutE='1' else aluresultoutE;
 	datato_MEMWB<=aluresultoutE when getdatafromoutE="11" else
 					ImmoutE     when getdatafromoutE="01" else
 				  InputportoutE when getdatafromoutE="10" else  aluresultoutE;

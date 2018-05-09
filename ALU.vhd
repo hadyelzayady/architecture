@@ -112,8 +112,8 @@ begin
                         AorB when myOR,
                         nota when myNOT,
                         nega when NEG,
-                        A when STD | MOV | myOUT,
-                        B when LDM,
+                        A when STD | MOV | myOUT | PUSH,
+                        B when LDM ,
                         (others => '0') when others;
     with Op select 
         Flags(V downto C) <= Overflow & carry when ADD |SUB | INC | DEC ,

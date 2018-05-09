@@ -1,4 +1,2 @@
 ldm r1 100
-setc
-jmp r1
-clc
+push r1
