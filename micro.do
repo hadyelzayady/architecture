@@ -43,6 +43,7 @@ sim:/microprocessor/NextPC \
 sim:/microprocessor/PC_rewrite \
 sim:/microprocessor/IFID_flush \
 sim:/microprocessor/IDIE_flush \
+sim:/microprocessor/IFID_jumpflush \
 sim:/microprocessor/flush \
 sim:/microprocessor/IFID_rewrite \
 sim:/microprocessor/RegPort2_data \

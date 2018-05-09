@@ -47,7 +47,7 @@ component IFID_buffer is
 		instruction: in std_logic_vector (31 downto 0);
 		Inputportin: in std_logic_vector (15 downto 0);
 		IFID_rewrite : in std_logic ;  --make enable =0 used in hazard detection unit
-		IFID_reset,Clk: in std_logic;
+		IFID_reset,IFID_reset2,Clk: in std_logic;
 		pcout,Inputportout,spout : out std_logic_vector (15 downto 0);
 		EA,Imm : out std_logic_vector (15 downto 0);
 		opcode : out std_logic_vector (4 downto 0);
@@ -355,7 +355,7 @@ end component RegisterFile;
 signal PC_rewrite : std_logic; 
 signal IDIE_flush : std_logic; 
 signal IFID_flush : std_logic; 
-signal jmpcnzORLoadcaseflush : std_logic; 
+signal IFID_jumpflush : std_logic; 
 
 signal flush : std_logic; 
 
@@ -378,7 +378,7 @@ begin
 	IDEX_resetM<='1' when Rst='1' else '0'  ;
 	
 	fetchstageLabel : fetch_stage port map(Rjump,Rcallorjump,Rret,Rint,Rrst,pc_rewrite,newsp,Rst,clk,callorjump,jmpCNZ,'0',interrupt,Mem_inst,NextPC,SPOutput);
-	IFID: IFID_buffer port map(NextPC,SPOutput,Mem_inst,InPort,IFID_rewrite,IFID_flush,Clk,pcout,Inputportout,spout,EA,Imm,opcode,rsrcno,rdstno);
+	IFID: IFID_buffer port map(NextPC,SPOutput,Mem_inst,InPort,IFID_rewrite,IFID_flush,IFID_jumpflush,Clk,pcout,Inputportout,spout,EA,Imm,opcode,rsrcno,rdstno);
 	
 	----------------------------------------------------------------------------
 	-- Decode
@@ -402,11 +402,7 @@ begin
 		jmpflush : process( Clk )
 		begin
 			if(falling_edge(Clk)) then
-				if(jmpCNZ ='1' or IFID_flush='1') then
-					IFID_flush <= '1';
-				else
-					IFID_flush <='0';
-				end if;
+				IFID_jumpflush <= jmpCNZ;					
 			end if;
 		end process ; -- jmpflush
 		Rcallorjump <= port1_dataD ;--handle hazard

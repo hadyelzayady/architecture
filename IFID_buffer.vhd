@@ -12,7 +12,7 @@ port(
 	instruction: in std_logic_vector (31 downto 0);
 	Inputportin: in std_logic_vector (15 downto 0);
 	IFID_rewrite : in std_logic ;  --make enable =0 used in hazard detection unit
-	IFID_reset,Clk: in std_logic;
+	IFID_reset,IFID_reset2,Clk: in std_logic;
 	pcout,Inputportout,spout : out std_logic_vector (15 downto 0);
 	EA,Imm : out std_logic_vector (15 downto 0);
 	opcode : out std_logic_vector (4 downto 0);
@@ -75,6 +75,7 @@ signal reg1sigin,reg2sigin :std_logic_vector (2 downto 0);
 
 
 signal rdstsig : std_logic_vector(2 downto 0);
+signal reset : std_logic;
 begin
 enable <=not(IFID_rewrite);
 immsigin<=instruction (15 downto 0);
@@ -86,16 +87,17 @@ reg2sigin <=instruction(23 downto 21);
 with opcodesigin select 
 	rdstsig <= reg1sigin when RLC | RRC | NEG | INC | DEC | LDM | LDD | myIN,
 				reg2sigin when  others;
+reset <= '1' when IFID_reset ='1' or IFID_reset2 ='1' else
+			'0';
+PCreg: my_nDFF3 generic map (n => 16) port map(Clk,reset,enable,pcin,pcout);
+SPreg: my_nDFF3 generic map (n => 16) port map(Clk,reset,enable,spin,spout);
+IMMreg:my_nDFF3 generic map (n => 16) port map(Clk,reset,enable,immsigin,Imm);
+EAreg:my_nDFF3 generic map (n => 16) port map(Clk,reset,enable,EAsigin,EA);
+inputreg:my_nDFF3 generic map (n => 16) port map(Clk,reset,enable,inputportin,Inputportout);
 
-PCreg: my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,enable,pcin,pcout);
-SPreg: my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,enable,spin,spout);
-IMMreg:my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,enable,immsigin,Imm);
-EAreg:my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,enable,EAsigin,EA);
-inputreg:my_nDFF3 generic map (n => 16) port map(Clk,IFID_reset,enable,inputportin,Inputportout);
-
-opcodereg : my_nDFF3 generic map (n => 5) port map(Clk,IFID_reset,enable,opcodesigin,opcode);
-reg1: my_nDFF3 generic map (n => 3) port map(Clk,IFID_reset,enable,reg1sigin,rsrc);
-reg2: my_nDFF3 generic map (n => 3) port map(Clk,IFID_reset,enable,rdstsig,rdst);
+opcodereg : my_nDFF3 generic map (n => 5) port map(Clk,reset,enable,opcodesigin,opcode);
+reg1: my_nDFF3 generic map (n => 3) port map(Clk,reset,enable,reg1sigin,rsrc);
+reg2: my_nDFF3 generic map (n => 3) port map(Clk,reset,enable,rdstsig,rdst);
 
 
 end arch;
