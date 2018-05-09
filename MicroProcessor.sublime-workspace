@@ -1,0 +1,1644 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"my_",
+				"my_nDFF3"
+			],
+			[
+				"C",
+				"Clk"
+			],
+			[
+				"OUT",
+				"out"
+			],
+			[
+				"Opcod",
+				"Opcode"
+			],
+			[
+				"wbout",
+				"wboutM"
+			],
+			[
+				"temp",
+				"tempport2_data"
+			],
+			[
+				"port2",
+				"port2_data"
+			],
+			[
+				"aluresultout",
+				"aluresultoutM"
+			],
+			[
+				"aluresult",
+				"aluresultoutM"
+			],
+			[
+				"rsrcno",
+				"rsrcnooutD"
+			],
+			[
+				"port",
+				"port1_choice"
+			],
+			[
+				"port1",
+				"port1_data"
+			],
+			[
+				"rdstnoout",
+				"rdstnooutM"
+			],
+			[
+				"rsrcnout",
+				"rsrcnooutD"
+			],
+			[
+				"push",
+				"PUSH"
+			],
+			[
+				"EX",
+				"EX_MEM_WB"
+			],
+			[
+				"IN",
+				"in"
+			],
+			[
+				"el",
+				"elsif\telsif"
+			],
+			[
+				"new",
+				"newPc"
+			],
+			[
+				"memwriteout",
+				"memwriteoutE"
+			],
+			[
+				"flagout",
+				"flagoutE"
+			],
+			[
+				"opcodeout",
+				"opcodeoutE"
+			],
+			[
+				"rdstout",
+				"rdstoutE"
+			],
+			[
+				"Immout",
+				"ImmoutE"
+			],
+			[
+				"memdata",
+				"memdataout"
+			],
+			[
+				"std",
+				"std_logic_vector"
+			],
+			[
+				"ena",
+				"enable"
+			],
+			[
+				"Imm",
+				"ImmoutD"
+			],
+			[
+				"Opc",
+				"OpcodeM"
+			],
+			[
+				"opcode",
+				"opcodeoutE"
+			],
+			[
+				"wbou",
+				"wboutE"
+			],
+			[
+				"reg",
+				"regwriteoutM"
+			],
+			[
+				"alures",
+				"aluresultoutE"
+			],
+			[
+				"alut",
+				"AluOutputM"
+			],
+			[
+				"Mem",
+				"Memout"
+			],
+			[
+				"memrea",
+				"memreadoutE"
+			],
+			[
+				"rdstno",
+				"rdstnooutM"
+			],
+			[
+				"rdst",
+				"rdstoutE"
+			],
+			[
+				"alure",
+				"aluresultoutE"
+			],
+			[
+				"memwrite",
+				"memwriteoutE"
+			],
+			[
+				"rsrc",
+				"rsrcoutD"
+			],
+			[
+				"alu",
+				"Aluop"
+			],
+			[
+				"memreadD",
+				"memreadoutD"
+			],
+			[
+				"memwr",
+				"memwriteoutE"
+			],
+			[
+				"rds",
+				"rdstsig"
+			],
+			[
+				"mem",
+				"MEM_WB_WB"
+			],
+			[
+				"ex",
+				"EX_MEM_WB"
+			],
+			[
+				"std_logic",
+				"std_logic_vector"
+			],
+			[
+				"prev",
+				"prevRdst"
+			],
+			[
+				"Ins",
+				"InstCode"
+			],
+			[
+				"Inp",
+				"Inputportout"
+			],
+			[
+				"IF",
+				"IFID_buffer"
+			],
+			[
+				"shif",
+				"shiftrighttemp"
+			],
+			[
+				"shift",
+				"shiftlefttemp"
+			],
+			[
+				"sh",
+				"shiftlefttemp"
+			],
+			[
+				"shi",
+				"shiftleft"
+			],
+			[
+				"my",
+				"myNOT"
+			],
+			[
+				"ALU",
+				"AluOutputE"
+			],
+			[
+				"O",
+				"Opcode"
+			],
+			[
+				"gene",
+				"generic\tvhdl-generic"
+			],
+			[
+				"fetc",
+				"fetch_stage"
+			],
+			[
+				"wb",
+				"wb_enable"
+			],
+			[
+				"OpC",
+				"OpcodeM"
+			],
+			[
+				"pro",
+				"pro\tprocess"
+			],
+			[
+				"Rdst",
+				"RdstM"
+			],
+			[
+				"Al",
+				"AluOutputE"
+			],
+			[
+				"MW",
+				"MWBuff"
+			],
+			[
+				"Op",
+				"OpcodeE"
+			],
+			[
+				"Rds",
+				"RdstE"
+			],
+			[
+				"Reg",
+				"RegPort2_data"
+			],
+			[
+				"std_lo",
+				"std_logic_vector"
+			],
+			[
+				"Fe",
+				"Fetcher"
+			],
+			[
+				"Por",
+				"port2_data"
+			],
+			[
+				"d",
+				"downto"
+			],
+			[
+				"por",
+				"port2_data"
+			],
+			[
+				"Regis",
+				"RegisterFile"
+			],
+			[
+				"Port1",
+				"port1_data"
+			],
+			[
+				"Dec",
+				"Decoder"
+			],
+			[
+				"adder",
+				"adder1"
+			],
+			[
+				"k0",
+				"k0output"
+			],
+			[
+				"d1",
+				"d1output"
+			],
+			[
+				"Fl",
+				"Flags"
+			],
+			[
+				"Fla",
+				"FlagsOutput"
+			],
+			[
+				"Ex",
+				"ExMemBuffData"
+			],
+			[
+				"not",
+				"nota"
+			],
+			[
+				"over",
+				"overflow1op"
+			],
+			[
+				"inc",
+				"INC"
+			],
+			[
+				"sub",
+				"SUB"
+			],
+			[
+				"if",
+				"if\tvhdl-if-then"
+			],
+			[
+				"R",
+				"RLC"
+			],
+			[
+				"s1",
+				"s1adderfinal"
+			],
+			[
+				"te",
+				"tempcarry"
+			],
+			[
+				"add",
+				"Adder8Bit"
+			],
+			[
+				"comp",
+				"component\tvhdl-component-declaration"
+			],
+			[
+				"ent",
+				"entarch\tentity architecture"
+			],
+			[
+				"pr",
+				"pro\tprocess"
+			],
+			[
+				"arc",
+				"architecture\tvhdl-architecture"
+			],
+			[
+				"se",
+				"Sel"
+			],
+			[
+				"en",
+				"entarch\tentity architecture"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "MicroProcessor.vhd",
+			"settings":
+			{
+				"buffer_size": 20504,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "IFID_buffer.vhd",
+			"settings":
+			{
+				"buffer_size": 4419,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "temp.asm",
+			"settings":
+			{
+				"buffer_size": 47,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "ALU.vhd",
+			"settings":
+			{
+				"buffer_size": 6420,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "micro.do",
+			"settings":
+			{
+				"buffer_size": 4839,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "temp.mem",
+			"settings":
+			{
+				"buffer_size": 5699,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "Packages/User/mhvhdl.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Default/Syntax Tests.sublime-build",
+					""
+				],
+				[
+					"Packages/Default/Syntax Tests.sublime-build",
+					"All Syntaxes"
+				],
+				[
+					"Packages/Default/Syntax Tests.sublime-build",
+					"Performance"
+				],
+				[
+					"Packages/Default/Syntax Tests.sublime-build",
+					"Regex Compatibility"
+				]
+			],
+			[
+				"Packages/Default/Syntax Tests.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/VHDL/VHDL.sublime-build",
+					""
+				],
+				[
+					"Packages/User/mhvhdl.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/mhvhdl.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 443.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"git stauts",
+				"Git: Status"
+			],
+			[
+				"git co",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add All"
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			],
+			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"git commi",
+				"Git: Commit"
+			],
+			[
+				"git comm",
+				"Git: Commit"
+			],
+			[
+				"git add ",
+				"Git: Add All"
+			],
+			[
+				"git stau",
+				"Git: Status"
+			],
+			[
+				"git pus",
+				"Git: Push"
+			],
+			[
+				"git re",
+				"Git: Reset (hard) HEAD"
+			],
+			[
+				"git rever",
+				"GitGutter: Revert Change to Commit"
+			],
+			[
+				"git diff",
+				"Git: Diff Current File"
+			],
+			[
+				"theme",
+				"UI: Select Theme"
+			],
+			[
+				"select tem",
+				"UI: Select Theme"
+			],
+			[
+				"git ame",
+				"Git: Amend Commit"
+			],
+			[
+				"git am",
+				"Git: Amend Commit"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
+			[
+				"git a",
+				"Git: Add All"
+			],
+			[
+				"git amend",
+				"Git: Amend Commit"
+			],
+			[
+				"git stat",
+				"Git: Status"
+			],
+			[
+				"git reset",
+				"Git: Reset (hard) HEAD"
+			],
+			[
+				"git s",
+				"Git: Status"
+			],
+			[
+				"git pull",
+				"Git: Pull"
+			],
+			[
+				"git ad",
+				"Git: Add All"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"gutter",
+				"GutterColor: Fix Current Color Scheme"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"index",
+				"Indexing Status"
+			],
+			[
+				"got",
+				"Go To Definition"
+			],
+			[
+				"git upda",
+				"Git: Update Project Ignored Files"
+			],
+			[
+				"syn",
+				"Set Syntax: C"
+			],
+			[
+				"them",
+				"Material Theme: Activate theme"
+			],
+			[
+				"sync",
+				"Set Syntax: C"
+			],
+			[
+				"comm",
+				"Git: Commit"
+			],
+			[
+				"add ",
+				"Git: Add All"
+			],
+			[
+				"stash pop",
+				"Git: Stash Pop"
+			],
+			[
+				"stash",
+				"Git: Stash Changes"
+			],
+			[
+				"stas",
+				"Git: Stash Apply"
+			],
+			[
+				"stash list",
+				"Git: Stash List"
+			],
+			[
+				"add",
+				"Git: Add All"
+			],
+			[
+				"packages",
+				"Package Control: List Packages"
+			],
+			[
+				"booka",
+				"Bookmarks: Select All"
+			],
+			[
+				"be",
+				"VHDL Mode - Beautify (Buffer)"
+			],
+			[
+				"html",
+				"HTMLBeautify"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"syn jso",
+				"Set Syntax: JSON"
+			],
+			[
+				"push",
+				"Git: Push"
+			],
+			[
+				"todo",
+				"TodoReview: Project Files"
+			],
+			[
+				"commit",
+				"Git: Commit"
+			],
+			[
+				"comiit",
+				"GitGutter: Compare Against Commit"
+			],
+			[
+				"add a",
+				"Git: Add All"
+			],
+			[
+				"ignore",
+				"Git: Update Project Ignored Files"
+			],
+			[
+				"add\t",
+				"Git: Add All"
+			],
+			[
+				"com\t",
+				"Git: Commit"
+			],
+			[
+				"git amm",
+				"Git: Amend Commit"
+			],
+			[
+				"instl",
+				"Package Control: Install Local Dependency"
+			],
+			[
+				"syn vhdl ",
+				"Set Syntax: VHDL"
+			],
+			[
+				"syntax: ",
+				"Set Syntax: VHDL"
+			],
+			[
+				"git ignore",
+				"Gitignore: New gitignore"
+			],
+			[
+				"git",
+				"Git: Init"
+			],
+			[
+				"git ",
+				"Package Control: Install Package"
+			],
+			[
+				"mater",
+				"Material Theme: Extras"
+			],
+			[
+				"color",
+				"UI: Select Color Scheme"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 1047.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": true,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project"
+	],
+	"file_history":
+	[
+		"/C/Users/hadye/Downloads/Assembler+Testcase/Assembler+Testcase/sampletestcase.mem",
+		"/C/Users/hadye/Downloads/readwrite.m",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/micro.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/temp.asm",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ForwardUnit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/controlunit-1.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/IFID_buffer.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RegisterFile.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ALU.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/IDEX_buffer.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/temp.mem",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/fetchstage.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/instruction_set.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Architecture_Project_S18.docx.pdf",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MEMWB_buffer.vhd",
+		"/C/Users/hadye/Desktop/temp.mem",
+		"/C/Modeltech_pe_edu_10.4a/student_license.dat",
+		"/C/Modeltech_pe_edu_10.4a/LICENSE",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/my_nDFF3.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AdderSub16Bit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nreg_enable.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Memory (1).vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/EXMEM_buffer.vhd",
+		"/C/Users/hadye/Downloads/micro.do",
+		"/C/Users/hadye/Downloads/MicroProcessor.vhd",
+		"/C/Users/hadye/Downloads/fetchstage.vhd",
+		"/C/Users/hadye/Downloads/controlunit-1.vhd",
+		"/C/Users/hadye/Downloads/MicroProcessor (1).vhd",
+		"/C/Users/hadye/Downloads/controlunit (1).vhd",
+		"/C/Users/hadye/Downloads/controlunit-1 (1).vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/memory.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/controlunit (1).vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/fetchstage (2).vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/my_dff3.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project - Copy/MicroProcessor.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/CallJumpHazard.vhdl",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/DFF_Rising.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/nregister.vhd",
+		"/C/Users/hadye/floobits/welcome.md",
+		"/C/Users/hadye/Google Drive/CUFE/term6/APT/Labs/Lab - Network Programming/requirement/client.java",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/mhvhdl.sublime-build",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/MicroProcessor.sublime-project",
+		"/D/Music/(1) Kygo - Piano Jam (ALL 1-2-3) [1 HOUR] - YouTube.MKV",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/Terminality/Default (Windows).sublime-keymap",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/Terminality/README.md",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/myvhdl.sublime-build",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/my_ndff.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/pushpopunit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/jumpunit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/hazardunit.vhd",
+		"/C/Users/hadye/Downloads/forwardunit.vhd",
+		"/C/Users/hadye/Desktop/vsim -gui work.idex_buffer",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/wlft1effr0",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Microprocessor.do",
+		"/C/Users/hadye/Downloads/fetchstage (1).vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu2.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab4/register.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab3/AU.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab2/ALU.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Compilers/Project/lex.l",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Compilers/Project/yac.c",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/SHL_do.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/.gitignore",
+		"/C/Users/hadye/Downloads/controlunit.vhd",
+		"/C/Users/hadye/Downloads/Memory.vhd",
+		"/C/Users/hadye/Downloads/my_dff.vhd",
+		"/C/Users/hadye/Downloads/my_ndff.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/temp.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Decoder.vhd",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/GutterColor.sublime-settings",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RotShiftLeft.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/RotShiftRight.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/ShiftOperation.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AndNand.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/BitWiseOP.vhd",
+		"/C/Users/hadye/flex-bison-example/calc.y",
+		"/C/Users/hadye/flex-bison-example/calc.tab.h",
+		"/C/Users/hadye/flex-bison-example/calc.l",
+		"/C/Users/hadye/flex-bison-example/lex.yy.c",
+		"/C/Users/hadye/flex-bison-example/calc.tab.c",
+		"/C/Users/hadye/license.c",
+		"/C/Users/hadye/Downloads/bof",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Fetcher.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Microprocessor.cr.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Labexam.vhd",
+		"/C/Users/hadye/Downloads/Pipe_Enc.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/Labexam.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab_exam_sol/Pipe_Enc.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab_exam_sol/temp.html",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab4/main.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/testbench.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/saladicious.json",
+		"/C/Users/hadye/Downloads/labexam.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/BufferRegister.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu_do3.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/vsim -gui work.labexam",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/testbench.vhd",
+		"/C/Users/hadye/Downloads/Pipe_Enc (2).vhd",
+		"/C/Users/hadye/Downloads/Pipe_Enc (1).vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/nregister.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/alu_do2.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALUD.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab3/ALUC.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/vsim -gui work.labexam",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Adder16Bit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/ALU/ALSU .vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/adder8bit.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/LABEXAM/Encrypt.vhd",
+		"/C/Users/hadye/Desktop/LABEXAM/Encrypt.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/testbench.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab6/DMA.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/FullAdder.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/main.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab5/register.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Labs/Lab6/Memory.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/Op2Reg.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/log",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/work-obj93.cf",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/transcript",
+		"/C/Users/hadye/Desktop/temp.vhd",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/User/CustomPATH.sublime-settings",
+		"/C/Users/hadye/AppData/Roaming/Sublime Text 3/Packages/CustomPATH/CustomPATH.sublime-settings",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/HalfAdder.vhd",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AddSub16_dofile.do",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/AdderSub16Bit.vhdl",
+		"/C/Users/hadye/Google Drive/CUFE/term6/Arch/Project/FullAdder.vhdl"
+	],
+	"find":
+	{
+		"height": 45.6
+	},
+	"find_in_files":
+	{
+		"height": 198.0,
+		"where_history":
+		[
+			"C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Arch\\Project",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"Memout",
+			"32768",
+			"myOUT",
+			"and",
+			"mov",
+			"regwrite",
+			"mem",
+			"memdatain",
+			"forward",
+			"\\",
+			"forward",
+			"LDM",
+			"EX_MEM_WB",
+			"reti",
+			"RETI",
+			"ret",
+			"push",
+			" and w_en=  '0'",
+			"CALL",
+			"wb_data",
+			"opcode",
+			"opcodeoutE",
+			"port1_data",
+			"Opcode",
+			"opcode",
+			"Opcode",
+			"opcode",
+			"IDEX_resetM",
+			"Imm",
+			":",
+			",",
+			"memdataout",
+			"E",
+			"e",
+			"E",
+			"e",
+			"E",
+			"e",
+			"E",
+			"<identifier>",
+			"aluresultout",
+			"EXMEM_buffer",
+			"opcodein",
+			"pcinD",
+			"Warning",
+			"enable",
+			"Imm",
+			"IFID_rewrite",
+			"'1'",
+			"wboutM",
+			"contorl",
+			"control",
+			"nextpc",
+			"MemoutM",
+			"wb_data",
+			"ImmoutD",
+			"port2_data",
+			"enable",
+			"sync",
+			"regwriteoutM",
+			"regwrite",
+			"regwriteoutE",
+			"enable",
+			"RegisterFile",
+			"wb_data",
+			"Rdstno",
+			"rdstno",
+			"clke",
+			"clkE",
+			"clk",
+			"clkD",
+			"AluOutputM",
+			"pcin",
+			"my_DFF3",
+			"newpc",
+			"newPc",
+			"string",
+			":",
+			"CONSTANT",
+			"syncram",
+			"sync",
+			"<identifier>",
+			"regwriteoutE",
+			"my_DFF",
+			"regwrite",
+			"Rdstno",
+			"regwriteoutE",
+			"\n\t",
+			"wb_data",
+			"call",
+			"memwrite",
+			"aluresultinE",
+			"CONSTANT  ADD",
+			"CONSTANT ADD",
+			"CARELL",
+			"my_ndf",
+			"flagreg",
+			"my_nDFF",
+			"EXMEMBuff",
+			":",
+			",",
+			"d",
+			"D",
+			"d",
+			"D",
+			"d",
+			"D",
+			",",
+			":",
+			",",
+			"jumpout",
+			"jump",
+			"ret",
+			"controlunit",
+			"rdstno",
+			"Mem_inst",
+			"Rcallorjump",
+			"Rdst",
+			"rdst",
+			"imm",
+			"Imm",
+			"rsrc",
+			"ret",
+			"signal ret : std_logic_vector( downto 0 )\n",
+			"jmpCNZ",
+			"Rst",
+			"rst",
+			"Rst"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "MicroProcessor.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20504,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								18328,
+								18328
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 6418.4,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "IFID_buffer.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4419,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1628.8,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "temp.asm",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 47,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								47,
+								47
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "ALU.vhd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6420,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4631,
+								4631
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/VHDL/Syntaxes/VHDL.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2300.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "micro.do",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4839,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								4839
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 474.4,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "temp.mem",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5699,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								288,
+								288
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 40.0
+	},
+	"input":
+	{
+		"height": 88.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 409.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 170.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/mhvhdl.sublime-build",
+	"project": "MicroProcessor.sublime-project",
+	"replace":
+	{
+		"height": 75.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"ifid",
+				"IFID_buffer.vhd"
+			],
+			[
+				"alu",
+				"ALU.vhd"
+			],
+			[
+				"temp.mem",
+				"temp.mem"
+			],
+			[
+				"micro",
+				"micro.do"
+			],
+			[
+				"temp.as",
+				"temp.asm"
+			],
+			[
+				"fetch",
+				"fetchstage.vhd"
+			],
+			[
+				"registe",
+				"RegisterFile.vhd"
+			],
+			[
+				"ins",
+				"instruction_set.vhd"
+			],
+			[
+				"contor",
+				"controlunit-1.vhd"
+			],
+			[
+				"inst",
+				"instruction_set.vhd"
+			],
+			[
+				".as",
+				"temp.asm"
+			],
+			[
+				"for",
+				"ForwardUnit.vhd"
+			],
+			[
+				"temp.me",
+				"temp.mem"
+			],
+			[
+				"",
+				"ForwardUnit.vhd"
+			],
+			[
+				"forw",
+				"ForwardUnit.vhd"
+			],
+			[
+				"instr",
+				"instruction_set.vhd"
+			],
+			[
+				"regist",
+				"RegisterFile.vhd"
+			],
+			[
+				"nff",
+				"my_nDFF3.vhd"
+			],
+			[
+				"mem",
+				"C:\\Users\\hadye\\Desktop\\temp.mem"
+			],
+			[
+				"contorl",
+				"controlunit-1.vhd"
+			],
+			[
+				"register",
+				"RegisterFile.vhd"
+			],
+			[
+				"ndff",
+				"my_nDFF3.vhd"
+			],
+			[
+				"buff",
+				"EXMEM_buffer.vhd"
+			],
+			[
+				"fet",
+				"fetchstage.vhd"
+			],
+			[
+				"contro",
+				"controlunit-1.vhd"
+			],
+			[
+				"mic",
+				"MicroProcessor.vhd"
+			],
+			[
+				"ided",
+				"IDEX_buffer.vhd"
+			],
+			[
+				"my",
+				"my_dff3.vhd"
+			],
+			[
+				"miro",
+				"MicroProcessor.vhd"
+			],
+			[
+				"call",
+				"CallJumpHazard.vhdl"
+			],
+			[
+				"micr",
+				"MicroProcessor.vhd"
+			],
+			[
+				"id",
+				"IDEX_buffer.vhd"
+			],
+			[
+				"ifif",
+				"IFID_buffer.vhd"
+			],
+			[
+				"mi",
+				"MicroProcessor.vhd"
+			],
+			[
+				"if",
+				"IFID_buffer.vhd"
+			],
+			[
+				"ex",
+				"EXMEM_buffer.vhd"
+			],
+			[
+				"c",
+				"controlunit (1).vhd"
+			],
+			[
+				"con",
+				"controlunit (1).vhd"
+			],
+			[
+				"conto",
+				"controlunit (1).vhd"
+			],
+			[
+				"push",
+				"pushpopunit.vhd"
+			],
+			[
+				"jum",
+				"jumpunit.vhd"
+			],
+			[
+				"ha",
+				"hazardunit.vhd"
+			],
+			[
+				"cal",
+				"CallJumpHazard.vhdl"
+			],
+			[
+				"file",
+				"RegisterFile.vhd"
+			],
+			[
+				".do",
+				"Microprocessor.do"
+			],
+			[
+				"nreg",
+				"nregister.vhd"
+			],
+			[
+				"me",
+				"memory.vhd"
+			],
+			[
+				"de",
+				"Decoder.vhd"
+			],
+			[
+				"dec",
+				"Decoder.vhd"
+			],
+			[
+				"al",
+				"alu.do"
+			],
+			[
+				"n",
+				"nregister.vhd"
+			],
+			[
+				"test",
+				"C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Arch\\Labs\\LABEXAM\\testbench.vhd"
+			],
+			[
+				"labexam",
+				"vsim -gui work.labexam"
+			],
+			[
+				"lab",
+				"vsim -gui work.labexam"
+			],
+			[
+				"addsu",
+				"AdderSub16Bit.vhd"
+			],
+			[
+				"addsub",
+				"AdderSub16Bit.vhd"
+			],
+			[
+				"regis",
+				"nregister.vhd"
+			],
+			[
+				"tes",
+				"testbench.vhd"
+			],
+			[
+				"adder",
+				"Adder16Bit.vhd"
+			],
+			[
+				"shi",
+				"ShiftOperation.vhd"
+			],
+			[
+				"shif",
+				"ShiftOperation.vhd"
+			],
+			[
+				"log",
+				"log"
+			],
+			[
+				"left",
+				"LeftOperation.vhd"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 625.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"C:\\Users\\hadye\\Google Drive\\CUFE\\term6\\Compilers\\Project\\C_compilers.sublime-project"
+			]
+		],
+		"width": 475.0
+	},
+	"select_symbol":
+	{
+		"height": 443.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 468.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 274.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
