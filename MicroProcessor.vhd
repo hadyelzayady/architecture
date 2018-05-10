@@ -19,12 +19,14 @@ component syncram is
 	port 
 	( 
 		clk : in std_logic;
-		we : in std_logic;
-		address : in std_logic_vector(9 downto 0);
-		datain : in std_logic_vector(15 downto 0);
-		flagreg : in std_logic_vector(3 downto 0);
-		flag32write:in std_logic;
-		dataout : out std_logic_vector(15 downto 0) 
+	we : in std_logic;
+	address : in std_logic_vector(9 downto 0);
+	datain : in std_logic_vector(15 downto 0);
+	flagreg : in std_logic_vector(3 downto 0);
+	flag32write:in std_logic;
+	returnflags:in std_logic_vector(1 downto 0);
+	dataout : out std_logic_vector(15 downto 0);
+	dataflag:out std_logic_vector( 3 downto 0)
 	);
 end component syncram;
 
@@ -182,7 +184,8 @@ end component CallJumpHazard;
 component pushpopunit is
 port(
 	spreg:in std_logic_vector (15 downto 0);
-	EXMEM_pushpop,MEMWB_pushpop:in std_logic_vector(1 downto 0); --from control unit push=10 pop =01 
+	EXMEM_pushpop,MEMWB_pushpop,RTI:in std_logic_vector(1 downto 0); --from control unit push=10 pop =01 
+	int:in std_logic;
 	sp_tomemwb,sp:out std_logic_vector (15 downto 0)
 );
 end component pushpopunit;
@@ -244,7 +247,7 @@ end component RegisterFile;
 	CONSTANT  JC :  std_logic_vector(4 downto 0)  := "10110";
 	CONSTANT  JMP :  std_logic_vector(4 downto 0)  := "10111";
 	--CONSTANT  CALL :  std_logic_vector(4 downto 0)  := "11000";
-	--CONSTANT  RET :  std_logic_vector(4 downto 0)  := "11001";
+	CONSTANT  RETconst :  std_logic_vector(4 downto 0)  := "11001";
 	CONSTANT  RTI :  std_logic_vector(4 downto 0)  := "11010";
 	CONSTANT  LDM :  std_logic_vector(4 downto 0)  := "11011";
 	CONSTANT  LDD :  std_logic_vector(4 downto 0)  := "11100";
@@ -262,7 +265,7 @@ end component RegisterFile;
 	--signal A :std_logic_vector(15 downto 0);--temp should come from register file
 	--signal B :std_logic_vector(15 downto 0);--temp should come from register file
 	signal Flags:std_logic_vector(3 downto 0);
-	signal FlagsOutput:std_logic_vector(3 downto 0);
+	signal FlagsOutput,flagRTI:std_logic_vector(3 downto 0);
 	signal F:std_logic_vector(15 downto 0);
 	--signal address: std_logic_vector(9 downto 0);--temp ,shoudl come from DEBuffer then writeen in  ExMemBuff(10)
 	signal InstCode:std_logic_vector(31 downto 0);
@@ -352,7 +355,7 @@ end component RegisterFile;
 	signal pcoutE,spoutE,aluresultoutE : std_logic_vector(15 downto 0);
 	signal InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE : std_logic_vector(15 downto 0);
 	signal opcodeoutE : std_logic_vector(4 downto 0);
-	signal flagoutE : std_logic_vector(3 downto 0);
+	signal flagoutE,flagoutEE,flagRTIcase : std_logic_vector(3 downto 0);
 	signal rsrcnooutE,rdstnooutE,jumpoutE : std_logic_vector(2 downto 0);
 	signal pushpopoutE,getdatafromoutE,retoutE : std_logic_vector(1 downto 0);
 	signal wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE : std_logic;
@@ -377,7 +380,7 @@ signal IFID_jumpflush : std_logic;
 signal destination : std_logic_vector(15 downto 0); 
 signal inter : std_logic;
 signal interruptf,interruptff : std_logic;
-signal flush : std_logic; 
+signal flush,returnforpc : std_logic; 
 signal jmpcall : std_logic;
 CONSTANT  Z  :  integer  := 0;
 CONSTANT  N  :  integer  := 1;
@@ -397,7 +400,7 @@ begin
 	IDEX_resetE<='1' when Rst='1' else '0'  ;
 	IDEX_resetM<='1' when Rst='1' else '0'  ;
 	
-	fetchstageLabel : fetch_stage port map(Rjump,Rcallorjump,Rret,Rint,Rrst,pc_rewrite,newsp,Rst,clk,callorjump,jmpCNZ,'0',interrupt,Mem_inst,NextPC,SPOutput);
+	fetchstageLabel : fetch_stage port map(Rjump,Rcallorjump,Rret,Rint,Rrst,pc_rewrite,newsp,Rst,clk,callorjump,jmpCNZ,returnforpc,interrupt,Mem_inst,NextPC,SPOutput);
 	IFID: IFID_buffer port map(NextPC,SPOutput,interrupt,Mem_inst,InPort,IFID_rewrite,IFID_flush,IFID_jumpflush,Clk,pcout,Inputportout,spout,EA,Imm,opcode,rsrcno,rdstno,interruptff);
 	
 	----------------------------------------------------------------------------
@@ -445,10 +448,12 @@ begin
 	--Rcallorjump <= port1_data ; --what if there is data hazard we should check for that
 	AluInputUnitLabel: AluInputUnit port map (opcodeoutD,wboutE,wboutM,rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM,rsrcoutD,rdstoutD,aluresultoutE,wb_data,ImmoutD,port1_data,port2_data);
 
-	EX : ALU port map (port1_data,port2_data,OpcodeoutD,FlagsOutput,NewFlags,aluresultinE);
+	EX : ALU port map (port1_data,port2_data,OpcodeoutD,flagRTI,NewFlags,aluresultinE);
 	FlagRegister : my_nDFF generic map (n => 4) port map(Clk,Rst,'1',NewFlags,FlagsOutput); 
 	
-
+	--to alu before flag just incase we will use it 
+		flagRTI <=flagoutM when retoutM="11" else FlagsOutput; 
+	-- case RTI the new flags should pass to alu  and the flag register  else forward it from reg immediately 
 
 	-----*******************************************************
     ----*************************************
@@ -478,14 +483,15 @@ begin
 					ImmoutE     when getdatafromoutE="01" else
 				  InputportoutE when getdatafromoutE="10" else  aluresultoutE;
 
-	DataMemory : syncram port map(Clk,we=>memwriteoutE,address=>address_tomem,datain=>data_tomem,flag32write=>interruptoutE,FlagReg=>flagoutE,dataout=>Memout);--original
+	DataMemory : syncram port map(Clk,we=>memwriteoutE,address=>address_tomem,datain=>data_tomem,flag32write=>interruptoutE,returnflags=>retoutE,FlagReg=>flagoutE,dataout=>Memout,dataflag=>flagRTIcase);--original
 	
-	unit6:pushpopunit port map(spoutM,pushpopoutE,pushpopoutM,sp_tomemwb,spunit);
+	flagoutEE<=flagRTIcase when retoutE="11" else flagoutE;
+	unit6:pushpopunit port map(spoutM,pushpopoutE,pushpopoutM,retoutE,interruptoutE,sp_tomemwb,spunit);
 
 	MEM_WBLabel: MEMWB_buffer port map(pcoutE,sp_tomemwb,aluresultoutE,Memout
 			,InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE
 			,opcodeoutE
-			,flagoutE
+			,flagoutEE
 			,rsrcnooutE,rdstnooutE,jumpoutE
 			,pushpopoutE,getdatafromoutE,retoutE
 			,IDEX_rewriteM,IDEX_resetM,Clk,wboutE,memtoregoutE,memreadoutE,memwriteoutE,calloutE,interruptoutE,outportoutE
@@ -500,9 +506,13 @@ begin
 	-- Write back
 	----------------------------------------------------------------------------
 	with opcodeoutM select 
-		wb_data <= memdataoutM when LDD | POP ,
+		wb_data <= memdataoutM when LDD | POP |RETconst| RTI ,
 				   inputportoutM when myIN,
 				   aluresultoutM when others;
+		Rret <=wb_data when opcodeoutM=RETconst or  opcodeoutM= RTI else (others => '0');
+		returnforpc<= '1' when retoutM="10" or retoutM="11" else
+						'0';
+		
 	outputport_process : process( Clk )
 	begin
 		if(outportoutM='1') then

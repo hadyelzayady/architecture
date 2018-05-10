@@ -15,13 +15,14 @@ port(
 end entity hazardunit;
 
 architecture arch of hazardunit is 
-
+CONSTANT  NOP  :  std_logic_vector(4 downto 0)  := "00000";
 CONSTANT  POP  :  std_logic_vector(4 downto 0)  := "01101";
+CONSTANT  RET :  std_logic_vector(4 downto 0)  := "11001";
 CONSTANT  LDM :  std_logic_vector(4 downto 0)  := "11011";
 CONSTANT  LDD :  std_logic_vector(4 downto 0)  := "11100";
 signal actualhazard : std_logic;
 begin 
-actualhazard<='0' when  opcode=POP or opcode=LDM or opcode=LDD  else
+actualhazard<='0' when  opcode=POP or opcode=LDM or opcode=LDD or opcode=RET or opcode=NOP   else
 		'1';
 PC_rewrite<='1' when (IDIE_rdst=rdst or IDIE_rdst=rsrc) and (IDIE_memread='1' or jmpcall ='1') and actualhazard='1'  else
 		'0';

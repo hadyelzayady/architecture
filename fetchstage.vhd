@@ -97,6 +97,8 @@ begin
 			newpc <= Rcallorjump;
 		elsif(jmpCNZ ='1') then
 			newpc <= Rjump;
+		elsif(ret ='1') then
+			newpc <= Rret;
 		elsif(opcode= SHL or opcode=SHR  or opcode=LDM  or opcode=LDD  or opcode=STD) then
 			newPc <= newpc+two;
 		else

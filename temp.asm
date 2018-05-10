@@ -1,2 +1,4 @@
-shl R1,5
-shr R0,10
+ldm r1 100
+clc
+call r1
+setc

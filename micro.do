@@ -43,12 +43,20 @@ sim:/microprocessor/Opcode \
 sim:/microprocessor/opcodeoutD \
 sim:/microprocessor/opcodeoutE \
 sim:/microprocessor/opcodeoutM \
+sim:/microprocessor/retoutM \
+sim:/microprocessor/returnforpc \
 sim:/microprocessor/Flags \
+sim:/microprocessor/DataMemory/dataflag\
 sim:/microprocessor/FlagsOutput \
 sim:/microprocessor/port1_data \
 sim:/microprocessor/port2_data \
 sim:/microprocessor/NextPC \
 sim:/microprocessor/PC_rewrite \
+sim:/microprocessor/retoutE \
+sim:/microprocessor/Rret \
+sim:/microprocessor/Rret \
+sim:/microprocessor/flagRTI \
+sim:/microprocessor/flagoutM \
 sim:/microprocessor/IFID_flush \
 sim:/microprocessor/IDIE_flush \
 sim:/microprocessor/IFID_jumpflush \
