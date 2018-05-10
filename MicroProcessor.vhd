@@ -482,7 +482,7 @@ begin
 	
 	unit6:pushpopunit port map(spoutM,pushpopoutE,pushpopoutM,sp_tomemwb,spunit);
 
-	MEM_WBLabel: MEMWB_buffer port map(pcoutE,sp_tomemwb,datato_MEMWB,Memout
+	MEM_WBLabel: MEMWB_buffer port map(pcoutE,sp_tomemwb,aluresultoutE,Memout
 			,InputportoutE,ImmoutE,EAoutE,rsrcoutE,rdstoutE
 			,opcodeoutE
 			,flagoutE

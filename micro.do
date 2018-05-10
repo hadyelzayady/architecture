@@ -28,6 +28,7 @@ mem load -i {C:/Users/hadye/Google Drive/CUFE/term6/Arch/Project/temp.mem} /micr
 mem load -filltype value -filldata 1111000011110000 -fillradix binary /microprocessor/DataMemory/ram(0)
 mem load -filltype value -filldata 0000000000001010 -fillradix binary /microprocessor/DataMemory/ram(1)
 mem load -filltype value -filldata 20 -fillradix decimal /microprocessor/DataMemory/ram(3)
+mem load -filltype value -filldata 50 -fillradix decimal /microprocessor/DataMemory/ram(1)
 mem load -filltype value -filldata 30 -fillradix decimal /microprocessor/DataMemory/ram(4)
 mem load -filltype value -filldata 1111000000000000 -fillradix binary /microprocessor/fetchstageLabel/inst_mem/ram(100)
 add wave -position insertpoint  \
@@ -137,6 +138,8 @@ force -freeze sim:/microprocessor/interrupt 0 0
 force -freeze sim:/microprocessor/Clk 1 0, 0 {100 ns} -r 200
 force -freeze sim:/microprocessor/Rst 1 0
 add wave -position insertpoint  \
+sim:/microprocessor/Registers/R0/d \
+sim:/microprocessor/Registers/R0/q \
 sim:/microprocessor/Registers/R1/d \
 sim:/microprocessor/Registers/R1/q
 add wave -position insertpoint  \

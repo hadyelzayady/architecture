@@ -67,7 +67,7 @@ ret<="11"when opcode=RTI else-- reti
 	"01" when Rst='1' else
 	 "00" ;
 int<='1'when interrupt='1' and Rst='0' else '0';
-getdatafrom<="01" when opcode=LDM or opcode=SHL  or opcode=SHR else--op is ldm,shl,shr(use imm value)
+getdatafrom<="01" when opcode=LDM else--op is ldm,shl,shr(use imm value)
 		"10" when opcode=myIN else --from input port 
 		"11" when Rst='1' else--from alu
 		"00";

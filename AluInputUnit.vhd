@@ -20,6 +20,7 @@ architecture AluInputUnit_arc of AluInputUnit is
 				Rdst: in std_logic_vector(2 downto 0);
 				EX_Mem_Rdst: in std_logic_vector(2 downto 0);
 				Mem_WB_Rdst: in std_logic_vector(2 downto 0);
+				shift:in std_logic;
 				Rsrc_choice,Rdst_choice: out std_logic_vector (1 downto 0)
 			);
 	end component ForwardUnit;
@@ -55,6 +56,7 @@ CONSTANT  LDD :  std_logic_vector(4 downto 0)  := "11100";
 CONSTANT  STD :  std_logic_vector(4 downto 0)  := "11101";
 	signal tempport2_data : std_logic_vector(15 downto 0);
 	signal port1_choice,port2_choice:std_logic_vector(1 downto 0);
+	signal shift : std_logic;
 begin
 	with opcodeoutD select
 		tempport2_data <= ImmoutD when SHL | SHR | LDM  ,
@@ -68,5 +70,6 @@ begin
 		port2_data <=	aluresultoutE when "01",
 						aluresultoutM when "10",
 						tempport2_data when others;
-	forwardLabel: ForwardUnit port map(wboutE,wboutM,rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM,port1_choice,port2_choice);
+	shift <= '0' when opcodeoutD = SHR or opcodeoutD=SHR else '1';
+	forwardLabel: ForwardUnit port map(wboutE,wboutM,rsrcnooutD,rdstnooutD,rdstnooutE,rdstnooutM,shift,port1_choice,port2_choice);
 end AluInputUnit_arc;
